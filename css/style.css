@@ -1,0 +1,225 @@
+.btn_profile {
+    background: white !important;
+    border: none !important;
+}
+.theme-btn{
+    background-color: rgb(30, 50, 99);
+    color: #fff;
+}
+.btn{
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.35);
+}
+.dropdown-menu {
+    right: 0 !important;
+    left: auto;
+}
+
+.nav-item {
+    margin-left: 10px;
+}
+
+.navbar {
+    background: rgb(30, 50, 99) !important;
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .2);
+}
+
+.nav-link,
+.btn-danger {
+    font-weight: bold !important;
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover {
+    color: rgb(241, 55, 165) !important;
+}
+
+.dropdown-item {
+    font-weight: bold;
+    color: white;
+}
+
+.dropdown-menu {
+    background: rgb(30, 50, 99) !important;
+}
+
+.dropdown-item:hover {
+    background: rgb(255, 255, 255) !important;
+}
+
+.page-footer {
+    background: rgb(30, 50, 99);
+}
+
+.footer-copyright {
+    color: white;
+    font-weight: bold;
+}
+
+.ul_sidebar {
+    line-height: 40px;
+}
+
+.ul_sidebar li {
+    border-bottom: 1px solid #007bff3a;
+}
+
+.ul_sidebar li a {
+    color: white;
+    padding-left: 15px;
+    font-weight: bold;
+}
+
+.ul_sidebar li a:hover {
+    color: rgb(241, 55, 165);
+    text-decoration: none;
+}
+
+.a_tag {
+    color: rgb(30, 50, 99);
+}
+
+.a_tag:hover {
+    text-decoration: none;
+    color: rgb(241, 55, 165);
+}
+
+.sidebar {
+    background: rgb(30, 50, 99);
+    /* height: 100vh; */
+}
+
+.bg-insight {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 15px;
+    border: 1px solid rgb(30, 50, 99);
+}
+
+.btn_manage {
+    /* padding-left: 50px !important;
+    padding-right: 50px !important; */
+    width: 35%;
+}
+
+.bg-ads {
+    box-shadow: rgba(30, 50, 90, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 15px;
+    border: 2px solid rgb(30, 50, 99);
+    overflow: hidden !important;
+    transition: .3s linear !important;
+}
+
+.bg-ads:hover {
+    transform: translateY(-15px);
+}
+
+.insight_row {
+    /* box-shadow: rgba(17, 12, 46, 0.25) 0px 48px 100px 2px; */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.35);
+}
+
+.bg-insight h5 {
+    color: rgb(30, 50, 99);
+    font-weight: bold;
+}
+
+.bg-insight p {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
+
+
+/* fb cards */
+
+.cards-list {
+    z-index: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.color {
+    color: rgb(30, 50, 99);
+}
+
+.card {
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 40px;
+    box-shadow: rgba(30, 50, 99, 0.16) 0px 10px 36px 0px, rgba(30, 50, 99, 0.06) 0px 0px 0px 1px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.card .card_image {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+}
+
+.card .card_image img {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+    object-fit: cover;
+}
+
+.card .card_title {
+    text-align: center;
+    border-radius: 0px 0px 40px 40px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: -42px;
+    height: 40px;
+}
+
+.card:hover {
+    transform: scale(0.9, 0.9);
+    box-shadow: rgba(30, 50, 99, 0.35) 0px 5px 15px;
+}
+
+.title-white {
+    color: white;
+}
+
+.title-black {
+    color: black;
+}
+
+@media all and (max-width: 500px) {
+    .card-list {
+        /* On small screens, we are no longer using row direction but column */
+        flex-direction: column;
+    }
+}
+
+
+/*
+  .card {
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 40px;
+    background-image: url('https://i.redd.it/b3esnz5ra34y.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-repeat: no-repeat;
+  box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    transition: 0.4s;
+  }
+  */

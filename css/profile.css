@@ -1,0 +1,48 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.btn-update{
+    background-color:rgb(30, 50, 99);
+    color: #fff;
+}
+
+.btn-update:hover{
+    color: rgb(241, 55, 165) !important;
+}
+
+.profile-border{
+    border: 2px solid rgb(30, 50, 99, 0.7);
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+}
+.social-media-Link{
+    box-shadow:20px 20px 10px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    border-radius: 30px; 
+}
+.text-darkBlue{
+    color:rgb(30, 50, 99);
+}
+.profile-img{
+    box-shadow: 5px 14px 27px rgb(0 0 0 / 12%), 0 28px 27px rgb(0 0 0 / 6%);
+    border: 2px solid rgb(30, 50, 99);
+}
+.profilePic{
+    position: relative;
+}
+.badge-button{
+    font-size: 30px;
+    position: absolute;
+    top:3%;
+    left:70%;
+    
+}
+.faa-icon{
+    color: #fff;
+    background-color: rgb(30, 50, 99);
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+}
+
