@@ -1,6 +1,34 @@
 @extends('layout.mainlayout')
 <link rel="stylesheet" href="{{asset('css/gallery.css')}}">
+<link rel="stylesheet" href="{{asset('css/dropzone.min.css')}}">
+<link rel="stylesheet" href="{{asset('css/dropzone.css')}}">
+
 @section('content')
+
+   <!-- remove thumbnail file upload starts -->
+
+   {{-- <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Remove Thumbnail</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <p class="card-text">This example allows user to remove any file out of all uploaded files. This will add a
+                        link to every file preview to remove or cancel (if already uploading) the file. The
+                        <code>dictCancelUpload</code>, <code>dictCancelUploadConfirmation</code> and <code>dictRemoveFile</code>
+                        options are used for the wording.</p>
+                    <form action="#" class="dropzone dropzone-area" id="dpz-remove-thumb">
+                        <div class="dz-message">Drop Files Here To Upload</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> --}}
+<!-- remove thumbnail file upload ends -->
+
     <!-- Media Gallery Section -->
 
     <section class="mediaGallery pt-5 pb-5">
@@ -10,7 +38,7 @@
                     <h2 class="color">Media Gallery</h2>
                 </div>
                 <div class="col-12 pt-5 pb-5 text-right">
-                    <button class="btn btn-primary" style="font-weight: bold">Add New</button>
+                    <button class="btn btn-primary" style="font-weight: bold" data-toggle="modal" data-target="#exampleModal">Add New</button>
                     <button class="btn btn-primary ml-2" style="font-weight: bold">Select</button>
                             <button class="btn btn-danger ml-2">Delete</button>
                 </div>
@@ -117,6 +145,28 @@
         </div>
 
     </section>
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Image</h5>
+          <button type="button" class="close" onClick="refreshPage()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="#" class="dropzone dropzone-area" id="dpz-remove-thumb">
+                <div class="dz-message">Drop Files Here To Upload</div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onClick="refreshPage()" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- Media Gallery Section -->
 
 <script>
@@ -195,4 +245,11 @@ e.stopPropagation();
 
 
 </script>
+<script src="{{asset('js/dropzone.js')}}"></script>
+<script src="{{asset('js/dropzone.min.js')}}"></script>
+<script>
+    function refreshPage(){
+        window.location.reload();
+    }
+    </script>
    @endsection
