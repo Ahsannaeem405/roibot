@@ -1,7 +1,7 @@
 @extends('layout.mainlayout')
 @section('content')
     <!-- sidebar section -->
-    <section>
+    <section class="mb-5">
         <div class="container-fluid">
             <div class="row">
 
@@ -12,28 +12,28 @@
                         </div>
                         <div class="col-md-3 col-12 pt-2">
                             <div class="bg-ads  pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-3 col-12 pt-2">
                             <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-3 col-12 pt-2">
                             <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-3 col-12 pt-2">
                             <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>

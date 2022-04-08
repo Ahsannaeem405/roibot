@@ -37,4 +37,9 @@ Route::get('/mediaGallery', function () {
     return view('mediaGallery');
 });
 
-
+Route::get('/manage_detail', function () {
+    return view('manage_detail');
+});
+Route::get('/insight_detail', function () {
+    return view('insights_detail');
+});

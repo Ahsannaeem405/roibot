@@ -6,12 +6,12 @@
             <div class="row">
                 <div class="col-lg-2 col-12 sidebar p-0">
                     <ul class="list-unstyled pt-3  ul_sidebar">
-                        <li class="p-3"><a href="#"><i class="fa fa-plus-circle"></i>&nbsp; Create Ad</a></li>
-                        <li class="p-3"><a href="#"><i class="fa fa-tasks"></i>&nbsp; Manage Ads</a></li>
-                        <li class="p-3"><a href="#"><i class="fa fa-lightbulb"></i>&nbsp; Insights</a></li>
-                        <li class="p-3"><a href="#"><i class="fa fa-user"></i>&nbsp; Profile</a></li>
-                        <li class="p-3"><a href="#"><i class="fa fa-images"></i>&nbsp; Manage Gallery</a></li>
-                        <li class="p-3"><a href="#"><i class="fa fa-wallet"></i>&nbsp; Billing</a></li>
+                        <li class="p-3"><a href="{{url('/create_add')}}"><i class="fa fa-plus-circle"></i>&nbsp; Create Ad</a></li>
+                        <li class="p-3"><a href="{{url('/manage_view')}}"><i class="fa fa-tasks"></i>&nbsp; Manage Ads</a></li>
+                        <li class="p-3"><a href="{{url('/insight_view')}}"><i class="fa fa-lightbulb"></i>&nbsp; Insights</a></li>
+                        <li class="p-3"><a href="{{url('/profile')}}"><i class="fa fa-user"></i>&nbsp; Profile</a></li>
+                        <li class="p-3"><a href="{{url('/mediaGallery')}}"><i class="fa fa-images"></i>&nbsp; Manage Gallery</a></li>
+                        {{-- <li class="p-3"><a href="{{url('/create_add')}}"><i class="fa fa-wallet"></i>&nbsp; Billing</a></li> --}}
 
 
 
