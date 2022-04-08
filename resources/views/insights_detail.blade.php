@@ -589,7 +589,7 @@
                         <div class="col-md-3 col-12 mt-2 text-center">
                             <div class="bg-ads  pt-0 pb-0 mt-5">
                                 <a href="#">
-                                    <img src="images/ads.jpg" class="img-fluid" alt="">
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
                             <h5 class="mt-4 color">Ad Heading</h5>

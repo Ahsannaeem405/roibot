@@ -118,12 +118,12 @@
               <div class="tab mt-4">
                   <h3 class="text-center step-heading mx-auto">Step: 1</h3>
                 <p>
-                    Select Advertice Goal:
+                    Select Advertisement Goals:
                     <select class="form-control mt-2">
                         <option selected>Choose Goal ...</option>
                         <option>Views</option>
                         <option >Clicks</option>
-                        <option >Trafic</option>
+                        <option >Traffic</option>
                         <option >Orders</option>
                       </select>
                 </p>
@@ -145,7 +145,7 @@
                         <option >50+</option>
                     </select>
                     <select class="form-control mt-2">
-                        <option selected>Gander</option>
+                        <option selected>Gender</option>
                         <option>Male</option>
                         <option >Female</option>
                         <option >Both</option>
@@ -194,7 +194,7 @@
                     <div class="row" >
                       <div class="col-3" >
                          <div class="Addver-img">
-                            <img src="./images/Default_Image.png" alt="" class="img-fluid default-img" >
+                            <img src="{{asset('images/Default_Image.png')}}" alt="" class="img-fluid default-img" >
                             <!-- <input type="image" hidden class="input-img"> -->
                          </div>
                       </div>

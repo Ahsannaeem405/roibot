@@ -25,39 +25,39 @@
                     <div class="row">
                         <div class=" col-12 col-md-4 col-lg-3 p-3">
                             <div class="lightbox-enabled"
-                                style="background-image: url('{{ asset('images/img_avatar.png') }}')"
-                                data-imgsrc="{{ asset('images/img_avatar.png') }}">
+                                style="background-image: url('{{ asset('images/ad3.jpg') }}')"
+                                data-imgsrc="{{ asset('images/ad3.jpg') }}">
 
                             </div>
                         </div>
                         <div class=" col-12 col-md-4 col-lg-3 p-3">
                             <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/img_avatar.png') }}')"
-                                data-imgsrc="{{ asset('images/img_avatar.png') }}">
+                                style="background-image:url('{{ asset('images/ad2.jpg') }}')"
+                                data-imgsrc="{{ asset('images/ad2.jpg') }}">
                             </div>
                         </div>
                         <div class=" col-12 col-md-4 col-lg-3 p-3">
                             <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/img_avatar.png') }}')"
-                                data-imgsrc="{{ asset('images/img_avatar.png') }}">
+                                style="background-image:url('{{ asset('images/ad3.jpg') }}')"
+                                data-imgsrc="{{ asset('images/ad3.jpg') }}">
                             </div>
                         </div>
                         <div class=" col-12 col-md-4 col-lg-3 p-3">
                             <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/img_avatar.png') }}')"
-                                data-imgsrc="{{ asset('images/img_avatar.png') }}">
+                                style="background-image:url('{{ asset('images/ad4.png') }}')"
+                                data-imgsrc="{{ asset('images/ad4.png') }}">
                             </div>
                         </div>
                         <div class=" col-12 col-md-4 col-lg-3 p-3">
                             <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/img_avatar.png') }}')"
-                                data-imgsrc="{{ asset('images/img_avatar.png') }}">
+                                style="background-image:url('{{ asset('images/ads.jpg') }}')"
+                                data-imgsrc="{{ asset('images/ads.jpg') }}">
                             </div>
                         </div>
                         <div class=" col-12 col-md-4 col-lg-3 p-3">
                             <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/img_avatar.png') }}')"
-                                data-imgsrc="{{ asset('images/img_avatar.png') }}">
+                                style="background-image:url('{{ asset('images/ad3.jpg') }}')"
+                                data-imgsrc="{{ asset('images/ad3.jpg') }}">
                             </div>
                         </div>
 
@@ -81,26 +81,36 @@
                 </section>
             </section>
 
-            <section class="gallery_select d-none">
+            <section class="gallery_select p-3 d-none">
                 <ul>
                     <li>
                       <input type="checkbox" id="myCheckbox1" />
-                      <label for="myCheckbox1"><img src="{{asset('images/img_avatar.png')}}" /></label>
+                      <label for="myCheckbox1"><img src="{{asset('images/ad3.jpg')}}" /></label>
                     </li>
                     <li>
 
                       <input type="checkbox" id="myCheckbox2" />
-                      <label for="myCheckbox2"><img src="{{asset('images/img_avatar.png')}}" /></label>
+                      <label for="myCheckbox2"><img src="{{asset('images/ad2.jpg')}}" /></label>
                     </li>
                     <li>
 
                       <input type="checkbox" id="myCheckbox3" />
-                      <label for="myCheckbox3"><img src="{{asset('images/img_avatar.png')}}" /></label>
+                      <label for="myCheckbox3"><img src="{{asset('images/ad3.jpg')}}" /></label>
                     </li>
                     <li>
 
                         <input type="checkbox" id="myCheckbox4" />
-                        <label for="myCheckbox4"><img src="{{asset('images/img_avatar.png')}}" /></label>
+                        <label for="myCheckbox4"><img src="{{asset('images/ad4.png')}}" /></label>
+                      </li>
+                      <li>
+
+                        <input type="checkbox" id="myCheckbox5" />
+                        <label for="myCheckbox5"><img src="{{asset('images/ads.jpg')}}" /></label>
+                      </li>
+                      <li>
+
+                        <input type="checkbox" id="myCheckbox6" />
+                        <label for="myCheckbox6"><img src="{{asset('images/ad3.jpg')}}" /></label>
                       </li>
                   </ul>
             </section>
