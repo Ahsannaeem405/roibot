@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <title>Roibod</title>
 </head>
@@ -26,27 +26,27 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home </a>
+                        <a class="nav-link" href="{{url('/')}}">Home </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Manage Ads</a>
+                        <a class="nav-link" href="{{url('/manage_view')}}">Manage Ads</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Create Ad</a>
+                        <a class="nav-link" href="{{url('/create_add')}}">Create Ad</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Insight</a>
+                        <a class="nav-link" href="{{url('/insight_view')}}">Insight</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
+                        <a class="nav-link" href="{{url('/profile')}}">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Media Gallery</a>
+                        <a class="nav-link" href="{{url('/mediaGallery')}}">Media Gallery</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#">Billing</a>
-                    </li>
+                    </li> --}}
 
                 </ul>
                 <form class="form-inline my-2 mr-lg-5 my-lg-0">
@@ -63,64 +63,16 @@
             </div>
         </nav>
     </header>
-    <!-- sidebar section -->
-    <section>
-        <div class="container-fluid">
-            <div class="row">
-
-                <div class="col-12 pt-5">
-                    <div class="row m-3  pt-5 pb-5 rounded insight_row">
-                        <div class="col-12 mb-5 text-center">
-                            <h3 class="color">Insights</h3>
-                        </div>
-                        <div class="col-md-3 col-12 pt-2">
-                            <div class="bg-ads  pt-0 pb-0">
-                                <a href="#">
-                                    <img src="./images/ads.jpg" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12 pt-2">
-                            <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
-                                    <img src="./images/ads.jpg" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12 pt-2">
-                            <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
-                                    <img src="./images/ads.jpg" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12 pt-2">
-                            <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
-                                    <img src="./images/ads.jpg" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end sidebar section -->
-
-
-
-    <!-- Footer -->
-    <footer class="page-footer font-small special-color-dark pt-4">
+    @yield('content')
+     <!-- Footer -->
+     <footer class="page-footer font-small special-color-dark pt-4">
 
         <!-- Footer Elements -->
 
         <!-- Footer Elements -->
 
         <!-- Copyright -->
-        <div class="footer-copyright text-center py-2">© 2020 Copyright:
+        <div class="footer-copyright text-center py-2">© 2022 Copyright:
             <a href="#"> BrownTech.com</a>
         </div>
         <!-- Copyright -->
