@@ -83,21 +83,21 @@
                         <div class="col-4">
                             <div class="bg-ads  pt-0 pb-0">
                                 <a href="#">
-                                    <img src="./images/ads.jpg" class="img-fluid" alt="">
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="bg-ads pt-0 pb-0">
                                 <a href="#">
-                                    <img src="./images/ads.jpg" class="img-fluid" alt="">
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="bg-ads pt-0 pb-0">
                                 <a href="#">
-                                    <img src="./images/ads.jpg" class="img-fluid" alt="">
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>

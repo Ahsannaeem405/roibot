@@ -1,0 +1,116 @@
+.lightbox-container,
+.lightbox-btn,
+.lightbox-image-wrapper,
+.lightbox-image {
+    transition: all .4s ease-in-out;
+}
+
+.lightbox-enabled {
+    padding-top: 100%;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+}
+
+.lightbox-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.lightbox-container.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.lightbox-image-wrapper {
+    display: flex;
+    transform: scale(0);
+    align-items: center;
+    justify-content: center;
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+}
+
+.lightbox-container.active .lightbox-image-wrapper {
+    transform: scale(1);
+}
+
+.lightbox-btn,
+#close {
+    color: white;
+    z-index: 9999999;
+    cursor: pointer;
+    position: absolute;
+    font-family: 'Material Icons'!important;
+    font-size: 50px;
+}
+
+.lightbox-btn:focus {
+    outline: none;
+}
+
+.left {
+    left: 50px;
+}
+
+.right {
+    right: 50px;
+}
+
+#close {
+    top: 50px;
+    right: 50px;
+}
+
+.lightbox-image {
+    width: 100%;
+    -webkit-box-shadow: 5px 5px 20px 2px rgba(0, 0, 0, 0.19);
+    box-shadow: 5px 5px 20px 2px rgba(0, 0, 0, 0.19);
+    max-height: 95vh;
+    object-fit: cover;
+}
+
+@keyframes slideleft {
+    33% {
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+    66% {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+}
+
+.slideleft {
+    animation-name: slideleft;
+    animation-duration: .5s;
+    animation-timing-function: ease;
+}
+
+@keyframes slideright {
+    33% {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+    66% {
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+}
+
+.slideright {
+    animation-name: slideright;
+    animation-duration: .5s;
+    animation-timing-function: ease;
+}
