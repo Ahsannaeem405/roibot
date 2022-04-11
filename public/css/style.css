@@ -18,13 +18,18 @@
 }
 
 .bg_gray {
-    background-color: lightgray;
+    background-color: #DCDCDC !important;
 }
 
 .box-shadow {
     box-shadow: rgba(30, 50, 99, 0.55) 0px 5px 15px;
-    border-radius: 15px;
+    border-radius: 15px !important;
+    overflow: hidden !important;
     /* border: 2px solid rgb(30, 50, 99); */
+}
+
+.font_icon {
+    font-size: 25px;
 }
 
 .learn {
@@ -34,7 +39,7 @@
 }
 
 .gray {
-    color: gray;
+    color: #696969;
 }
 
 .nav-item {
@@ -198,6 +203,11 @@
     height: inherit;
     border-radius: 40px;
     object-fit: cover;
+}
+
+.heading_fb {
+    bottom: 0px;
+    left: 15px;
 }
 
 .card .card_title {
