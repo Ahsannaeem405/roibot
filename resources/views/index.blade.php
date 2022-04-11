@@ -24,7 +24,7 @@
                         <div class="card 1">
                             <div class="card_image"> <img src="images/gif/371907490_FACEBOOK_ICON_1080.gif" /> </div>
                             <div class="card_title title-white">
-                                <a href="#" class="a_tag">
+                                <a href="{{url('create_ad/1')}}" class="a_tag">
                                     Create Advertisement
                                 </a>
                             </div>
@@ -35,7 +35,7 @@
                                 <img src="images/gif/giphy.gif" />
                             </div>
                             <div class="card_title title-white">
-                                <a href="#" class="a_tag">
+                                <a href="{{url('create_ad/2')}}" class="a_tag">
                                     Create Advertisement
                                 </a>
                             </div>
@@ -50,25 +50,25 @@
                         <div class="col-12 mb-5 text-center">
                             <h3 class="color">Insights</h3>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3 col-6 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Clicks</h5>
                                 <p class="mb-0">5</p>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3 col-6 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Impressions</h5>
                                 <p class="mb-0">5</p>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3 col-6 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>CPC</h5>
                                 <p class="mb-0">5</p>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3 col-6 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Conversation</h5>
                                 <p class="mb-0">5</p>
@@ -80,28 +80,99 @@
                         <div class="col-12 mb-5 text-center">
                             <h3 class="color">Manage Ads</h3>
                         </div>
-                        <div class="col-4">
-                            <div class="bg-ads  pt-0 pb-0">
-                                <a href="#">
-                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
-                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="bg-ads pt-0 pb-0">
-                                <a href="#">
-                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
+                        <div class="col-md-4 col-12 mt-3">
 
+                            <div class="box-shadow p-3">
+
+                            <div class="d-flex">
+                                <div>
+                                <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle" width="50" alt="">
+                            </div>
+                            <div class="ml-3">
+                              <h5 class="mb-0">Name</h5>
+                              <p class="gray mb-0">Sponsored <i class="fas fa-globe"></i></p>
+                              <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and
+                                typesetting industry. </p>
+                            </div>
+                            </div>
+                            <div class="pt-0 pb-0">
+                                <a href="#">
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="bg_gray d-flex p-2 justify-content-between">
+                                <div>
+                                    <h6 class="gray mb-0">Demo</h6>
+                                    <p class="text-black-50">Lorem Ipsum is simply dummy text</p>
+                                </div>
+                                <div class="my-auto">
+                                    <a  href="{{url('manage_detail')}}" class="btn btn-secondary learn">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-4 col-12 mt-3">
+
+                            <div class="box-shadow p-3">
+
+                            <div class="d-flex">
+                                <div>
+                                <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle" width="50" alt="">
+                            </div>
+                            <div class="ml-3">
+                              <h5 class="mb-0">Name</h5>
+                              <p class="gray mb-0">Sponsored <i class="fas fa-globe"></i></p>
+                              <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and
+                                typesetting industry. </p>
+                            </div>
+                            </div>
+                            <div class="pt-0 pb-0">
+                                <a href="#">
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="bg_gray d-flex p-2 justify-content-between">
+                                <div>
+                                    <h6 class="gray mb-0">Demo</h6>
+                                    <p class="text-black-50">Lorem Ipsum is simply dummy text</p>
+                                </div>
+                                <div class="my-auto">
+                                    <a href="{{url('manage_detail')}}" class="btn btn-secondary learn">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-4 col-12 mt-3">
+
+                            <div class="box-shadow p-3">
+
+                            <div class="d-flex">
+                                <div>
+                                <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle" width="50" alt="">
+                            </div>
+                            <div class="ml-3">
+                              <h5 class="mb-0">Name</h5>
+                              <p class="gray mb-0">Sponsored <i class="fas fa-globe"></i></p>
+                              <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and
+                                typesetting industry. </p>
+                            </div>
+                            </div>
+                            <div class="pt-0 pb-0">
+                                <a href="#">
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="bg_gray d-flex p-2 justify-content-between">
+                                <div>
+                                    <h6 class="gray mb-0">Demo</h6>
+                                    <p class="text-black-50">Lorem Ipsum is simply dummy text</p>
+                                </div>
+                                <div class="my-auto">
+                                    <a href="{{url('manage_detail')}}" class="btn btn-secondary learn">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
 
                 </div>

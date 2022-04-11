@@ -586,39 +586,61 @@
 
                     <div class="row m-3 mt-2 pb-5 rounded insight_row">
 
-                        <div class="col-md-3 col-12 mt-2 text-center">
-                            <div class="bg-ads  pt-0 pb-0 mt-5">
-                                <a href="#">
-                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
-                                </a>
+                        <div class="col-md-4 col-lg-3 col-12 mt-2">
+                            <div class="box-shadow p-3">
+
+                                <div class="d-flex">
+                                    <div>
+                                    <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle" width="50" alt="">
+                                </div>
+                                <div class="ml-3">
+                                  <h5 class="mb-0">Name</h5>
+                                  <p class="gray mb-0">Sponsored <i class="fas fa-globe"></i></p>
+                                  <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and
+                                    typesetting industry. </p>
+                                </div>
+                                </div>
+                                <div class="pt-0 pb-0">
+                                    <a href="#">
+                                        <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
+                                    </a>
+                                </div>
+                                <div class="bg_gray d-flex p-2 justify-content-center">
+                                    <div>
+                                        <h6 class="gray mb-0">Demo</h6>
+                                        <p class="text-black-50">Lorem Ipsum is simply dummy text</p>
+                                    </div>
+                                    {{-- <div class="my-auto">
+                                        <button class="btn btn-secondary learn">Learn More</button>
+                                    </div> --}}
+                                </div>
                             </div>
-                            <h5 class="mt-4 color">Ad Heading</h5>
                         </div>
-                        <div class="col-md-9 col-12 mt-2">
+                        <div class="col-md-8 col-lg-9 col-12 mt-2">
 
                             <div class="row m-3 pt-5 pb-5 rounded insight_row">
                                 <div class="col-12 mb-5 text-center">
                                     <h3 class="color">Insights</h3>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-md-6 col-lg-3 col-12 mt-2">
                                     <div class="bg-insight text-center">
                                         <h5>Clicks</h5>
                                         <p class="mb-0 color">5</p>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-md-6 col-lg-3 col-12 mt-2">
                                     <div class="bg-insight text-center">
                                         <h5>Impressions</h5>
                                         <p class="mb-0 color">5</p>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-md-6 col-lg-3 col-12 mt-2">
                                     <div class="bg-insight text-center">
                                         <h5>CPC</h5>
                                         <p class="mb-0 color">5</p>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-md-6 col-lg-3 col-12 mt-2">
                                     <div class="bg-insight text-center">
                                         <h5>Conversation</h5>
                                         <p class="mb-0 color">5</p>

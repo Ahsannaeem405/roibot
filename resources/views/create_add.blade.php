@@ -121,10 +121,30 @@
                     Select Advertisement Goals:
                     <select class="form-control mt-2">
                         <option selected>Choose Goal ...</option>
-                        <option>Views</option>
+                        <option >Views</option>
                         <option >Clicks</option>
                         <option >Traffic</option>
                         <option >Orders</option>
+                      </select>
+                </p>
+                <p class="mt-3">
+                    Select Advertisement:
+                    <select class="form-control mt-2">
+                        <option selected>Choose Goal ...</option>
+                        @if (isset($advert))
+                        <option value="1" @if ($advert==1)
+                            selected
+                        @endif>Facebook</option>
+                        <option value="2" @if ($advert==2)
+                        selected
+                    @endif>Google</option>
+                         @else
+                         <option value="1">Facebook</option>
+                         <option value="2">Google</option>
+                        @endif
+
+
+
                       </select>
                 </p>
               </div>

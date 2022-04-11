@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +26,7 @@ Route::get('/manage_view', function () {
 Route::get('/create_add', function () {
     return view('create_add');
 });
-
+Route::get('create_ad/{id}',[UserController::class,'create_ad']);
 
 Route::get('/insight_view', function () {
     return view('insight_view');
