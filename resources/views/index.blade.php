@@ -57,25 +57,25 @@
                         <div class="col-12 mb-5 text-center">
                             <h3 class="color">Insights</h3>
                         </div>
-                        <div class="col-md-3 col-6 mt-2">
+                        <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Clicks</h5>
                                 <p class="mb-0">5</p>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6 mt-2">
+                        <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Impressions</h5>
                                 <p class="mb-0">5</p>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6 mt-2">
+                        <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>CPC</h5>
                                 <p class="mb-0">5</p>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6 mt-2">
+                        <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Conversation</h5>
                                 <p class="mb-0">5</p>
