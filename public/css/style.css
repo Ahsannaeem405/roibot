@@ -18,7 +18,7 @@
 }
 
 .bg_gray {
-    background-color: #DCDCDC !important;
+    background-color: #F2F3F5 !important;
 }
 
 .box-shadow {
@@ -35,6 +35,7 @@
 .learn {
     background: transparent !important;
     color: gray !important;
+    font-weight: bold;
     border: 1px solid gray !important;
 }
 
