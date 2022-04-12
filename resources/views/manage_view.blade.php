@@ -11,6 +11,7 @@
                             <h3 class="color">Manage Ads</h3>
                         </div>
                         <div class="col-md-4 col-12 mt-3">
+                            <a href="{{url('manage_detail')}}" class="a_card">
 
                             <div class="box-shadow p-3">
 
@@ -26,7 +27,7 @@
                             </div>
                             </div>
                             <div class="pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
@@ -40,8 +41,10 @@
                                 </div>
                             </div>
                         </div>
+                            </a>
                         </div>
                         <div class="col-md-4 col-12 mt-3">
+                            <a href="{{url('manage_detail')}}" class="a_card">
 
                             <div class="box-shadow p-3">
 
@@ -57,7 +60,7 @@
                             </div>
                             </div>
                             <div class="pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
@@ -71,8 +74,10 @@
                                 </div>
                             </div>
                         </div>
+                            </a>
                         </div>
                         <div class="col-md-4 col-12 mt-3">
+                            <a href="{{url('manage_detail')}}" class="a_card">
 
                             <div class="box-shadow p-3">
 
@@ -88,7 +93,7 @@
                             </div>
                             </div>
                             <div class="pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
@@ -102,8 +107,10 @@
                                 </div>
                             </div>
                         </div>
+                            </a>
                         </div>
                         <div class="col-md-4 col-12 mt-3">
+                            <a href="{{url('manage_detail')}}" class="a_card">
 
                             <div class="box-shadow p-3">
 
@@ -119,7 +126,7 @@
                             </div>
                             </div>
                             <div class="pt-0 pb-0">
-                                <a href="#">
+                                <a href="{{url('manage_detail')}}">
                                     <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
                                 </a>
                             </div>
@@ -133,6 +140,7 @@
                                 </div>
                             </div>
                         </div>
+                            </a>
                         </div>
 
                     </div>

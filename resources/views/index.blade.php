@@ -88,6 +88,7 @@
                             <h3 class="color">Manage Ads</h3>
                         </div>
                         <div class="col-md-4 col-12 mt-3">
+                            <a href="#" class="a_card">
 
                             <div class="box-shadow p-3">
 
@@ -117,16 +118,17 @@
                                 </div>
                             </div>
                         </div>
+                            </a>
                         </div>
                         <div class="col-md-4 col-12 mt-3">
-
+                            <a href="#" class="a_card">
                             <div class="box-shadow p-3">
 
                             <div class="d-flex">
                                 <div>
                                 <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle" width="50" alt="">
                             </div>
-                            <div class="ml-3">
+                            <div class="ml-3 card_text">
                               <h5 class="mb-0">Name</h5>
                               <p class="gray mb-0">Sponsored <i class="fas fa-globe"></i></p>
                               <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and
@@ -148,8 +150,10 @@
                                 </div>
                             </div>
                         </div>
+                    </a>
                         </div>
                         <div class="col-md-4 col-12 mt-3">
+                            <a href="#" class="a_card">
 
                             <div class="box-shadow p-0 overflow-hidden h-100">
 
@@ -170,6 +174,7 @@
                             </div>
 
                             </div>
+                            </a>
                         </div>
                         </div>
                     </div>

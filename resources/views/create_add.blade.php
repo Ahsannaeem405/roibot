@@ -269,6 +269,8 @@
                 <div class="col-md-4 col-12 mt-2">
                     <div class="preview1">
                         @if ($advert==1)
+                        <a href="#" class="a_card">
+
                         <div class="box-shadow p-3">
 
                             <div class="d-flex">
@@ -297,7 +299,10 @@
                                 </div>
                             </div>
                         </div>
+                        </a>
                         @else
+                        <a href="#" class="a_card">
+
                         <div class="box-shadow p-0 overflow-hidden">
 
 
@@ -317,6 +322,7 @@
                         </div>
 
                         </div>
+                        </a>
                         @endif
 
                     </div>

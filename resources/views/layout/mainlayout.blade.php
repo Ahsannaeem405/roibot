@@ -72,8 +72,8 @@
         <!-- Footer Elements -->
 
         <!-- Copyright -->
-        <div class="footer-copyright text-center py-2">© 2022 Copyright:
-            <a href="#"> BrownTech.com</a>
+        <div class="footer-copyright text-center py-2">© 2022 Copyright
+            <a href="#">ROI-Bot.io</a>
         </div>
         <!-- Copyright -->
 

@@ -47,6 +47,11 @@
     margin-left: 10px;
 }
 
+.card_text p,
+.card_text h5 {
+    text-decoration: none !important;
+}
+
 @media only screen and (min-width: 500px) {
     .navbar {
         background: rgb(30, 50, 99) !important;
@@ -115,6 +120,11 @@
 .ul_sidebar li a:hover {
     color: rgb(241, 55, 165);
     text-decoration: none;
+}
+
+.a_card {
+    text-decoration: none !important;
+    color: black !important;
 }
 
 .a_tag {
