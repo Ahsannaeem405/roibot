@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <section class="login-page">
+    <section class="login-page section">
         <div class="container">
             <div class="row d-flex justify-content-center pt-5">
                 <div class="col-12 col-xl-4 col-lg-6 col-md-8">

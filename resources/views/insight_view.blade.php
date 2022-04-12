@@ -1,7 +1,7 @@
 @extends('layout.mainlayout')
 @section('content')
     <!-- sidebar section -->
-    <section class="mb-5">
+    <section class="mb-5 section">
         <div class="container-fluid">
             <div class="row">
 

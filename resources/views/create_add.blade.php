@@ -128,7 +128,7 @@
 
 </style>
 @section('content')
-    <section>
+    <section class="section">
         <div class="container-fluid">
 
 

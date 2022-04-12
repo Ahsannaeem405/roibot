@@ -578,7 +578,7 @@
 </script>
 @section('content')
     <!-- sidebar section -->
-    <section>
+    <section class="section">
         <div class="container-fluid">
             <div class="row">
 

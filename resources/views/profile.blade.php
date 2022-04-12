@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{asset('css/profile.css')}}">
 @section('content')
     <!-- Profile Section -->
-    <section class="profile py-5">
+    <section class="profile py-5 section">
         <div class="container my-3">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-12">
