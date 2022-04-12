@@ -19,6 +19,13 @@
         border: 1px solid #000;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     }
+    .preview1{
+        margin: 60px auto;
+        border-radius: 15px;
+
+        border: 1px solid #000;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    }
     .preview{
         margin: 60px auto;
         border-radius: 8px;
@@ -145,7 +152,7 @@
                                     <option>Orders</option>
                                 </select>
                             </p>
-                            <p class="mt-3">
+                            {{-- <p class="mt-3">
                                 Select Advertisement:
                                 <select class="form-control mt-2">
                                     <option selected>Choose Goal ...</option>
@@ -161,7 +168,7 @@
 
 
                                 </select>
-                            </p>
+                            </p> --}}
                         </div>
                         <div class="tab">
                             <h3 class="text-center step-heading mx-auto">Step: 2</h3>
@@ -260,7 +267,8 @@
                     </form>
                 </div>
                 <div class="col-md-4 col-12 mt-2">
-                    <div class="preview">
+                    <div class="preview1">
+                        @if ($advert==1)
                         <div class="box-shadow p-3">
 
                             <div class="d-flex">
@@ -289,6 +297,28 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="box-shadow p-0 overflow-hidden">
+
+
+
+                            <div class="position-relative">
+
+                                    <img src="{{asset('images/ads.jpg')}}" class="img-fluid" alt="">
+
+                                    <h4 class="position-absolute heading_fb">Helloo</h4>
+
+                            </div>
+                            <div class="p-3 d-flex justify-content-between ">
+
+
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                            <a href="#" class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
+                        </div>
+
+                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

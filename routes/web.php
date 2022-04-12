@@ -24,7 +24,7 @@ Route::get('/manage_view', function () {
     return view('manage_view');
 });
 Route::get('/create_add', function () {
-    return view('create_add');
+    return view('Select_advert');
 });
 Route::get('create_ad/{id}',[UserController::class,'create_ad']);
 
