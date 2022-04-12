@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-md-12 col-lg-10 col-12 pt-5">
                     <div class="cards-list">
-
+                        <a href="{{url('create_ad/1')}}" class="a_tag">
                         <div class="card 1">
                             {{-- <div class="card_image"> <img src="images/gif/371907490_FACEBOOK_ICON_1080.gif" /> </div> --}}
                             <div class="card_image"> <img src="{{asset('images/fb.webp')}}" class="img-fluid" /> </div>
@@ -31,7 +31,9 @@
                                 </a>
                             </div>
                         </div>
+                        </a>
 
+                        <a href="{{url('create_ad/2')}}" class="a_tag">
                         <div class="card 2">
                             <div class="card_image">
                                 {{-- <img src="images/gif/giphy.gif" /> --}}
@@ -44,6 +46,7 @@
                                 </a>
                             </div>
                         </div>
+                        </a>
 
 
 
