@@ -57,12 +57,13 @@ Route::prefix('')->middleware('auth')->group(function (){
   return redirect('/');
     });
 
-    Route::get('compainFB',[\App\Http\Controllers\Controller::class,'index']);
+
 
 
 });
 
-
+Route::get('compainFB',[\App\Http\Controllers\Controller::class,'index']);
+Route::get('compainGG',[\App\Http\Controllers\Controller::class,'index2']);
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
