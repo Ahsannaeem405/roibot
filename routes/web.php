@@ -46,3 +46,5 @@ Route::get('/manage_detail', function () {
 Route::get('/insight_detail', function () {
     return view('insights_detail');
 });
+
+Route::get('compainFB',[\App\Http\Controllers\Controller::class,'index']);
