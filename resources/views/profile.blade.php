@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{asset('css/profile.css')}}">
 @section('content')
     <!-- Profile Section -->
-    <section class="profile py-5">
+    <section class="profile py-5 section">
         <div class="container my-3">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-12">
@@ -45,19 +45,20 @@
                         <div class="col-12 col-md-6 col-lg-6 mt-5 mt-md-2 social-media-link d-flex justify-content-center">
                             <div class="">
                                 <div class="form-group social-media-Link px-4 py-3 bg-white">
-                                    <label for="linkGoogle"><b>Link Google Ads Account:</b></label>
-                                    <input type="email" class="form-control form-control-sm my-2" id="linkGoogle">
-                                    <div class="text-right pt-2">
-                                        <button class="btn px-3 btn-update">Save</button>
-                                    </div>
-                                </div>
-                                <div class="form-group social-media-Link px-4 py-3 bg-white">
+                                    <label for="linkGoogle"><b>Link Ads Account:</b></label><br>
+
+
+                                        <button class="btn btn-primary w-100 mt-2"><i class="fab fa-facebook-f"></i> Link with Facebook</button><br>
+
+                                        <button class="btn btn-danger w-100 mt-2"><i class="fab fa-google-plus-g"></i> Link with Google </button>
+
+                                {{-- <div class="form-group social-media-Link px-4 py-3 bg-white">
                                     <label for="linkFacebook"><b>Link Facebook Ads Account:</b></label>
                                     <input type="email" class="form-control form-control-sm my-2" id="linkFacebook">
                                     <div class="text-right pt-2">
                                         <button class="btn px-3 btn-update">Save</button>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

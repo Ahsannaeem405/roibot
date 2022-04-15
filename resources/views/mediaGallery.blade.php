@@ -6,7 +6,7 @@
 @section('content')
     <!-- Media Gallery Section -->
 
-    <section class="mediaGallery pt-5 pb-5">
+    <section class="mediaGallery pt-5 pb-5 section">
         <div class="container">
             <div class="row">
                 <div class="col-12 mt-3 text-center">

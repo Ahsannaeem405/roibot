@@ -16,8 +16,8 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">
-                <img src="images/logo.png" width="100" alt="">
+            <a class="navbar-brand" href="{{url('/')}}">
+                <img src="{{asset('images/logo.png')}}" width="100" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -52,7 +52,7 @@
                 <form class="form-inline my-2 mr-lg-5 my-lg-0">
                     <div class="dropdown">
                         <!-- <button class="btn btn_profile" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-                        <img src="images/img_avatar.png" class="rounded-circle" width="50" alt="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle" width="50" alt="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <!-- </button> -->
                         <div class="dropdown-menu text-center " aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">Profile</a>
@@ -72,8 +72,8 @@
         <!-- Footer Elements -->
 
         <!-- Copyright -->
-        <div class="footer-copyright text-center py-2">© 2022 Copyright:
-            <a href="#"> BrownTech.com</a>
+        <div class="footer-copyright text-center py-2">© 2022 Copyright
+            <a href="#">ROI-Bot.io</a>
         </div>
         <!-- Copyright -->
 
