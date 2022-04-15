@@ -15,37 +15,54 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
-});
-Route::get('/login', function () {
-    return view('login');
-});
-Route::get('/manage_view', function () {
-    return view('manage_view');
-});
-Route::get('/create_add', function () {
-    return view('Select_advert');
-});
-Route::get('create_ad/{id}',[UserController::class,'create_ad']);
-
-Route::get('/insight_view', function () {
-    return view('insight_view');
+    return redirect('login');
 });
 
+Route::prefix('')->middleware('auth')->group(function (){
 
-Route::get('/profile', function () {
-    return view('profile');
+    Route::get('/index', function () {
+        return view('index');
+    });
+    Route::get('/manage_view', function () {
+        return view('manage_view');
+    });
+    Route::get('/create_add', function () {
+        return view('Select_advert');
+    });
+    Route::get('create_ad/{id}',[UserController::class,'create_ad']);
+
+    Route::get('/insight_view', function () {
+        return view('insight_view');
+    });
+
+
+    Route::get('/profile', function () {
+        return view('profile');
+    });
+
+    Route::get('/mediaGallery', function () {
+        return view('mediaGallery');
+    });
+
+    Route::get('/manage_detail', function () {
+        return view('manage_detail');
+    });
+    Route::get('/insight_detail', function () {
+        return view('insights_detail');
+    });
+
+    Route::get('/logout', function () {
+
+  Auth::logout();
+  return redirect('/');
+    });
+
+    Route::get('compainFB',[\App\Http\Controllers\Controller::class,'index']);
+
+
 });
 
-Route::get('/mediaGallery', function () {
-    return view('mediaGallery');
-});
 
-Route::get('/manage_detail', function () {
-    return view('manage_detail');
-});
-Route::get('/insight_detail', function () {
-    return view('insights_detail');
-});
+Auth::routes();
 
-Route::get('compainFB',[\App\Http\Controllers\Controller::class,'index']);
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

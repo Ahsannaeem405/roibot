@@ -86,7 +86,7 @@
     margin-top: 2px;
 }
 
-.login-form input[type=text] {
+.login-form input[type=text],.login-form input[type=email] {
     border-radius: 20px;
 }
 
