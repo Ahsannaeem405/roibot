@@ -16,50 +16,25 @@
                     <button class="btn btn-primary" style="font-weight: bold" data-toggle="modal"
                         data-target="#exampleModal">Add New</button>
                     <button class="btn btn-primary ml-2 select" type="button" style="font-weight: bold">Select</button>
-                    <button class="btn btn-danger ml-2">Delete</button>
+
                 </div>
 
             </div>
             <section class="gallery_images">
                 <section id="lightbox_gallery" class="container">
                     <div class="row">
+
+                        @foreach($gallary as $gall)
+
+
                         <div class=" col-12 col-md-4 col-lg-3 p-3">
                             <div class="lightbox-enabled"
-                                style="background-image: url('{{ asset('images/ad3.jpg') }}')"
-                                data-imgsrc="{{ asset('images/ad3.jpg') }}">
+                                style="background-image: url('{{ asset('images/gallary/'.$gall->image.'') }}')"
+                                data-imgsrc="{{ asset('images/gallary/'.$gall->image.'') }}">
 
                             </div>
                         </div>
-                        <div class=" col-12 col-md-4 col-lg-3 p-3">
-                            <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/ad2.jpg') }}')"
-                                data-imgsrc="{{ asset('images/ad2.jpg') }}">
-                            </div>
-                        </div>
-                        <div class=" col-12 col-md-4 col-lg-3 p-3">
-                            <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/ad3.jpg') }}')"
-                                data-imgsrc="{{ asset('images/ad3.jpg') }}">
-                            </div>
-                        </div>
-                        <div class=" col-12 col-md-4 col-lg-3 p-3">
-                            <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/ad4.png') }}')"
-                                data-imgsrc="{{ asset('images/ad4.png') }}">
-                            </div>
-                        </div>
-                        <div class=" col-12 col-md-4 col-lg-3 p-3">
-                            <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/ads.jpg') }}')"
-                                data-imgsrc="{{ asset('images/ads.jpg') }}">
-                            </div>
-                        </div>
-                        <div class=" col-12 col-md-4 col-lg-3 p-3">
-                            <div class="lightbox-enabled"
-                                style="background-image:url('{{ asset('images/ad3.jpg') }}')"
-                                data-imgsrc="{{ asset('images/ad3.jpg') }}">
-                            </div>
-                        </div>
+                        @endforeach
 
 
 
@@ -82,37 +57,22 @@
             </section>
 
             <section class="gallery_select p-3 d-none">
+
+                <form action="{{url('gallery/delete')}}" method="post">
+                    <button type="submit" class="btn btn-danger ml-2">Delete</button>
+                    @csrf
+
                 <ul>
+
+                    @foreach($gallary as $gall)
                     <li>
-                      <input type="checkbox" id="myCheckbox1" />
-                      <label for="myCheckbox1"><img src="{{asset('images/ad3.jpg')}}" /></label>
+                      <input type="checkbox" name="check[]" value="{{$gall->id}}" id="myCheckbox{{$gall->id}}" />
+                      <label for="myCheckbox{{$gall->id}}"><img src="{{ asset('images/gallary/'.$gall->image.'') }}" /></label>
                     </li>
-                    <li>
+                    @endforeach
 
-                      <input type="checkbox" id="myCheckbox2" />
-                      <label for="myCheckbox2"><img src="{{asset('images/ad2.jpg')}}" /></label>
-                    </li>
-                    <li>
-
-                      <input type="checkbox" id="myCheckbox3" />
-                      <label for="myCheckbox3"><img src="{{asset('images/ad3.jpg')}}" /></label>
-                    </li>
-                    <li>
-
-                        <input type="checkbox" id="myCheckbox4" />
-                        <label for="myCheckbox4"><img src="{{asset('images/ad4.png')}}" /></label>
-                      </li>
-                      <li>
-
-                        <input type="checkbox" id="myCheckbox5" />
-                        <label for="myCheckbox5"><img src="{{asset('images/ads.jpg')}}" /></label>
-                      </li>
-                      <li>
-
-                        <input type="checkbox" id="myCheckbox6" />
-                        <label for="myCheckbox6"><img src="{{asset('images/ad3.jpg')}}" /></label>
-                      </li>
                   </ul>
+                </form>
             </section>
         </div>
 
@@ -130,14 +90,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" class="dropzone dropzone-area" id="dpz-remove-thumb">
+                    <form action="{{url('upload/image')}}" enctype="multipart/form-data" class="dropzone dropzone-area" id="dpz-remove-thumb">
+                      @csrf
                         <div class="dz-message">Drop Files Here To Upload</div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="refreshPage()"
                         data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Add</button>
+
                 </div>
             </div>
         </div>

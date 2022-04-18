@@ -20,36 +20,33 @@ Route::get('/', function () {
 
 Route::prefix('')->middleware('auth')->group(function (){
 
-    Route::get('/index', function () {
-        return view('index');
-    });
-    Route::get('/manage_view', function () {
-        return view('manage_view');
-    });
+Route::get('index',[UserController::class,'main']);
+
     Route::get('/create_add', function () {
         return view('Select_advert');
     });
-    Route::get('create_ad/{id}',[UserController::class,'create_ad']);
 
-    Route::get('/insight_view', function () {
-        return view('insight_view');
-    });
+    //add
+    Route::get('create_ad/{id}',[UserController::class,'create_ad']);
+    Route::post('post/add',[\App\Http\Controllers\AdvertisementController::class,'PostAdd']);
+    Route::get('manage_view',[\App\Http\Controllers\UserController::class,'ManageAdd']);
+    Route::get('insight_view',[\App\Http\Controllers\UserController::class,'insightView']);
+
+
+
 
 
     Route::get('/profile', function () {
         return view('profile');
     });
 
-    Route::get('/mediaGallery', function () {
-        return view('mediaGallery');
-    });
+Route::get('mediaGallery',[UserController::class,'mediaGallery']);
+Route::post('gallery/delete',[UserController::class,'galleryDelete']);
 
-    Route::get('/manage_detail', function () {
-        return view('manage_detail');
-    });
-    Route::get('/insight_detail', function () {
-        return view('insights_detail');
-    });
+ Route::get('manage_detail/{id}',[UserController::class,'mangeDetail']);
+ Route::get('insight_detail/{id}',[UserController::class,'insightDetail']);
+ Route::post('upload/image',[UserController::class,'uploadImgae']);
+
 
     Route::get('/logout', function () {
 

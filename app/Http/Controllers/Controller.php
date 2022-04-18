@@ -16,18 +16,19 @@ class Controller extends BaseController
     public function index()
     {
 
-        $compain = \Http::post('https://graph.facebook.com/v13.0/act_457009236222857/campaigns', [
-            'name' => 'my  new',
+        $compain = \Http::post('https://graph.facebook.com/v13.0/act_1060535174543124/campaigns', [
+            'name' => 'my new',
             'objective' => 'LINK_CLICKS',
             'status' => 'PAUSED',
             'special_ad_categories' => [],
             'access_token' => env("ACCESS_TOKEN"),
         ]);
         $compain = json_decode($compain->body());
+       // dd($compain);
 
         $compain_id = $compain->id;
 //dd($compain_id);
-        $addSet = \Http::post('https://graph.facebook.com/v13.0/act_457009236222857/adsets', [
+        $addSet = \Http::post('https://graph.facebook.com/v13.0/act_1060535174543124/adsets', [
             'campaign_id' => $compain_id,
 
             'name' => 'My First AdSet',
@@ -50,7 +51,7 @@ class Controller extends BaseController
         $addSet_id = $addSet->id;
 
 
-        $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_457009236222857/adcreatives', [
+        $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_1060535174543124/adcreatives', [
             'name' => 'Sample Creative',
             'object_story_spec' => [
                 'link_data' => [
@@ -59,17 +60,17 @@ class Controller extends BaseController
                     'message' => 'try it out',
 
                 ],
-                'page_id' => 111542568191241
+                'page_id' => 106526345371756
             ],
 
             'access_token' => env("ACCESS_TOKEN"),
         ]);
         $adCreative = json_decode($adCreative->body());
-
+//dd($adCreative);
         $addCreative_id = $adCreative->id;
 
 
-        $add = \Http::post('https://graph.facebook.com/v13.0/act_457009236222857/ads', [
+        $add = \Http::post('https://graph.facebook.com/v13.0/act_1060535174543124/ads', [
             'name' => 'my add',
             'adset_id' => $addSet_id,
             'creative' => [
@@ -109,10 +110,8 @@ class Controller extends BaseController
             'clientSecret'=>'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',
             'refresh_token'=>'4%2F0AX4XfWhU8hYEqQ65ZPaYoCF5mCUAU_ZIsgf4StWwq0XjtbliK_1Q1_lmZ_F1ytuEOdQyYA',
             'grant_type'=>'refresh_token',
-
-        ]);
+            ]);
         dd($api->body());
-
 
 
         $ads = new GoogleAds();

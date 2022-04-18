@@ -139,14 +139,16 @@
             </div>
             <div class="row">
                 <div class="col-md-8 col-12 mt-2">
-                    <form id="regForm">
+                    <form id="regForm" method="post" action="{{'/post/add'}}" enctype="multipart/form-data">
+                        @csrf
 
+                        <input type="hidden" name="advert_type" class="text" value="{{$advert}}">
                         <!-- One "tab" for each step in the form: -->
                         <div class="tab mt-4">
                             <h3 class="text-center step-heading mx-auto">Step: 1</h3>
                             <p>
                                 Select Advertisement Goals:
-                                <select class="form-control mt-2">
+                                <select name="goal" class="form-control mt-2">
                                     <option selected>Choose Goal ...</option>
                                     <option>Views</option>
                                     <option>Clicks</option>
@@ -176,10 +178,10 @@
                                 Audience:
                                 <select class="form-control mt-2" name="age">
                                     <option selected>Age Limit</option>
-                                    <option>10 to 18</option>
-                                    <option>18 to 25</option>
-                                    <option>25 to 50</option>
-                                    <option>50+</option>
+                                    <option value="10 to 18">10 to 18</option>
+                                    <option value="18 to 25">18 to 25</option>
+                                    <option value="25 to 50">25 to 50</option>
+                                    <option value="50+">50+</option>
                                 </select>
                                 <select class="form-control mt-2" name="gender">
                                     <option selected>Gender</option>
@@ -199,7 +201,7 @@
                             </p>
                             <p class="my-3">
                                 Duration:
-                                <input placeholder=" durations(days)" readonly name="" type="number"
+                                <input placeholder=" durations(days)" readonly name="duration" type="number"
                                        class=" mt-3 total_duration">
                             </p>
                         </div>
@@ -411,7 +413,7 @@
             if (headingNumber < 5) {
                 headingNumber++;
                 $(".heading-feilds").append(
-                    ` <input placeholder="Heading ${headingNumber}"  name="dd" class="mt-3">`
+                    ` <input placeholder="Heading ${headingNumber}"  name="heading[]" class="mt-3">`
                 );
 
 
@@ -423,7 +425,7 @@
             if (textNumber < 5) {
                 textNumber++;
                 $(".text-feilds").append(
-                    ` <input placeholder="Text ${textNumber}"  name="dd" class="mt-3">`
+                    ` <input placeholder="Text ${textNumber}"  name="body[]" class="mt-3">`
                 );
 
             }
@@ -438,7 +440,7 @@
 
                                 <div class="row mt-2">
                                     <div class="col-12">
-                                        <input type="file"  >
+                                        <input type="file" name="image[]"  >
                                     </div>
                                 </div>
      `
