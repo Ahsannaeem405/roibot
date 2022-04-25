@@ -18,7 +18,6 @@ class CreateAdvertisementsTable extends Migration
             $table->string('goal')->nullable();
             $table->text('title')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('url')->nullable();
             $table->string('age')->nullable();
             $table->string('gender')->nullable();
             $table->string('per_day')->nullable();

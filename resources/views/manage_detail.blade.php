@@ -86,6 +86,62 @@
                             <a href="{{url('compain/delete/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to delete this item?');"><button class="btn btn-danger  mt-4 btn_manage text-light">Delete</button></a><br>
                             <a href="{{url('compain/reactive/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to Reactivate this item?');">  <button class="btn btn-success  mt-4 btn_manage text-light">Reactivate</button></a><br>
                             <button class="btn btn-primary  mt-4 btn_manage text-light">Duplicate</button><br>
+
+
+                            <button   data-toggle="modal" data-target="#publish{{$com->id}}"    @if($com->step!=5) disabled  @endif class="btn btn-secondary  mt-4 btn_manage text-light">
+                                Publish ADD
+                            </button><br>
+
+
+                            @if($com->step==5)
+                            <div class="modal fade" id="publish{{$com->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form action="{{url('publish/'.$com->id.'')}}" method="post">
+                                            @csrf
+
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">PUBLISH ADD</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="row">
+
+
+
+                                                <div class="col-lg-12 text-left mb-3">
+                                                    <lable>Per day budget</lable>
+                                                    <input type="number" name="per_day" required class="form-control" value="{{$com->per_day}}">
+                                                </div>
+
+                                                <div class="col-lg-12 text-left mb-3">
+                                                    <lable>Start date</lable>
+                                                    <input type="datetime-local" name="start"  required class="form-control" value="{{ str_replace(' ','T',\Carbon\Carbon::now())}}">
+                                                </div>
+                                                <div class="col-lg-12 text-left mb-3">
+                                                    <lable>End date</lable>
+                                                    <input type="datetime-local" name="end" required class="form-control" value="{{ str_replace(' ','T',\Carbon\Carbon::now()->addDays(3))}}">
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">PUBLISH</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                                @endif
+
+
                         </div>
 
 

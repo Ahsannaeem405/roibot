@@ -25,7 +25,7 @@ class Controller extends BaseController
         $compain = \Http::post('https://graph.facebook.com/v13.0/act_1060535174543124/campaigns', [
             'name' => 'my new',
             'objective' => 'LINK_CLICKS',
-            'status' => 'PAUSED',
+            'status' => env('FB_STATUS'),
             'special_ad_categories' => [],
             'access_token' => env("ACCESS_TOKEN"),
         ]);
@@ -50,7 +50,7 @@ class Controller extends BaseController
                 'genders' => [1],
                 'geo_locations' => ['countries' => ['US']]
             ],
-            'status' => 'PAUSED',
+            'status' => env('FB_STATUS'),
             'access_token' => env("ACCESS_TOKEN"),
         ]);
         $addSet = json_decode($addSet->body());
@@ -83,7 +83,7 @@ dd($adCreative,1);
             'creative' => [
                 'creative_id' => $addCreative_id,
             ],
-            'status' => 'PAUSED',
+            'status' => env('FB_STATUS'),
 
             'access_token' => env("ACCESS_TOKEN"),
         ]);
@@ -233,7 +233,7 @@ dd($adCreative,1);
                             'genders' => [1,2],
                             'geo_locations' => ['countries' => ['US']]
                         ],
-                        'status' => 'PAUSED',
+                        'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
                     ]);
                     if ($addSet->status()==200)
@@ -274,7 +274,7 @@ dd($adCreative,1);
                                 'creative' => [
                                     'creative_id' => $addCreative_id,
                                 ],
-                                'status' => 'PAUSED',
+                                'status' => env('FB_STATUS'),
 
                                 'access_token' =>$facebook['fb_token'],
                             ]);
@@ -406,7 +406,7 @@ dd($adCreative,1);
                             'genders' => [1,2],
                             'geo_locations' => ['countries' => ['US']]
                         ],
-                        'status' => 'PAUSED',
+                        'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
                     ]);
                     if ($addSet->status()==200)
@@ -447,7 +447,7 @@ dd($adCreative,1);
                                 'creative' => [
                                     'creative_id' => $addCreative_id,
                                 ],
-                                'status' => 'PAUSED',
+                                'status' => env('FB_STATUS'),
 
                                 'access_token' =>$facebook['fb_token'],
                             ]);
@@ -577,7 +577,7 @@ dd($adCreative,1);
                             'genders' => [1,2],
                             'geo_locations' => ['countries' => ['US']]
                         ],
-                        'status' => 'PAUSED',
+                        'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
                     ]);
                     if ($addSet->status()==200)
@@ -618,7 +618,7 @@ dd($adCreative,1);
                                 'creative' => [
                                     'creative_id' => $addCreative_id,
                                 ],
-                                'status' => 'PAUSED',
+                                'status' => env('FB_STATUS'),
 
                                 'access_token' =>$facebook['fb_token'],
                             ]);
@@ -748,7 +748,7 @@ dd($adCreative,1);
                         'genders' => [1,2],
                         'geo_locations' => ['countries' => ['US']]
                     ],
-                    'status' => 'PAUSED',
+                    'status' => env('FB_STATUS'),
                     'access_token' => $facebook['fb_token'],
                 ]);
                 if ($addSet->status()==200)
@@ -789,7 +789,7 @@ dd($adCreative,1);
                             'creative' => [
                                 'creative_id' => $addCreative_id,
                             ],
-                            'status' => 'PAUSED',
+                            'status' => env('FB_STATUS'),
 
                             'access_token' =>$facebook['fb_token'],
                         ]);
