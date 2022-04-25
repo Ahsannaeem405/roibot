@@ -14,8 +14,8 @@ class ConfirmPasswordController extends Controller
     |--------------------------------------------------------------------------
     |
     | This controller is responsible for handling password confirmations and
-    | uses a simple trait to include the behavior. You're free to explore
-    | this trait and override any functions that require customization.
+    | uses a simple Traits to include the behavior. You're free to explore
+    | this Traits and override any functions that require customization.
     |
     */
 

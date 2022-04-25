@@ -19,6 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('profile')->default('img_avatar.png');
+            $table->text('fb_client')->nullable();
+            $table->text('fb_secret')->nullable();
+            $table->text('fb_token')->nullable();
+            $table->bigInteger('fb_page')->nullable();
+            $table->bigInteger('fb_account')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

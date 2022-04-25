@@ -4,6 +4,10 @@
         box-sizing: border-box;
     }
 
+    .add_img {
+        cursor: pointer;
+    }
+
     body {
         background-color: #f1f1f1;
     }
@@ -55,8 +59,9 @@
     }
 
     /* Mark input boxes that gets an error on validation: */
-    input.invalid {
-        background-color: #ffdddd;
+    .invalid {
+        background-color: #ffdddd !important;
+
     }
 
     /* Hide all steps by default: */
@@ -130,6 +135,52 @@
 
 </style>
 @section('content')
+
+
+
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Image</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url('upload/image')}}" enctype="multipart/form-data" class="dropzone dropzone-area"
+                          id="dpz-remove-thumb">
+                        @csrf
+                        <div class="dz-message">Drop Files Here To Upload</div>
+                    </form>
+
+                    <div class="images-div row w-100" style="height: 250px;overflow: auto">
+
+                        @foreach($gallary as $gall)
+                            <div class="col-3 d-flex align-items-center my-2">
+                                <img src="{{asset('images/gallary/'.$gall->image.'') }}" img_name="{{$gall->image}}"
+                                     class="w-100 add_img" alt="">
+                            </div>
+                        @endforeach
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="refreshPage()"
+                            data-dismiss="modal">Close
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <section class="section">
         <div class="container-fluid">
 
@@ -148,62 +199,76 @@
                             <h3 class="text-center step-heading mx-auto">Step: 1</h3>
                             <p>
                                 Select Advertisement Goals:
+                                @if($advert==1)
                                 <select name="goal" class="form-control mt-2">
-                                    <option selected>Choose Goal ...</option>
-                                    <option>Views</option>
-                                    <option>Clicks</option>
-                                    <option>Traffic</option>
-                                    <option>Orders</option>
+                                    <option selected value="">Choose Goal ...</option>
+                                    <option value="APP_INSTALLS">APP INSTALLS</option>
+                                    <option value="BRAND_AWARENESS">BRAND AWARENESS</option>
+                                    <option value="EVENT_RESPONSES">EVENT RESPONSES</option>
+                                    <option value="LEAD_GENERATION">LEAD GENERATION</option>
+                                    <option value="LINK_CLICKS">LINK CLICKS</option>
+                                    <option value="LOCAL_AWARENESS">LOCAL AWARENESS</option>
+                                    <option value="MESSAGES">MESSAGES</option>
+                                    <option value="OFFER_CLAIMS">OFFER CLAIMS</option>
+                                    <option value="PAGE_LIKES">PAGE LIKES</option>
+                                    <option value="POST_ENGAGEMENT">POST ENGAGEMENT</option>
+                                    <option value="PRODUCT_CATALOG_SALES">PRODUCT CATALOG SALES</option>
+                                    <option value="REACH">REACH</option>
+                                    <option value="STORE_VISITS">STORE VISITS</option>
+                                    <option value="VIDEO_VIEWS">VIDEO VIEWS</option>
                                 </select>
+                                @else
+
+
+                                    <select name="goal" class="form-control mt-2">
+                                        <option selected value="">Choose Goal ...</option>
+                                        <option>Views</option>
+                                        <option>Clicks</option>
+                                        <option>Traffic</option>
+                                        <option>Orders</option>
+                                    </select>
+
+                                @endif
                             </p>
 
                         </div>
                         <div class="tab">
                             <h3 class="text-center step-heading mx-auto">Step: 2</h3>
 
-                            <p class="my-3">
-                                Add URL:
-                                <input placeholder="Site url . . ." name="url">
-                            </p>
-                            @if($advert==1)
 
 
 
                             <p class="my-3">
-                                Action button:
-                                <input placeholder="Action Button Text" class="preview_1 text1_btn" name="btn">
+                                Campaign Title
+                                <input type="text" name="title" placeholder="Campaign Title" >
                             </p>
-                            @endif
+
+
                             <p class="my-3">
                                 Audience:
                                 <select class="form-control mt-2" name="age">
-                                    <option selected>Age Limit</option>
+                                    <option selected value="">Age Limit</option>
                                     <option value="10 to 18">10 to 18</option>
                                     <option value="18 to 25">18 to 25</option>
                                     <option value="25 to 50">25 to 50</option>
-                                    <option value="50+">50+</option>
+                                    <option value="51 to 200">50+</option>
                                 </select>
                                 <select class="form-control mt-2" name="gender">
-                                    <option selected>Gender</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
+                                    <option selected value="">Gender</option>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
                                     <option>Both</option>
                                 </select>
                             </p>
 
                             <p class="my-3">
                                 Budget:
-                                <input placeholder="Total Budget" name="total_budget"
-                                       type="number" class=" mt-2 total_budget">
+
                                 <input placeholder="Per Day" name="perday_budget"
                                        class="mt-2 perday_budget" type="number">
 
                             </p>
-                            <p class="my-3">
-                                Duration:
-                                <input placeholder=" durations(days)" readonly name="duration" type="number"
-                                       class=" mt-3 total_duration">
-                            </p>
+
                         </div>
 
                         <div class="tab">
@@ -231,18 +296,30 @@
                             </div>
                             </p>
 
+
+                            <p class="my-3">
+                            <div class="d-flex justify-content-between align-items-center my-2">
+                                Action button
+                                <button class="add-button" value="Action" type="button">+</button>
+                            </div>
+                            <div class="button-feilds">
+
+                                <input placeholder="Button 1" value="Action" class="preview_1 text1_btn mb-1" name="btn[]">
+
+                                <input placeholder="URL 1" name="url[]">
+
+                            </div>
+                            </p>
+
                             <p class="my-3">
                             <div class="d-flex justify-content-between align-items-center my-2">
                                 Add Image
                                 <button class="image-btn" type="button">+</button>
                             </div>
-                            <div class="img-feilds">
 
-                                <div class="row mt-2">
-                                    <div class="col-12">
-                                        <input type="file" name="image[]" class="default-img" onchange="readURL(this);">
-                                    </div>
-                                </div>
+                            <div class="img-feilds row">
+
+
                             </div>
                             </p>
                         </div>
@@ -278,13 +355,14 @@
                                         </div>
                                         <div class="ml-3">
                                             <h5 class="mb-0">{{Auth::user()->name}}</h5>
-                                            <p class="gray mb-0">Sponsored <i class="fas fa-globe"></i></p>
+                                            <p class="gray mb-0"> Sponsored <i class="fas fa-globe"></i></p>
                                             <p class="text-justify heading1_prev">This is your heading.</p>
                                         </div>
                                     </div>
-                                    <div class="pt-0 pb-0">
-                                        <a >
-                                            <img src="{{asset('images/ads.jpg')}}"  class="img-fluid img1" alt="">
+                                    <div class="pt-0 pb-0 text-center">
+                                        <a>
+                                            <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid img1" alt="">
+
                                         </a>
                                     </div>
                                     <div class="bg_gray d-flex p-2 justify-content-between">
@@ -299,16 +377,17 @@
                                 </div>
                             </a>
                         @else
-                            <a  class="a_card">
+                            <a class="a_card">
 
                                 <div class="box-shadow p-0 overflow-hidden">
 
 
-                                    <div class="position-relative">
+                                    <div class="position-relative text-center">
 
-                                        <img src="{{asset('images/ads.jpg')}}" class="img-fluid img1" alt="">
+                                        <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid img1" alt="">
 
-                                        <h4 class="position-absolute heading_fb text-white heading1_prev">This is your heading</h4>
+                                        <h4 class="position-absolute heading_fb text-white heading1_prev">This is your
+                                            heading</h4>
 
                                     </div>
                                     <div class="p-3 d-flex justify-content-between ">
@@ -329,6 +408,12 @@
         </div>
 
     </section>
+
+
+    <script src="{{ asset('js/dropzone.js') }}"></script>
+    <script src="{{ asset('js/dropzone.min.js') }}"></script>
+
+
     <script>
         var currentTab = 0; // Current tab is set to be the first tab (0)
         showTab(currentTab); // Display the current tab
@@ -374,9 +459,11 @@
 
         function validateForm() {
             // This function deals with validation of the form fields
-            var x, y, i, valid = true;
+            var x, y,z, i, valid = true;
             x = document.getElementsByClassName("tab");
             y = x[currentTab].getElementsByTagName(["input"]);
+            z = x[currentTab].getElementsByTagName(["select"]);
+        //    alert(z.length)
             // A loop that checks every input field in the current tab:
             for (i = 0; i < y.length; i++) {
                 // If a field is empty...
@@ -385,6 +472,23 @@
                     y[i].className += " invalid";
                     // and set the current valid status to false
                     valid = false;
+                }
+                else {
+                    y[i].classList.remove("invalid");
+                }
+            }
+
+            for (i = 0; i < z.length; i++) {
+
+                // If a field is empty...
+                if (z[i].value == "") {
+                    // add an "invalid" class to the field:
+                    z[i].className += " invalid";
+                    // and set the current valid status to false
+                    valid = false;
+                }
+                else {
+                    z[i].classList.remove("invalid");
                 }
             }
             // If the valid status is true, mark the step as finished and valid:
@@ -408,9 +512,33 @@
             integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+
+        function uplaodImage() {
+
+
+            $.ajax({
+                type: 'get',
+                url: "{{url('get/images')}}",
+
+                success: function (response) {
+
+                    $('.images-div').empty().append(response);
+
+                }
+
+            });
+
+
+        }
+
+    </script>
+
+    <script>
+
         var headingNumber = 1;
         $(".heading-btn").click(() => {
             if (headingNumber < 5) {
+
                 headingNumber++;
                 $(".heading-feilds").append(
                     ` <input placeholder="Heading ${headingNumber}"  name="heading[]" class="mt-3">`
@@ -429,48 +557,77 @@
                 );
 
             }
-        })
+        })   ;
 
-        var imageNumber = 1;
-        $(".image-btn").click(() => {
-            if (imageNumber < 5) {
-                imageNumber++;
-                $(".img-feilds").append(
-                    `
+        var buttonNumber = 1;
+        $(".add-button").click(() => {
+            if (buttonNumber < 5) {
+                buttonNumber++;
+                $(".button-feilds").append(
+                    ` <input placeholder="button ${buttonNumber}"  name="btn[]" class="mt-3 mb-2">
 
-                                <div class="row mt-2">
-                                    <div class="col-12">
-                                        <input type="file" name="image[]"  >
-                                    </div>
-                                </div>
-     `
+
+
+ <input placeholder="URL ${buttonNumber}" name="url[]">`
                 );
 
             }
         })
 
+        var imageNumber = 1;
+        $(".image-btn").click(() => {
+            $('#exampleModal').modal('show');
+        })
 
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+        $(document).on('click','.add_img',function () {
 
-                    reader.onload = function (e) {
-                        $('.img1')
-                            .attr('src', e.target.result)
+            var img = $(this).attr('img_name');
+            var src = $(this).attr('src');
+            if (imageNumber == 1) {
 
-                    };
+                $('.img1').attr('src', src);
+            }
+            if (imageNumber <= 5) {
+                imageNumber++;
+                $(".img-feilds").append(
+                    `
+   <div class="col-4">
+   <input type="hidden" name="image[]" value="${img}">
+<img src="${src}" class="w-100" alt="">
+                                    </div>
 
-                    reader.readAsDataURL(input.files[0]);
-                }
+     `
+                );
+
+                $('#exampleModal').modal('hide');
+
+
 
             }
+        })
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.img1')
+                        .attr('src', e.target.result)
+
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+
+        }
 
         $('.perday_budget').keyup(function () {
 
             var budget = parseFloat($('.total_budget').val());
             var perday = parseFloat($('.perday_budget').val());
 
-            $('.total_duration').val(budget / perday);
+            $('.total_duration').val(parseInt(budget / perday));
 
 
         });

@@ -13,4 +13,13 @@ class Advertisement extends Model
     {
         return $this->hasMany(AdvertisementAds::class,'advertisements_id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function getAgeAttribute($val)
+    {
+        return explode('to',$val);
+    }
 }

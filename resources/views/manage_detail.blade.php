@@ -28,9 +28,9 @@
                                                     <p class="text-justify">{{$com->activeAdd[0]->heading}} </p>
                                                 </div>
                                             </div>
-                                            <div class="pt-0 pb-0">
+                                            <div class="pt-0 pb-0 text-center">
 
-                                                <img src="{{asset('images/ads/'.$com->activeAdd[0]->image.'')}}" class="img-fluid" alt="">
+                                                <img src="{{asset('images/gallary/'.$com->activeAdd[0]->image.'')}}" class="img-fluid" alt="">
 
                                             </div>
                                             <div class="bg_gray d-flex p-2 justify-content-between">
@@ -39,7 +39,7 @@
                                                     <p class="text-black-50">{{$com->activeAdd[0]->body}}</p>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <a href="{{$com->url}}" target="_blank" class="btn btn-secondary learn">{{$com->action_btn}}</a>
+                                                    <a href="{{$com->activeAdd[0]->url}}" target="_blank" class="btn btn-secondary learn">{{$com->activeAdd[0]->button}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,9 +57,9 @@
 
 
 
-                                            <div class="position-relative">
+                                            <div class="position-relative text-center">
 
-                                                <img src="{{asset('images/ads/'.$com->activeAdd[0]->image.'')}}" class="img-fluid" alt="">
+                                                <img src="{{asset('images/gallary/'.$com->activeAdd[0]->image.'')}}" class="img-fluid" alt="">
 
                                                 <h4 class="position-absolute heading_fb text-white">{{$com->activeAdd[0]->heading}}</h4>
 
@@ -68,7 +68,7 @@
 
 
                                                 <p>{{$com->activeAdd[0]->body}}</p>
-                                                <a href="{{$com->url}}" target="_blank" class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
+                                                <a href="{{$com->activeAdd[0]->url}}" target="_blank" class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
                                             </div>
 
                                         </div>
@@ -81,10 +81,10 @@
                         @endforeach
 
                         <div class="col-md-8 col-12 mt-2  text-center">
-                            <a href="{{url('insight_detail/'.$com->id.'')}}" class="btn theme-btn pl-5 pr-5 float-right">View Insight</a><br><br>
-                            <button class="btn btn-warning btn_manage mt-4 text-light">Pause</button><br>
-                            <button class="btn btn-danger  mt-4 btn_manage text-light">Delete</button><br>
-                            <button class="btn btn-success  mt-4 btn_manage text-light">Reactivate</button><br>
+                            <a href="{{url('insight_detail/'.$com->id.'/'.$com->activeAdd[0]->id.'')}}" class="btn theme-btn pl-5 pr-5 float-right">View Insight</a><br><br>
+                            <a href="{{url('compain/pause/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to Pause this item?');">  <button class="btn btn-warning btn_manage mt-4 text-light">Pause</button></a><br>
+                            <a href="{{url('compain/delete/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to delete this item?');"><button class="btn btn-danger  mt-4 btn_manage text-light">Delete</button></a><br>
+                            <a href="{{url('compain/reactive/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to Reactivate this item?');">  <button class="btn btn-success  mt-4 btn_manage text-light">Reactivate</button></a><br>
                             <button class="btn btn-primary  mt-4 btn_manage text-light">Duplicate</button><br>
                         </div>
 

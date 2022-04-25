@@ -18,11 +18,19 @@ class CreateAdvertisementAdsTable extends Migration
             $table->foreignId('advertisements_id')->constrained('advertisements')->onDelete('cascade');
             $table->text('heading')->nullable();
             $table->text('body')->nullable();
+            $table->text('button')->nullable();
+            $table->text('url')->nullable();
             $table->string('image')->nullable();
             $table->string('status')->default('pending');
-            $table->integer('addSet_id')->nullable();
-            $table->integer('addCreative_id')->nullable();
-            $table->integer('add_id')->nullable();
+            $table->text('addSet_id')->nullable();
+            $table->text('addCreative_id')->nullable();
+            $table->text('add_id')->nullable();
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
+            $table->integer('clicks')->default(0);
+            $table->integer('impressions')->default(0);
+            $table->integer('cpc')->default(0);
+            $table->integer('conversation')->default(0);
             $table->timestamps();
         });
     }

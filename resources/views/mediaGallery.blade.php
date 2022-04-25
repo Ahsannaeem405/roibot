@@ -1,7 +1,6 @@
 @extends('layout.mainlayout')
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
-<link rel="stylesheet" href="{{ asset('css/dropzone.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/dropzone.css') }}">
+
 
 @section('content')
     <!-- Media Gallery Section -->

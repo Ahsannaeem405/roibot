@@ -14,8 +14,8 @@
 
 <body>
 <section class="login-page section">
-    <div class="container" style="height: 100vh">
-        <div class="row d-flex justify-content-center pt-5 align-items-center" style="height: 100vh;">
+    <div class="container" >
+        <div class="row d-flex justify-content-center pt-5 align-items-center" >
             <div class="col-12 col-xl-4 col-lg-6 col-md-8">
                 <div class="login-details">
                     <div class="logo mx-auto pt-4">
