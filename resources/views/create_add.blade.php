@@ -1,4 +1,6 @@
 @extends('layout.mainlayout')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
 <style>
     * {
         box-sizing: border-box;
@@ -136,10 +138,6 @@
 </style>
 @section('content')
 
-
-
-
-
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -200,25 +198,24 @@
                             <p>
                                 Select Advertisement Goals:
                                 @if($advert==1)
-                                <select name="goal" class="form-control mt-2">
-                                    <option selected value="">Choose Goal ...</option>
-                                    <option value="APP_INSTALLS">APP INSTALLS</option>
-                                    <option value="BRAND_AWARENESS">BRAND AWARENESS</option>
-                                    <option value="EVENT_RESPONSES">EVENT RESPONSES</option>
-                                    <option value="LEAD_GENERATION">LEAD GENERATION</option>
-                                    <option value="LINK_CLICKS">LINK CLICKS</option>
-                                    <option value="LOCAL_AWARENESS">LOCAL AWARENESS</option>
-                                    <option value="MESSAGES">MESSAGES</option>
-                                    <option value="OFFER_CLAIMS">OFFER CLAIMS</option>
-                                    <option value="PAGE_LIKES">PAGE LIKES</option>
-                                    <option value="POST_ENGAGEMENT">POST ENGAGEMENT</option>
-                                    <option value="PRODUCT_CATALOG_SALES">PRODUCT CATALOG SALES</option>
-                                    <option value="REACH">REACH</option>
-                                    <option value="STORE_VISITS">STORE VISITS</option>
-                                    <option value="VIDEO_VIEWS">VIDEO VIEWS</option>
-                                </select>
+                                    <select name="goal" class="form-control mt-2">
+                                        <option selected value="">Choose Goal ...</option>
+                                        <option value="APP_INSTALLS">APP INSTALLS</option>
+                                        <option value="BRAND_AWARENESS">BRAND AWARENESS</option>
+                                        <option value="EVENT_RESPONSES">EVENT RESPONSES</option>
+                                        <option value="LEAD_GENERATION">LEAD GENERATION</option>
+                                        <option value="LINK_CLICKS">LINK CLICKS</option>
+                                        <option value="LOCAL_AWARENESS">LOCAL AWARENESS</option>
+                                        <option value="MESSAGES">MESSAGES</option>
+                                        <option value="OFFER_CLAIMS">OFFER CLAIMS</option>
+                                        <option value="PAGE_LIKES">PAGE LIKES</option>
+                                        <option value="POST_ENGAGEMENT">POST ENGAGEMENT</option>
+                                        <option value="PRODUCT_CATALOG_SALES">PRODUCT CATALOG SALES</option>
+                                        <option value="REACH">REACH</option>
+                                        <option value="STORE_VISITS">STORE VISITS</option>
+                                        <option value="VIDEO_VIEWS">VIDEO VIEWS</option>
+                                    </select>
                                 @else
-
 
                                     <select name="goal" class="form-control mt-2">
                                         <option selected value="">Choose Goal ...</option>
@@ -231,16 +228,68 @@
                                 @endif
                             </p>
 
+
+                            <p class="mt-3">
+                                Geo Location Country:
+                                <select class="form-control mt-2 js-example-basic-multiple" name="countries[]"
+                                        multiple="multiple">
+                                    @foreach($country->data as $con)
+                                        <option value="{{$con->country_code}}">{{$con->name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+
+                            <p class="mt-3">
+                                Geo Location City:
+                                <select id="search_city" class="form-control mt-2 js-example-basic-multiple city"
+                                        name="city[]" multiple="multiple">
+
+                                </select>
+                            </p>
+
+
+                            <p class="mt-3">
+                                Interests:
+                                <select id="interest" class="form-control mt-2 js-example-basic-multiple"
+                                        name="interest[]" multiple="multiple">
+
+                                </select>
+                            </p>
+
+                            <p class="mt-3">
+                                Demographics:
+                                <select  class="form-control mt-2 js-example-basic-multiple"
+                                        name="demo[]" multiple="multiple">
+                                    @foreach($demographics->data as $demo)
+                                        <option value="{{$demo->id}}{{','}}{{$demo->name}}">{{$demo->name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+
+
+                            <p class="mt-3">
+                                Behaviours:
+                                <select  class="form-control mt-2 js-example-basic-multiple"
+                                        name="behaviour[]" multiple="multiple">
+                                    @foreach($behaviour->data as $beh)
+                                        <option value="{{$beh->id}}{{','}}{{$beh->name}}">{{$beh->name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+
+                            <p class="mt-3">
+                                Radius <span id="radius">10 miles</span>:
+                                <input type="range" id="change_radius" name="radius" value="10">
+                            </p>
+
                         </div>
                         <div class="tab">
                             <h3 class="text-center step-heading mx-auto">Step: 2</h3>
 
 
-
-
                             <p class="my-3">
                                 Campaign Title
-                                <input type="text" name="title" placeholder="Campaign Title" >
+                                <input type="text" name="title" placeholder="Campaign Title">
                             </p>
 
 
@@ -248,16 +297,17 @@
                                 Audience:
                                 <select class="form-control mt-2" name="age">
                                     <option selected value="">Age Limit</option>
-                                    <option value="10 to 18">10 to 18</option>
                                     <option value="18 to 25">18 to 25</option>
-                                    <option value="25 to 50">25 to 50</option>
-                                    <option value="51 to 200">50+</option>
+                                    <option value="26 to 35">26 to 35</option>
+                                    <option value="36 to 45">36 to 45</option>
+                                    <option value="46 to 55">46 to 55</option>
+                                    <option value="56 to 100">56+</option>
                                 </select>
                                 <select class="form-control mt-2" name="gender">
                                     <option selected value="">Gender</option>
                                     <option value="1">Male</option>
-                                    <option value="0">Female</option>
-                                    <option>Both</option>
+                                    <option value="2">Female</option>
+                                    <option value="0">Both</option>
                                 </select>
                             </p>
 
@@ -304,7 +354,68 @@
                             </div>
                             <div class="button-feilds">
 
-                                <input placeholder="Button 1" value="Action" class="preview_1 text1_btn mb-1" name="btn[]">
+                                <select name="btn[]" id="" class="preview_1 form-control text1_btn mb-2">
+                                    <option value="BOOK_TRAVEL" selected>BOOK TRAVEL</option>
+                                    <option value="CONTACT_US">CONTACT US</option>
+                                    <option value="DONATE">DONATE</option>
+                                    <option value="DONATE_NOW">DONATE NOW</option>
+                                    <option value="DOWNLOAD">DOWNLOAD</option>
+                                    <option value="GET_DIRECTIONS">GET DIRECTIONS</option>
+                                    <option value="GO_LIVE">GO LIVE</option>
+                                    <option value="INTERESTED">INTERESTED</option>
+                                    <option value="LEARN_MORE">LEARN MORE</option>
+                                    <option value="LIKE_PAGE">LIKE PAGE</option>
+                                    <option value="MESSAGE_PAGE">MESSAGE PAGE</option>
+                                    <option value="SAVE">SAVE</option>
+                                    <option value="SEND_TIP">SEND TIP</option>
+                                    <option value="SHOP_NOW">SHOP NOW</option>
+                                    <option value="SIGN_UP">SIGN UP</option>
+                                    <option value="VIEW_INSTAGRAM_PROFILE">VIEW INSTAGRAM PROFILE</option>
+                                    <option value="INSTAGRAM_MESSAGE">INSTAGRAM MESSAGE</option>
+                                    <option value="LOYALTY_LEARN_MORE">LOYALTY LEARN MORE</option>
+                                    <option value="PURCHASE_GIFT_CARDS">PURCHASE GIFT CARDS</option>
+                                    <option value="PAY_TO_ACCESS">PAY TO ACCESS</option>
+                                    <option value="SEE_MORE">SEE MORE</option>
+                                    <option value="TRY_IN_CAMERA">TRY IN CAMERA</option>
+                                    <option value="WHATSAPP_LINK">WHATSAPP LINK</option>
+                                    <option value="GET_MOBILE_APP">GET MOBILE APP</option>
+                                    <option value="INSTALL_MOBILE_APP">INSTALL MOBILE APP</option>
+                                    <option value="USE_MOBILE_APP">USE_MOBILE APP</option>
+                                    <option value="INSTALL_APP">INSTALL APP</option>
+                                    <option value="USE_APP">USE APP</option>
+                                    <option value="PLAY_GAME">PLAY GAME</option>
+                                    <option value="WATCH_VIDEO">WATCH VIDEO</option>
+                                    <option value="WATCH_MORE">WATCH MORE</option>
+                                    <option value="OPEN_LINK">OPEN LINK</option>
+                                    <option value="NO_BUTTON">NO BUTTON</option>
+                                    <option value="LISTEN_MUSIC">LISTEN MUSIC</option>
+                                    <option value="MOBILE_DOWNLOAD">MOBILE DOWNLOAD</option>
+                                    <option value="GET_OFFER">GET OFFER</option>
+                                    <option value="GET_OFFER_VIEW">GET OFFER VIEW</option>
+                                    <option value="BUY_NOW">BUY NOW</option>
+                                    <option value="BUY_TICKETS">BUY TICKETS</option>
+                                    <option value="UPDATE_APP">UPDATE APP</option>
+                                    <option value="BET_NOW">BET NOW</option>
+                                    <option value="ADD_TO_CART">ADD TO CART</option>
+                                    <option value="ORDER_NOW">ORDER NOW</option>
+                                    <option value="SELL_NOW">SELL NOW</option>
+                                    <option value="GET_SHOWTIMES">GET SHOWTIMES</option>
+                                    <option value="LISTEN_NOW">LISTEN NOW</option>
+                                    <option value="GET_EVENT_TICKETS">GET EVENT TICKETS</option>
+                                    <option value="SEARCH_MORE">SEARCH MORE</option>
+                                    <option value="PRE_REGISTER">PRE REGISTER</option>
+                                    <option value="SWIPE_UP_PRODUCT">SWIPE UP PRODUCT</option>
+                                    <option value="SWIPE_UP_SHOP">SWIPE UP SHOP</option>
+                                    <option value="PLAY_GAME_ON_FACEBOOK">PLAY GAME ON FACEBOOK</option>
+                                    <option value="CALL">CALL</option>
+                                    <option value="MISSED_CALL">MISSED CALL</option>
+                                    <option value="CALL_NOW">CALL NOW</option>
+                                    <option value="APPLY_NOW">APPLY NOW</option>
+                                    <option value="TRY_IT">TRY IT</option>
+
+                                </select>
+{{--                                <input placeholder="Button 1" value="Action" class="preview_1 text1_btn mb-1"--}}
+{{--                                       name="btn[]">--}}
 
                                 <input placeholder="URL 1" name="url[]">
 
@@ -409,7 +520,9 @@
 
     </section>
 
+@endsection
 
+@section('js')
     <script src="{{ asset('js/dropzone.js') }}"></script>
     <script src="{{ asset('js/dropzone.min.js') }}"></script>
 
@@ -458,12 +571,15 @@
         }
 
         function validateForm() {
+            //   ev.paymentMethod.id+'_secret_'+clientSecret,
+
+
             // This function deals with validation of the form fields
-            var x, y,z, i, valid = true;
+            var x, y, z, i, valid = true;
             x = document.getElementsByClassName("tab");
             y = x[currentTab].getElementsByTagName(["input"]);
             z = x[currentTab].getElementsByTagName(["select"]);
-        //    alert(z.length)
+            //    alert(z.length)
             // A loop that checks every input field in the current tab:
             for (i = 0; i < y.length; i++) {
                 // If a field is empty...
@@ -472,24 +588,24 @@
                     y[i].className += " invalid";
                     // and set the current valid status to false
                     valid = false;
-                }
-                else {
+                } else {
                     y[i].classList.remove("invalid");
                 }
             }
 
             for (i = 0; i < z.length; i++) {
+                if (!z[i].classList.contains('js-example-basic-multiple')) {
+                    // If a field is empty...
+                    if (z[i].value == "") {
+                        // add an "invalid" class to the field:
+                        z[i].className += " invalid";
+                        // and set the current valid status to false
+                        valid = false;
+                    } else {
+                        z[i].classList.remove("invalid");
+                    }
+                }
 
-                // If a field is empty...
-                if (z[i].value == "") {
-                    // add an "invalid" class to the field:
-                    z[i].className += " invalid";
-                    // and set the current valid status to false
-                    valid = false;
-                }
-                else {
-                    z[i].classList.remove("invalid");
-                }
             }
             // If the valid status is true, mark the step as finished and valid:
             if (valid) {
@@ -508,14 +624,77 @@
             x[n].className += " active";
         }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // jQuery.noConflict();
+            $('.js-example-basic-multiple').select2();
+
+            // $(document).on('keyup','.select2-search__field',function () {
+            //    alert(1);
+            // });
+
+
+            document.querySelector("#search_city")
+                .nextSibling.querySelector(".select2-search__field")
+                .addEventListener("keyup", function () {
+                    var city = $(this).val();
+
+                    $.ajax({
+                        type: 'get',
+                        url: '{{url("search/city")}}',
+                        data: {'city': city},
+                        async: false,
+
+                        success: function (response) {
+//$('#search_city').empty();
+
+                            for (i = 1; i < response.data.length; i++) {
+                                $('#search_city').append(`<option value="${response.data[i].key}" >${response.data[i].name} ${response.data[i].region} , ${response.data[i].country_name}</option>`);
+                            }
+
+
+                        }
+                    });
+                });
+
+
+            document.querySelector("#interest")
+                .nextSibling.querySelector(".select2-search__field")
+                .addEventListener("keyup", function () {
+                    var interest = $(this).val();
+
+                    $.ajax({
+                        type: 'get',
+                        url: '{{url("search/interest")}}',
+                        data: {'interest': interest},
+                        async: false,
+
+                        success: function (response) {
+//$('#search_city').empty();
+
+                            for (i = 1; i < response.data.length; i++) {
+                                $('#interest').append(`<option value="${response.data[i].id},${response.data[i].name}">${response.data[i].name}</option>`);
+                            }
+
+
+                        }
+                    });
+                });
+
+            $('#change_radius').change(function () {
+                var val = $(this).val();
+                $('#radius').empty().text(val + ' miles')
+                // $(this).val(50);
+            });
+        });
+    </script>
     <script>
 
         function uplaodImage() {
 
-
+            //      jQuery.noConflict();
             $.ajax({
                 type: 'get',
                 url: "{{url('get/images')}}",
@@ -557,14 +736,73 @@
                 );
 
             }
-        })   ;
+        });
 
         var buttonNumber = 1;
         $(".add-button").click(() => {
             if (buttonNumber < 5) {
                 buttonNumber++;
                 $(".button-feilds").append(
-                    ` <input placeholder="button ${buttonNumber}"  name="btn[]" class="mt-3 mb-2">
+                    `  <select name="btn[]" id="" class=" form-control  mb-2 mt-2">
+                                    <option value="BOOK_TRAVEL" selected>BOOK TRAVEL</option>
+                                    <option value="CONTACT_US">CONTACT US</option>
+                                    <option value="DONATE">DONATE</option>
+                                    <option value="DONATE_NOW">DONATE NOW</option>
+                                    <option value="DOWNLOAD">DOWNLOAD</option>
+                                    <option value="GET_DIRECTIONS">GET DIRECTIONS</option>
+                                    <option value="GO_LIVE">GO LIVE</option>
+                                    <option value="INTERESTED">INTERESTED</option>
+                                    <option value="LEARN_MORE">LEARN MORE</option>
+                                    <option value="LIKE_PAGE">LIKE PAGE</option>
+                                    <option value="MESSAGE_PAGE">MESSAGE PAGE</option>
+                                    <option value="SAVE">SAVE</option>
+                                    <option value="SEND_TIP">SEND TIP</option>
+                                    <option value="SHOP_NOW">SHOP NOW</option>
+                                    <option value="SIGN_UP">SIGN UP</option>
+                                    <option value="VIEW_INSTAGRAM_PROFILE">VIEW INSTAGRAM PROFILE</option>
+                                    <option value="INSTAGRAM_MESSAGE">INSTAGRAM MESSAGE</option>
+                                    <option value="LOYALTY_LEARN_MORE">LOYALTY LEARN MORE</option>
+                                    <option value="PURCHASE_GIFT_CARDS">PURCHASE GIFT CARDS</option>
+                                    <option value="PAY_TO_ACCESS">PAY TO ACCESS</option>
+                                    <option value="SEE_MORE">SEE MORE</option>
+                                    <option value="TRY_IN_CAMERA">TRY IN CAMERA</option>
+                                    <option value="WHATSAPP_LINK">WHATSAPP LINK</option>
+                                    <option value="GET_MOBILE_APP">GET MOBILE APP</option>
+                                    <option value="INSTALL_MOBILE_APP">INSTALL MOBILE APP</option>
+                                    <option value="USE_MOBILE_APP">USE_MOBILE APP</option>
+                                    <option value="INSTALL_APP">INSTALL APP</option>
+                                    <option value="USE_APP">USE APP</option>
+                                    <option value="PLAY_GAME">PLAY GAME</option>
+                                    <option value="WATCH_VIDEO">WATCH VIDEO</option>
+                                    <option value="WATCH_MORE">WATCH MORE</option>
+                                    <option value="OPEN_LINK">OPEN LINK</option>
+                                    <option value="NO_BUTTON">NO BUTTON</option>
+                                    <option value="LISTEN_MUSIC">LISTEN MUSIC</option>
+                                    <option value="MOBILE_DOWNLOAD">MOBILE DOWNLOAD</option>
+                                    <option value="GET_OFFER">GET OFFER</option>
+                                    <option value="GET_OFFER_VIEW">GET OFFER VIEW</option>
+                                    <option value="BUY_NOW">BUY NOW</option>
+                                    <option value="BUY_TICKETS">BUY TICKETS</option>
+                                    <option value="UPDATE_APP">UPDATE APP</option>
+                                    <option value="BET_NOW">BET NOW</option>
+                                    <option value="ADD_TO_CART">ADD TO CART</option>
+                                    <option value="ORDER_NOW">ORDER NOW</option>
+                                    <option value="SELL_NOW">SELL NOW</option>
+                                    <option value="GET_SHOWTIMES">GET SHOWTIMES</option>
+                                    <option value="LISTEN_NOW">LISTEN NOW</option>
+                                    <option value="GET_EVENT_TICKETS">GET EVENT TICKETS</option>
+                                    <option value="SEARCH_MORE">SEARCH MORE</option>
+                                    <option value="PRE_REGISTER">PRE REGISTER</option>
+                                    <option value="SWIPE_UP_PRODUCT">SWIPE UP PRODUCT</option>
+                                    <option value="SWIPE_UP_SHOP">SWIPE UP SHOP</option>
+                                    <option value="PLAY_GAME_ON_FACEBOOK">PLAY GAME ON FACEBOOK</option>
+                                    <option value="CALL">CALL</option>
+                                    <option value="MISSED_CALL">MISSED CALL</option>
+                                    <option value="CALL_NOW">CALL NOW</option>
+                                    <option value="APPLY_NOW">APPLY NOW</option>
+                                    <option value="TRY_IT">TRY IT</option>
+
+                                </select>
 
 
 
@@ -576,10 +814,11 @@
 
         var imageNumber = 1;
         $(".image-btn").click(() => {
+            //  jQuery.noConflict();
             $('#exampleModal').modal('show');
         })
 
-        $(document).on('click','.add_img',function () {
+        $(document).on('click', '.add_img', function () {
 
             var img = $(this).attr('img_name');
             var src = $(this).attr('src');
@@ -600,7 +839,6 @@
                 );
 
                 $('#exampleModal').modal('hide');
-
 
 
             }
@@ -632,9 +870,11 @@
 
         });
 
-        $('.preview_1').keyup(function () {
+        $('.preview_1').change(function () {
 
             var btn = $('.text1_btn').val();
+           btn= btn.replace('_',' ');
+           btn= btn.replace('_',' ');
             var head = $('.heading1_btn').val();
             var body = $('.body1_btn').val();
 
@@ -647,4 +887,5 @@
         });
     </script>
 @endsection
+
 

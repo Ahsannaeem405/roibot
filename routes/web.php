@@ -32,6 +32,8 @@ Route::get('index',[UserController::class,'main']);
     Route::get('create_ad/{id}',[UserController::class,'create_ad'])->middleware('facebookToken');
     Route::post('post/add',[\App\Http\Controllers\AdvertisementController::class,'PostAdd'])->middleware('facebookToken');
     Route::post('publish/{id}',[\App\Http\Controllers\AdvertisementController::class,'publish'])->middleware('facebookToken');
+    Route::get('search/city',[\App\Http\Controllers\AdvertisementController::class,'searchCity'])->middleware('facebookToken');
+    Route::get('search/interest',[\App\Http\Controllers\AdvertisementController::class,'searchInterest'])->middleware('facebookToken');
 
     //manage add
     Route::get('manage_view',[\App\Http\Controllers\UserController::class,'ManageAdd'])->middleware('facebookToken');

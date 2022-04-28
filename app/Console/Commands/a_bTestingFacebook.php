@@ -119,9 +119,16 @@ class a_bTestingFacebook extends Command
                         'billing_event' => 'IMPRESSIONS',
                         'optimization_goal' => $advertisement->goal,
                         'targeting' => ['age_min' => intval($advertisement->age[0]), 'age_max' => intval($advertisement->age[1]),
-                            //'behaviors' => ['id' => 6002714895372, 'name' => 'All travelers'],
-                            'genders' => [1,2],
-                            'geo_locations' => ['countries' => ['US']]
+                            'behaviors' => $advertisement->behaviour,
+
+                            'genders' => [$advertisement->gender],
+                            'geo_locations' => [
+                                'countries' => $advertisement->countries,
+                                'cities' => $advertisement->cities,
+
+                            ],
+                            'interests' => $advertisement->interest,
+                            'life_events' => $advertisement->demo,
                         ],
                         'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
@@ -135,13 +142,17 @@ class a_bTestingFacebook extends Command
                         //creating addCreative
 
                         $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adcreatives', [
-                            'name' => $heading->data,
-                            'body'=>$body->data,
+
+                            //'body'=>$body->data,
                             'object_story_spec' => [
                                 'link_data' => [
+                                    'name' => $heading->data,
                                     'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
                                     'link' => $button->url,
-                                    'message' => $button->data,
+                                    'message' => $body->data,
+                                    "call_to_action"=>[
+                                        'type'=>$button->data,
+                                    ]
 
                                 ],
                                 'page_id' => $facebook['page_id']
@@ -292,9 +303,16 @@ class a_bTestingFacebook extends Command
                         'billing_event' => 'IMPRESSIONS',
                         'optimization_goal' => $advertisement->goal,
                         'targeting' => ['age_min' => intval($advertisement->age[0]), 'age_max' => intval($advertisement->age[1]),
-                            //'behaviors' => ['id' => 6002714895372, 'name' => 'All travelers'],
-                            'genders' => [1,2],
-                            'geo_locations' => ['countries' => ['US']]
+                            'behaviors' => $advertisement->behaviour,
+
+                            'genders' => [$advertisement->gender],
+                            'geo_locations' => [
+                                'countries' => $advertisement->countries,
+                                'cities' => $advertisement->cities,
+
+                            ],
+                            'interests' => $advertisement->interest,
+                            'life_events' => $advertisement->demo,
                         ],
                         'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
@@ -312,9 +330,13 @@ class a_bTestingFacebook extends Command
                             'body'=>$body->data,
                             'object_story_spec' => [
                                 'link_data' => [
+                                    'name' => $heading->data,
                                     'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
                                     'link' => $button->url,
-                                    'message' => $button->data,
+                                    'message' => $body->data,
+                                    "call_to_action"=>[
+                                        'type'=>$button->data,
+                                    ]
 
                                 ],
                                 'page_id' => $facebook['page_id']
@@ -463,9 +485,16 @@ class a_bTestingFacebook extends Command
                         'billing_event' => 'IMPRESSIONS',
                         'optimization_goal' => $advertisement->goal,
                         'targeting' => ['age_min' => intval($advertisement->age[0]), 'age_max' => intval($advertisement->age[1]),
-                            //'behaviors' => ['id' => 6002714895372, 'name' => 'All travelers'],
-                            'genders' => [1,2],
-                            'geo_locations' => ['countries' => ['US']]
+                            'behaviors' => $advertisement->behaviour,
+
+                            'genders' => [$advertisement->gender],
+                            'geo_locations' => [
+                                'countries' => $advertisement->countries,
+                                'cities' => $advertisement->cities,
+
+                            ],
+                            'interests' => $advertisement->interest,
+                            'life_events' => $advertisement->demo,
                         ],
                         'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
@@ -483,9 +512,13 @@ class a_bTestingFacebook extends Command
                             'body'=>$body->data,
                             'object_story_spec' => [
                                 'link_data' => [
+                                    'name' => $heading->data,
                                     'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
                                     'link' => $button->url,
-                                    'message' => $button->data,
+                                    'message' => $body->data,
+                                    "call_to_action"=>[
+                                        'type'=>$button->data,
+                                    ]
 
                                 ],
                                 'page_id' => $facebook['page_id']
@@ -633,9 +666,16 @@ class a_bTestingFacebook extends Command
                     'billing_event' => 'IMPRESSIONS',
                     'optimization_goal' => $advertisement->goal,
                     'targeting' => ['age_min' => intval($advertisement->age[0]), 'age_max' => intval($advertisement->age[1]),
-                        //'behaviors' => ['id' => 6002714895372, 'name' => 'All travelers'],
-                        'genders' => [1,2],
-                        'geo_locations' => ['countries' => ['US']]
+                        'behaviors' => $advertisement->behaviour,
+
+                        'genders' => [$advertisement->gender],
+                        'geo_locations' => [
+                            'countries' => $advertisement->countries,
+                            'cities' => $advertisement->cities,
+
+                        ],
+                        'interests' => $advertisement->interest,
+                        'life_events' => $advertisement->demo,
                     ],
                     'status' => env('FB_STATUS'),
                     'access_token' => $facebook['fb_token'],
@@ -653,9 +693,13 @@ class a_bTestingFacebook extends Command
                         'body'=>$body->data,
                         'object_story_spec' => [
                             'link_data' => [
+                                'name' => $heading->data,
                                 'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
                                 'link' => $button->url,
-                                'message' => $button->data,
+                                'message' => $body->data,
+                                "call_to_action"=>[
+                                    'type'=>$button->data,
+                                ]
 
                             ],
                             'page_id' => $facebook['page_id']

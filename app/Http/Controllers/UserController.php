@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-use credientials;
+    use credientials;
 
     public function profile()
     {
-        $user=\Auth::user();
+        $user = \Auth::user();
 //        $url=\Http::get('https://graph.facebook.com/debug_token?input_token='.$user->fb_token.'&access_token='.$user->fb_token.'');
 //   dd(json_decode($url->body()));
-        return view('profile',compact('user'));
+        return view('profile', compact('user'));
     }
 
     public function profileUpdate(Request $request)
@@ -43,7 +43,7 @@ use credientials;
                     'password' => Hash::make($request->password)
                 ])->save();
 
-               // return back()->with('success', 'Password Update successfully');
+                // return back()->with('success', 'Password Update successfully');
 
             } else {
 
@@ -52,16 +52,15 @@ use credientials;
             }
 
 
-
         }
 
-        $user->name=$request->name;
+        $user->name = $request->name;
         if ($request->hasfile('profile')) {
             $file = $request->file('profile');
             $extension = $file->getClientOriginalExtension(); // getting image extension
             $filename = time() . '.' . $extension;
             $file->move('images/profile/', $filename);
-            $user->profile=$filename;
+            $user->profile = $filename;
         }
 
 
@@ -73,47 +72,93 @@ use credientials;
     {
 
 
-        $url ='https://graph.facebook.com/v13.0/oauth/access_token?grant_type=fb_exchange_token&client_id='.$request->fb_client.'&client_secret='. $request->fb_secret.'&fb_exchange_token='.$request->fb_token.'';
-        $api=\Http::get($url);
-      //  dd($url);
+        $url = 'https://graph.facebook.com/v13.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . $request->fb_client . '&client_secret=' . $request->fb_secret . '&fb_exchange_token=' . $request->fb_token . '';
+        $api = \Http::get($url);
+        //  dd($url);
 
-if($api->status()==200)
-{
-    $api=json_decode($api->body());
-
-
-    $user = User::find(\Auth::user()->id);
-    $user->fb_client=$request->fb_client;
-    $user->fb_secret=$request->fb_secret;
-    $user->fb_token=$api->access_token;
-    $user->fb_page=$request->fb_page;
-    $user->fb_account=$request->fb_account;
-
-    $user->update();
-    return back()->with('success', 'Profile updated successfully');
-
-}
-else
-{
-    $api=json_decode($api->body());
-    return back()->with('error', $api->error->message);
-}
+        if ($api->status() == 200) {
+            $api = json_decode($api->body());
 
 
+            $user = User::find(\Auth::user()->id);
+            $user->fb_client = $request->fb_client;
+            $user->fb_secret = $request->fb_secret;
+            $user->fb_token = $api->access_token;
+            $user->fb_page = $request->fb_page;
+            $user->fb_account = $request->fb_account;
 
+            $user->update();
+            return back()->with('success', 'Profile updated successfully');
+
+        } else {
+            $api = json_decode($api->body());
+            return back()->with('error', $api->error->message);
+        }
 
 
     }
+
     function create_ad($id)
     {
-        if ($id==1)
-        {
-//$this->refreshFb();
-        }
+        $facebook = config()->get('services.facebook');
 
+        $country = \Http::get('https://graph.facebook.com/v13.0/search', [
+            'location_types' => ["country"],
+            'type' => 'adgeolocation',
+            'limit' => 300,
+            //'q'=>'united',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+        $country = json_decode($country);
+
+        $city = \Http::get('https://graph.facebook.com/v13.0/search', [
+            'location_types' => ["city"],
+            'type' => 'adgeolocation',
+            'limit' => 500,
+            'q' => 'Lahore',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+
+        $interest = \Http::get('https://graph.facebook.com/v13.0/search', [
+
+            'type' => 'adinterest',
+            //   'limit'=>500,
+            'q' => 'movie',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+
+        $behaviour = \Http::get('https://graph.facebook.com/v13.0/search', [
+
+            'type' => 'adTargetingCategory',
+            //   'limit'=>500,
+            'class'=>'behaviors',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+
+        $behaviour=json_decode($behaviour->body());
+
+        $demographics = \Http::get('https://graph.facebook.com/v13.0/search', [
+
+            'type' => 'adTargetingCategory',
+               'limit'=>500,
+            'class'=>'demographics',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+        $demographics=json_decode($demographics->body());
+      //  dd($demographics);
+
+      //   dd(json_decode($city->body()));
+//dd(json_decode($demographics->body()));
+
+//dd($country);
         $advert = $id;
-        $gallary=mediaGallary::where('user_id',\Auth::user()->id)->OrderBY('id','DESC')->get();
-        return view('create_add', compact('advert','gallary'));
+        $gallary = mediaGallary::where('user_id', \Auth::user()->id)->OrderBY('id', 'DESC')->get();
+        return view('create_add', compact('advert', 'gallary', 'country','behaviour','demographics'));
     }
 
     public function ManageAdd()
@@ -134,18 +179,18 @@ else
         return view('manage_detail', compact('compain'));
     }
 
-    public function insightDetail($id,$add)
+    public function insightDetail($id, $add)
     {
 
         $compain = Advertisement::where('id', $id)->orderBy('id', 'DESC')->first();
-        $add=AdvertisementAds::find($add);
-     //   dd($add);
+        $add = AdvertisementAds::find($add);
+        //   dd($add);
 
-        $facebook=config()->get('services.facebook');
+        $facebook = config()->get('services.facebook');
         //$insight = \Http::get('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/insights', [
 
 
-        return view('insights_detail', compact('compain','add'));
+        return view('insights_detail', compact('compain', 'add'));
     }
 
     public function insightView()
@@ -173,26 +218,24 @@ else
 
     public function getImages()
     {
-        $gallary=mediaGallary::where('user_id',\Auth::user()->id)->OrderBY('id','DESC')->get();
+        $gallary = mediaGallary::where('user_id', \Auth::user()->id)->OrderBY('id', 'DESC')->get();
 
-       return view('getImage',compact('gallary'));
+        return view('getImage', compact('gallary'));
     }
 
     public function mediaGallery()
     {
-        $gallary=mediaGallary::where('user_id',\Auth::user()->id)->OrderBY('id','DESC')->get();
-        return view('mediaGallery',compact('gallary'));
+        $gallary = mediaGallary::where('user_id', \Auth::user()->id)->OrderBY('id', 'DESC')->get();
+        return view('mediaGallery', compact('gallary'));
     }
 
     public function galleryDelete(Request $request)
     {
-        if($request->check)
-        {
-            mediaGallary::whereIn('id',$request->check)->delete();
-            return back()->with('success','Record deleted successfully');
-        }
-        else{
-            return back()->with('error','Please select image to delete');
+        if ($request->check) {
+            mediaGallary::whereIn('id', $request->check)->delete();
+            return back()->with('success', 'Record deleted successfully');
+        } else {
+            return back()->with('error', 'Please select image to delete');
         }
 
     }

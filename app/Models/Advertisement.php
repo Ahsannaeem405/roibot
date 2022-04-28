@@ -22,4 +22,53 @@ class Advertisement extends Model
     {
         return explode('to',$val);
     }
+
+    public function getCitiesAttribute($val)
+    {
+        return json_decode($val);
+    }
+
+    public function getCountriesAttribute($val)
+    {
+        return json_decode($val);
+    }
+    public function getInterestAttribute($val)
+    {
+        return json_decode($val);
+    }
+    public function getDemoAttribute($val)
+    {
+        return json_decode($val);
+    }
+
+    public function getBehaviourAttribute($val)
+    {
+        return json_decode($val);
+    }
+
+
+
+
+//    public function setCitiesAttribute($val)
+//    {
+//        return json_encode($val);
+//    }
+//
+//    public function setCountriesAttribute($val)
+//    {
+//        return json_encode($val);
+//    }
+//    public function setInterestAttribute($val)
+//    {
+//        return json_encode($val);
+//    }
+//    public function setDemoAttribute($val)
+//    {
+//        return json_encode($val);
+//    }
+//
+//    public function setBehaviourAttribute($val)
+//    {
+//        return json_encode($val);
+//    }
 }
