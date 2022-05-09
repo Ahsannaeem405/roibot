@@ -17,20 +17,8 @@ class AdvertisementController extends Controller
     {
         $facebook = config()->get('services.facebook');
 
-//        $addImage = \Http::get('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adimages', [
-//
-//         //   'google.jpg' => '@images',
-//            'access_token' => $facebook['fb_token'],
-//        ]);
 
-//
-//        $image = new AdImage(null, 'act_' . $facebook['fb_account'] . '');
-//
-//        $image->{AdImageFields::FILENAME} = 'images/google.jpg';
-//
-//        $image->create();
 
-//     dd(json_decode($addImage->body()));
 
         if (!$request->countries) {
             return back()->with('error', 'Please add a Country');
@@ -43,7 +31,7 @@ class AdvertisementController extends Controller
 
 
         $i = 0;
-        $img1 = null;
+        $img1 = $hash1=null;
         $radius = $request->radius;
         $cities = array();
         $countries = array();
@@ -179,12 +167,42 @@ class AdvertisementController extends Controller
             $advertisementDetail = new AdvertisementDetail();
 
 
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adimages',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('filename'=> new \CURLFile('images/gallary/'.$image.'')),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer '. $facebook['fb_token'].''
+                ),
+            ));
+
+
+            $addImage =json_decode(curl_exec($curl));
+
+            curl_close($curl);
+
+//dd($addImage,$image);
+
             if ($i == 0) {
                 $img1 = $image;
+
+                $img1 =$image;
+                $hash1=$addImage->images->$image->hash;
+
                 $i = 1;
             }
 
             $advertisementDetail->data = $image;
+            $advertisementDetail->hash = $addImage->images->$image->hash;
             $advertisementDetail->advertisements_id = $advertisement->id;
             $advertisementDetail->type = 'image';
             $advertisementDetail->save();
@@ -241,13 +259,12 @@ class AdvertisementController extends Controller
                         'object_story_spec' => [
                             'link_data' => [
                                 'name' => $heading,
-                                'image_hash' => md5_file(('images/gallary/'.$img1.'')),
+                                'image_hash' => $hash1,
                                 'link' => $request->url[0],
                                 'message' => $request->body[0],
                                 "call_to_action"=>[
                                     'type'=>$request->btn[0],
                                 ]
-
                             ],
                             'page_id' => $facebook['page_id']
                         ],
@@ -285,7 +302,7 @@ class AdvertisementController extends Controller
 
                         $this->deleteCompain($advertisement->id);
                         $adCreative = json_decode($adCreative->body());
-                        // dd($adCreative);
+                         dd($adCreative);
                         return back()->with('error', isset($adCreative->error->error_user_msg) ? $adCreative->error->error_user_msg : $adCreative->error->message);
                     }
 

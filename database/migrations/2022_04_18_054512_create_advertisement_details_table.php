@@ -19,6 +19,7 @@ class CreateAdvertisementDetailsTable extends Migration
             $table->text('data')->nullable();
             $table->string('type')->nullable();
             $table->text('url')->nullable();
+            $table->text('hash')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
         });

@@ -147,7 +147,7 @@ class a_bTestingFacebook extends Command
                             'object_story_spec' => [
                                 'link_data' => [
                                     'name' => $heading->data,
-                                    'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
+                                    'image_hash' => $image->hash,
                                     'link' => $button->url,
                                     'message' => $body->data,
                                     "call_to_action"=>[
@@ -331,7 +331,7 @@ class a_bTestingFacebook extends Command
                             'object_story_spec' => [
                                 'link_data' => [
                                     'name' => $heading->data,
-                                    'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
+                                    'image_hash' => $image->hash,
                                     'link' => $button->url,
                                     'message' => $body->data,
                                     "call_to_action"=>[
@@ -513,7 +513,7 @@ class a_bTestingFacebook extends Command
                             'object_story_spec' => [
                                 'link_data' => [
                                     'name' => $heading->data,
-                                    'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
+                                    'image_hash' => $image->hash,
                                     'link' => $button->url,
                                     'message' => $body->data,
                                     "call_to_action"=>[
@@ -694,7 +694,7 @@ class a_bTestingFacebook extends Command
                         'object_story_spec' => [
                             'link_data' => [
                                 'name' => $heading->data,
-                                'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
+                                'image_hash' => $image->hash,
                                 'link' => $button->url,
                                 'message' => $body->data,
                                 "call_to_action"=>[
