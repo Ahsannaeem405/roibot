@@ -60,25 +60,25 @@
                         <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Clicks</h5>
-                                <p class="mb-0">5</p>
+                                <p class="mb-0">{{$compain->sum('clicks')}}</p>
                             </div>
                         </div>
                         <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Impressions</h5>
-                                <p class="mb-0">5</p>
+                                <p class="mb-0">{{$compain->sum('impressions')}}</p>
                             </div>
                         </div>
                         <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>CPC</h5>
-                                <p class="mb-0">5</p>
+                                <p class="mb-0">{{$compain->sum('cpc')}}</p>
                             </div>
                         </div>
                         <div class="col-md-3 col-12 mt-2">
                             <div class="bg-insight text-center">
                                 <h5>Conversation</h5>
-                                <p class="mb-0">5</p>
+                                <p class="mb-0">{{$compain->sum('conversation')}}</p>
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,9 @@
                         </div>
                         @foreach($compain as $com)
 
+
                             @if($com->type==1)
+
                                 <div class="col-md-4 col-12 mt-3">
                                     <a href="{{url('manage_detail/'.$com->id.'')}}" class="a_card">
 
@@ -102,21 +104,21 @@
                                                     <h5 class="mb-0">{{Auth::user()->name}}</h5>
                                                     <p class="gray mb-0"> Sponsored <i class="fas fa-globe"></i></p>
 
-                                                    <p class="text-justify">{{$com->activeAdd[0]->heading}} </p>
+                                                    <p class="text-justify">{{isset($com->activeAdd[0]->heading) ? $com->activeAdd[0]->heading : null}} </p>
                                                 </div>
                                             </div>
                                             <div class="pt-0 pb-0 text-center">
 
-                                                <img src="{{asset('images/gallary/'.$com->activeAdd[0]->image.'')}}" class="img-fluid" alt="">
+                                                <img src="{{isset($com->activeAdd[0]->image) ? asset('images/gallary/'.$com->activeAdd[0]->image.'') : null}}" class="img-fluid" alt="">
 
                                             </div>
                                             <div class="bg_gray d-flex p-2 justify-content-between">
                                                 <div>
                                                     {{--                                    <h6 class="gray mb-0">Demo</h6>--}}
-                                                    <p class="text-black-50">{{$com->activeAdd[0]->body}}</p>
+                                                    <p class="text-black-50">{{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <a href="{{$com->activeAdd[0]->url}}" target="_blank" class="btn btn-secondary learn">{{$com->activeAdd[0]->button}}</a>
+                                                    <a href="{{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}}" target="_blank" class="btn btn-secondary learn">{{isset($com->activeAdd[0]->button) ? $com->activeAdd[0]->button : null}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -136,16 +138,16 @@
 
                                             <div class="position-relative text-center">
 
-                                                <img src="{{asset('images/gallary/'.$com->activeAdd[0]->image.'')}}" class="img-fluid" alt="">
+                                                <img src="{{isset($com->activeAdd[0]->image) ? asset('images/gallary/'.$com->activeAdd[0]->image.'') : null}}" class="img-fluid" alt="">
 
-                                                <h4 class="position-absolute heading_fb text-white">{{$com->activeAdd[0]->heading}}</h4>
+                                                <h4 class="position-absolute heading_fb text-white">{{isset($com->activeAdd[0]->heading) ? $com->activeAdd[0]->heading : null}}</h4>
 
                                             </div>
                                             <div class="p-3 d-flex justify-content-between ">
 
 
-                                                <p>{{$com->activeAdd[0]->body}}</p>
-                                                <a href="{{$com->activeAdd[0]->url}}" target="_blank" class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
+                                                <p>{{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
+                                                <a href="{{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}}" target="_blank" class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
                                             </div>
 
                                         </div>

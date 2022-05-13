@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
+use App\Models\Behaviour;
+use App\Models\Demographics;
+use App\Models\Intrests;
 use App\Models\mediaGallary;
 use App\Models\User;
 use App\Traits\credientials;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -116,49 +120,25 @@ class UserController extends Controller
             'location_types' => ["city"],
             'type' => 'adgeolocation',
             'limit' => 500,
-            'q' => 'Lahore',
+            'q' => 'uk',
             'access_token' => $facebook['fb_token'],
 
         ]);
+        $city = json_decode($city->body());
 
-        $interest = \Http::get('https://graph.facebook.com/v13.0/search', [
+        $intrests = Intrests::where('parent', 0)->get();
+//dd($intrests[0]->child[0]->child);
 
-            'type' => 'adinterest',
-            //   'limit'=>500,
-            'q' => 'movie',
-            'access_token' => $facebook['fb_token'],
+        $behaviour = Behaviour::where('parent', 0)->get();
 
-        ]);
 
-        $behaviour = \Http::get('https://graph.facebook.com/v13.0/search', [
+        $demographics = Demographics::where('parent', 0)->get();
+        //  dd($demographics);
 
-            'type' => 'adTargetingCategory',
-            //   'limit'=>500,
-            'class'=>'behaviors',
-            'access_token' => $facebook['fb_token'],
 
-        ]);
-
-        $behaviour=json_decode($behaviour->body());
-
-        $demographics = \Http::get('https://graph.facebook.com/v13.0/search', [
-
-            'type' => 'adTargetingCategory',
-               'limit'=>500,
-            'class'=>'demographics',
-            'access_token' => $facebook['fb_token'],
-
-        ]);
-        $demographics=json_decode($demographics->body());
-      //  dd($demographics);
-
-      //   dd(json_decode($city->body()));
-//dd(json_decode($demographics->body()));
-
-//dd($country);
         $advert = $id;
         $gallary = mediaGallary::where('user_id', \Auth::user()->id)->OrderBY('id', 'DESC')->get();
-        return view('create_add', compact('advert', 'gallary', 'country','behaviour','demographics'));
+        return view('create_add', compact('advert', 'city', 'gallary', 'country', 'behaviour', 'intrests', 'demographics'));
     }
 
     public function ManageAdd()
@@ -169,7 +149,18 @@ class UserController extends Controller
 
     public function main()
     {
-        $compain = Advertisement::where('user_id', \Auth::user()->id)->orderBy('id', 'DESC')->get();
+        $compain = Advertisement::
+           whereHas('activeAdd')->
+            withSum('activeAdd as cpc', 'cpc')
+            ->withSum('activeAdd as clicks', 'clicks')
+            ->withSum('activeAdd as impressions', 'impressions')
+            ->withSum('activeAdd as conversation', 'conversation')
+            ->withSum('activeAdd as total', 'total')
+            ->where('user_id', \Auth::user()->id)->orderBy('total', 'DESC')->take(5)->get();
+
+
+        //dd($compain);
+
         return view('index', compact('compain'));
     }
 
@@ -187,15 +178,25 @@ class UserController extends Controller
         //   dd($add);
 
         $facebook = config()->get('services.facebook');
-        //$insight = \Http::get('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/insights', [
+        $addData = \Http::get('https://graph.facebook.com/v13.0/' . $add->addSet_id . '/ads', [
+
+            'fields' => 'status,name',
+            'access_token' => $facebook['fb_token'],
+        ]);
+        $data = json_decode($addData->body());
+
+        $facebook = config()->get('services.facebook');
 
 
-        return view('insights_detail', compact('compain', 'add'));
+
+        return view('insights_detail', compact('compain', 'add','data'));
     }
 
     public function insightView()
     {
-        $compain = Advertisement::where('user_id', \Auth::user()->id)->orderBy('id', 'DESC')->get();
+        $compain = Advertisement::
+        whereHas('activeAdd')->
+        where('user_id', \Auth::user()->id)->orderBy('id', 'DESC')->get();
         return view('insight_view', compact('compain'));
     }
 

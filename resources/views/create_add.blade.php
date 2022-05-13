@@ -1,5 +1,7 @@
 @extends('layout.mainlayout')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
 
 <style>
     * {
@@ -49,6 +51,9 @@
 
     h1 {
         text-align: center;
+    }
+    .select2-container{
+        width: 100% !important;
     }
 
     input {
@@ -135,6 +140,33 @@
         box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.3);
     }
 
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: blue !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        background-color: #c4c9d9 !important;
+    }
+
+    .card {
+        width: auto !important;
+        box-shadow: none !important;
+        border-radius: 0px !important;
+        margin: 15px auto !important;
+
+    }
+    .card:hover{
+        transform: none !important;
+    }
+
+    .btn {
+        box-shadow: none !important;
+    }
+    .slider-box {width: 100%; margin: 25px auto}
+
+
+    .slider {margin: 25px 0}
+
 </style>
 @section('content')
 
@@ -193,8 +225,66 @@
 
                         <input type="hidden" name="advert_type" class="text" value="{{$advert}}">
                         <!-- One "tab" for each step in the form: -->
-                        <div class="tab mt-4">
+
+                        <div class="tab">
                             <h3 class="text-center step-heading mx-auto">Step: 1</h3>
+
+
+
+
+                            <p class="my-3">
+                                Campaign Title
+                                <input type="text" class="my-2" name="title" placeholder="Campaign Title">
+                            </p>
+
+
+                            <p class="my-3">
+
+                            <div class="slider-box">
+                                <label style="border: none" for="priceRange">Audience:</label>
+                                <input type="text" name="age" style="border: none !important;text-align: center;font-size: 30px" id="priceRange" readonly>
+                                <div id="price-range"  class="slider"></div>
+                            </div>
+
+
+
+                            <select class="form-control mt-2" name="gender">
+
+                                <option selected value="1">Male</option>
+                                <option value="2">Female</option>
+                                <option value="0">Both</option>
+                            </select>
+                            </p>
+
+                            <p class="my-3">
+                                Budget:
+
+                                <input placeholder="Per Day" name="perday_budget"
+                                       class="mt-2 perday_budget" type="number">
+
+                            </p>
+
+                            <p class="my-3">
+                                Start Date:
+
+                                <input name="start_date"
+                                       class="mt-2 " type="datetime-local">
+
+                            </p>
+
+                            <p class="my-3">
+                                End Date:
+
+                                <input name="end_date"
+                                       class="mt-2 " type="datetime-local">
+
+                            </p>
+
+
+
+                        </div>
+                        <div class="tab mt-4">
+                            <h3 class="text-center step-heading mx-auto">Step: 2</h3>
                             <p>
                                 Select Advertisement Goals:
                                 @if($advert==1)
@@ -229,9 +319,9 @@
                             </p>
 
 
-                            <p class="mt-3">
+                            <p class="mt-3 w-100">
                                 Geo Location Country:
-                                <select class="form-control mt-2 js-example-basic-multiple" name="countries[]"
+                                <select class="form-control  mt-2 js-example-basic-multiple w-100" name="countries[]"
                                         multiple="multiple">
                                     @foreach($country->data as $con)
                                         <option value="{{$con->country_code}}">{{$con->name}}</option>
@@ -239,41 +329,14 @@
                                 </select>
                             </p>
 
-                            <p class="mt-3">
+                            <p class="mt-3 w-100">
                                 Geo Location City:
                                 <select id="search_city" class="form-control mt-2 js-example-basic-multiple city"
                                         name="city[]" multiple="multiple">
-
-                                </select>
-                            </p>
-
-
-                            <p class="mt-3">
-                                Interests:
-                                <select id="interest" class="form-control mt-2 js-example-basic-multiple"
-                                        name="interest[]" multiple="multiple">
-
-                                </select>
-                            </p>
-
-                            <p class="mt-3">
-                                Demographics:
-                                <select  class="form-control mt-2 js-example-basic-multiple"
-                                        name="demo[]" multiple="multiple">
-                                    @foreach($demographics->data as $demo)
-                                        <option value="{{$demo->id}}{{','}}{{$demo->name}}">{{$demo->name}}</option>
+                                    @foreach($city->data as $con)
+                                        <option value="{{$con->key}},{{$con->name}}">{{$con->name}}</option>
                                     @endforeach
-                                </select>
-                            </p>
 
-
-                            <p class="mt-3">
-                                Behaviours:
-                                <select  class="form-control mt-2 js-example-basic-multiple"
-                                        name="behaviour[]" multiple="multiple">
-                                    @foreach($behaviour->data as $beh)
-                                        <option value="{{$beh->id}}{{','}}{{$beh->name}}">{{$beh->name}}</option>
-                                    @endforeach
                                 </select>
                             </p>
 
@@ -282,47 +345,254 @@
                                 <input type="range" id="change_radius" name="radius" value="10">
                             </p>
 
-                        </div>
-                        <div class="tab">
-                            <h3 class="text-center step-heading mx-auto">Step: 2</h3>
 
 
-                            <p class="my-3">
-                                Campaign Title
-                                <input type="text" name="title" placeholder="Campaign Title">
-                            </p>
-
-
-                            <p class="my-3">
-                                Audience:
-                                <select class="form-control mt-2" name="age">
-                                    <option selected value="">Age Limit</option>
-                                    <option value="18 to 25">18 to 25</option>
-                                    <option value="26 to 35">26 to 35</option>
-                                    <option value="36 to 45">36 to 45</option>
-                                    <option value="46 to 55">46 to 55</option>
-                                    <option value="56 to 100">56+</option>
-                                </select>
-                                <select class="form-control mt-2" name="gender">
-                                    <option selected value="">Gender</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                    <option value="0">Both</option>
-                                </select>
-                            </p>
-
-                            <p class="my-3">
-                                Budget:
-
-                                <input placeholder="Per Day" name="perday_budget"
-                                       class="mt-2 perday_budget" type="number">
-
-                            </p>
 
                         </div>
 
-                        <div class="tab">
+                        <div class="tab mt-4">
                             <h3 class="text-center step-heading mx-auto">Step: 3</h3>
+
+
+                            <div class="col-lg-12 mt-5">
+
+                                <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Demographics"
+                                           role="tab" aria-controls="home" aria-selected="true">Demographics</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#Interests"
+                                           role="tab" aria-controls="profile" aria-selected="false">Interests</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#Behaviours"
+                                           role="tab" aria-controls="contact" aria-selected="false">Behaviours</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="Demographics" role="tabpanel"
+                                         aria-labelledby="home-tab">
+
+                                        <div id="accordion">
+                                            @foreach($demographics as $demo)
+                                                <div class="card">
+                                                    <div class="card-header d-flex justify-content-between" id="headingThree{{$demo->id}}">
+                                                        <h5 class="mb-0">
+                                                            <button class="btn btn-link" type="button"
+                                                                    data-toggle="collapse"
+                                                                    data-target="#collapseThree{{$demo->id}}"
+                                                                    aria-expanded="true"
+                                                                    aria-controls="collapseThree{{$demo->id}}">
+                                                                {{$demo->name}}
+                                                            </button>
+                                                        </h5>
+
+                                                        <span><i    data-toggle="collapse"
+                                                                    data-target="#collapseThree{{$demo->id}}"
+                                                                    aria-expanded="true"
+                                                                    aria-controls="collapseThree{{$demo->id}}" class="fa fa-caret-down mt-3"></i></span>
+
+
+                                                    </div>
+
+                                                    <div id="collapseThree{{$demo->id}}" class="collapse"
+                                                         aria-labelledby="headingThree{{$demo->id}}"
+                                                         data-parent="#accordion">
+                                                        <div class="card-body">
+
+
+                                                            @foreach($demo->child as $child)
+
+                                                                <p><input name="{{$child->type}}[]" value="{{$child->data_id}},{{$child->name}}" type="checkbox" style="width: auto" class="mr-2">{{$child->name}}</p>
+
+
+
+
+                                                            @endforeach
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="tab-pane fade" id="Interests" role="tabpanel"
+                                         aria-labelledby="profile-tab">
+
+
+                                        <div id="accordion">
+                                            @foreach($intrests as $demo)
+                                                <div class="card">
+                                                    <div class="card-header d-flex justify-content-between" id="headingOne{{$demo->id}}">
+                                                        <h5 class="mb-0">
+                                                            <button class="btn btn-link" type="button"
+                                                                    data-toggle="collapse"
+                                                                    data-target="#collapseOne{{$demo->id}}"
+                                                                    aria-expanded="true"
+                                                                    aria-controls="collapseOne{{$demo->id}}">
+                                                                {{$demo->name}}
+                                                            </button>
+                                                        </h5>
+
+
+                                                        <span><i   data-toggle="collapse"
+                                                                   data-target="#collapseOne{{$demo->id}}"
+                                                                   aria-expanded="true"
+                                                                   aria-controls="collapseOne{{$demo->id}}" class="fa fa-caret-down mt-3"></i></span>
+
+
+
+                                                    </div>
+
+                                                    <div id="collapseOne{{$demo->id}}" class="collapse"
+                                                         aria-labelledby="headingOne{{$demo->id}}"
+                                                         data-parent="#accordion">
+                                                        <div class="card-body">
+
+
+                                                            @foreach($demo->child as $child)
+
+                                                                @if(count($child->child)==0)
+
+                                                                    <p><input name="interest[]" value="{{$child->data_id}},{{$child->name}}" type="checkbox" style="width: auto" class="mr-2">{{$child->name}}</p>
+
+                                                                @else
+                                                                    <div id="accordion">
+
+                                                                        <div class="card">
+                                                                            <div class="card-header d-flex justify-content-between" id="headingOne{{$child->id}}">
+                                                                                <h5 class="mb-0">
+                                                                                    <button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne{{$child->id}}" aria-expanded="false" aria-controls="collapseOne{{$child->id}}">
+                                                                                        {{$child->name}}
+                                                                                    </button>
+                                                                                </h5>
+
+                                                                                <span><i    data-toggle="collapse" data-target="#collapseOne{{$child->id}}" aria-expanded="false" aria-controls="collapseOne{{$child->id}}" class="fa fa-caret-down mt-3"></i></span>
+                                                                            </div>
+                                                                            <div id="collapseOne{{$child->id}}" class="collapse" aria-labelledby="headingOne{{$child->id}}" data-parent="#accordion">
+                                                                                <div class="card-body">
+                                                                                    @foreach($child->child as $childf)
+                                                                                        <div><input name="interest[]" value="{{$childf->data_id}},{{$childf->name}}" type="checkbox" style="width: auto" class="mr-2">{{$childf->name}}</div>
+                                                                                    @endforeach
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+
+
+                                                                @endif
+                                                            @endforeach
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="tab-pane fade" id="Behaviours" role="tabpanel"
+                                         aria-labelledby="contact-tab">
+                                        <div id="accordion">
+                                            @foreach($behaviour as $demo)
+                                                <div class="card">
+                                                    <div class="card-header d-flex justify-content-between" id="headingTwo{{$demo->id}}">
+                                                        <h5 class="mb-0">
+                                                            <button class="btn btn-link" type="button"
+                                                                    data-toggle="collapse"
+                                                                    data-target="#collapseTwo{{$demo->id}}"
+                                                                    aria-expanded="true"
+                                                                    aria-controls="collapseTwo{{$demo->id}}">
+                                                                {{$demo->name}}
+                                                            </button>
+                                                        </h5>
+
+                                                        <span><i     data-toggle="collapse"
+                                                                     data-target="#collapseTwo{{$demo->id}}"
+                                                                     aria-expanded="true"
+                                                                     aria-controls="collapseTwo{{$demo->id}}" class="fa fa-caret-down mt-3"></i></span>
+
+
+                                                    </div>
+
+                                                    <div id="collapseTwo{{$demo->id}}" class="collapse"
+                                                         aria-labelledby="headingTwo{{$demo->id}}"
+                                                         data-parent="#accordion">
+                                                        <div class="card-body">
+
+
+                                                            @foreach($demo->child as $child)
+
+                                                                @if(count($child->child)==0)
+
+                                                                    <p><input name="behaviour[]" value="{{$child->data_id}},{{$child->name}}" type="checkbox" style="width: auto" class="mr-2">{{$child->name}}</p>
+
+                                                                @else
+                                                                    <div id="accordion">
+
+                                                                        <div class="card">
+                                                                            <div class="card-header d-flex justify-content-between" id="headingTwo{{$child->id}}">
+                                                                                <h5 class="mb-0">
+                                                                                    <button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo{{$child->id}}" aria-expanded="false" aria-controls="collapseTwo{{$child->id}}">
+                                                                                        {{$child->name}}
+                                                                                    </button>
+                                                                                </h5>
+
+
+                                                                                <span><i     data-toggle="collapse" data-target="#collapseTwo{{$child->id}}" aria-expanded="false" aria-controls="collapseTwo{{$child->id}}" class="fa fa-caret-down mt-3"></i></span>
+
+
+                                                                            </div>
+                                                                            <div id="collapseTwo{{$child->id}}" class="collapse" aria-labelledby="headingTwo{{$child->id}}" data-parent="#accordion">
+                                                                                <div class="card-body">
+                                                                                    @foreach($child->child as $childf)
+                                                                                        <div><input name="behaviour[]" value="{{$childf->data_id}},{{$childf->name}}" type="checkbox" style="width: auto" class="mr-2">{{$childf->name}}</div>
+                                                                                    @endforeach
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+
+
+                                                                @endif
+                                                            @endforeach
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
+
+                        </div>
+
+                        <div class="tab">
+                            <h3 class="text-center step-heading mx-auto">Step: 4</h3>
 
                             <p class="my-3">
                             <div class="d-flex justify-content-between align-items-center my-2">
@@ -349,7 +619,7 @@
 
                             <p class="my-3">
                             <div class="d-flex justify-content-between align-items-center my-2">
-                                Action button
+                                Action button:
                                 <button class="add-button" value="Action" type="button">+</button>
                             </div>
                             <div class="button-feilds">
@@ -414,10 +684,11 @@
                                     <option value="TRY_IT">TRY IT</option>
 
                                 </select>
-{{--                                <input placeholder="Button 1" value="Action" class="preview_1 text1_btn mb-1"--}}
-{{--                                       name="btn[]">--}}
+                                {{--                                <input placeholder="Button 1" value="Action" class="preview_1 text1_btn mb-1"--}}
+                                {{--                                       name="btn[]">--}}
 
-                                <input placeholder="URL 1" name="url[]">
+                                Action button url:
+                                <input class="mt-2" placeholder="https://example.com" name="url[]">
 
                             </div>
                             </p>
@@ -472,7 +743,7 @@
                                     </div>
                                     <div class="pt-0 pb-0 text-center">
                                         <a>
-                                            <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid img1" alt="">
+                                            <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid w-100 img1" alt="">
 
                                         </a>
                                     </div>
@@ -495,7 +766,7 @@
 
                                     <div class="position-relative text-center">
 
-                                        <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid img1" alt="">
+                                        <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid w-100 img1" alt="">
 
                                         <h4 class="position-absolute heading_fb text-white heading1_prev">This is your
                                             heading</h4>
@@ -625,15 +896,21 @@
         }
     </script>
 
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{asset('slider/script.js')}}"></script>
     <script>
+
+
+
+
         $(document).ready(function () {
-            // jQuery.noConflict();
+
             $('.js-example-basic-multiple').select2();
 
-            // $(document).on('keyup','.select2-search__field',function () {
-            //    alert(1);
-            // });
 
 
             document.querySelector("#search_city")
@@ -660,30 +937,31 @@
                 });
 
 
-            document.querySelector("#interest")
-                .nextSibling.querySelector(".select2-search__field")
-                .addEventListener("keyup", function () {
-                    var interest = $(this).val();
+{{--            document.querySelector("#interest")--}}
+{{--                .nextSibling.querySelector(".select2-search__field")--}}
+{{--                .addEventListener("keyup", function () {--}}
+{{--                    var interest = $(this).val();--}}
 
-                    $.ajax({
-                        type: 'get',
-                        url: '{{url("search/interest")}}',
-                        data: {'interest': interest},
-                        async: false,
+{{--                    $.ajax({--}}
+{{--                        type: 'get',--}}
+{{--                        url: '{{url("search/interest")}}',--}}
+{{--                        data: {'interest': interest},--}}
+{{--                        async: false,--}}
 
-                        success: function (response) {
-//$('#search_city').empty();
+{{--                        success: function (response) {--}}
+{{--//$('#search_city').empty();--}}
 
-                            for (i = 1; i < response.data.length; i++) {
-                                $('#interest').append(`<option value="${response.data[i].id},${response.data[i].name}">${response.data[i].name}</option>`);
-                            }
+{{--                            for (i = 1; i < response.data.length; i++) {--}}
+{{--                                $('#interest').append(`<option value="${response.data[i].id},${response.data[i].name}">${response.data[i].name}</option>`);--}}
+{{--                            }--}}
 
 
-                        }
-                    });
-                });
+{{--                        }--}}
+{{--                    });--}}
+{{--                });--}}
 
             $('#change_radius').change(function () {
+
                 var val = $(this).val();
                 $('#radius').empty().text(val + ' miles')
                 // $(this).val(50);
@@ -805,8 +1083,8 @@
                                 </select>
 
 
-
- <input placeholder="URL ${buttonNumber}" name="url[]">`
+       Action button url:
+ <input class="mt-2" placeholder="https://example.com" name="url[]">`
                 );
 
             }
@@ -873,8 +1151,8 @@
         $('.preview_1').change(function () {
 
             var btn = $('.text1_btn').val();
-           btn= btn.replace('_',' ');
-           btn= btn.replace('_',' ');
+            btn = btn.replace('_', ' ');
+            btn = btn.replace('_', ' ');
             var head = $('.heading1_btn').val();
             var body = $('.body1_btn').val();
 

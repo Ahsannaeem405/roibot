@@ -1,0 +1,4 @@
+.slider-box {width: 90%; margin: 25px auto}
+label, input {border: none; display: inline-block; margin-right: -4px; vertical-align: top; width: 30%}
+input {width: 70%}
+.slider {margin: 25px 0}

@@ -18,8 +18,6 @@ class AdvertisementController extends Controller
         $facebook = config()->get('services.facebook');
 
 
-
-
         if (!$request->countries) {
             return back()->with('error', 'Please add a Country');
         }
@@ -31,13 +29,13 @@ class AdvertisementController extends Controller
 
 
         $i = 0;
-        $img1 = $hash1=null;
+        $img1 = $hash1 = null;
         $radius = $request->radius;
         $cities = array();
         $countries = array();
         $intrest = array();
         $behaviour = array();
-        $demographics = array();
+        $life_events = $family_statuses = $industries = $income = array();
         if ($request->city) {
 
             foreach ($request->city as $city) {
@@ -75,11 +73,47 @@ class AdvertisementController extends Controller
             }
 
         }
-        if ($request->demo) {
+        if ($request->life_events) {
 
-            foreach ($request->demo as $demo) {
+            foreach ($request->life_events as $demo) {
                 $data = explode(',', $demo);
-                $demographics[] = array(
+                $life_events[] = array(
+                    'id' => $data[0],
+                    'name' => $data[1],
+                );
+            }
+
+        }
+
+        if ($request->family_statuses) {
+
+            foreach ($request->family_statuses as $demo) {
+                $data = explode(',', $demo);
+                $family_statuses[] = array(
+                    'id' => $data[0],
+                    'name' => $data[1],
+                );
+            }
+
+        }
+
+        if ($request->industries) {
+
+            foreach ($request->industries as $demo) {
+                $data = explode(',', $demo);
+                $industries[] = array(
+                    'id' => $data[0],
+                    'name' => $data[1],
+                );
+            }
+
+        }
+
+        if ($request->income) {
+
+            foreach ($request->income as $demo) {
+                $data = explode(',', $demo);
+                $income[] = array(
                     'id' => $data[0],
                     'name' => $data[1],
                 );
@@ -129,8 +163,13 @@ class AdvertisementController extends Controller
         $advertisement->cities = json_encode($cities);
         $advertisement->countries = json_encode($countries);
         $advertisement->interest = json_encode($intrest);
-        $advertisement->demo = json_encode($demographics);
+        $advertisement->life_events = json_encode($life_events);
+        $advertisement->family_statuses = json_encode($family_statuses);
+        $advertisement->industries = json_encode($industries);
+        $advertisement->income = json_encode($income);
         $advertisement->behaviour = json_encode($behaviour);
+        $advertisement->start_date = $request->start_date;
+        $advertisement->end_date = $request->end_date;
 
 
         $advertisement->save();
@@ -167,7 +206,6 @@ class AdvertisementController extends Controller
             $advertisementDetail = new AdvertisementDetail();
 
 
-
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -179,14 +217,14 @@ class AdvertisementController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array('filename'=> new \CURLFile('images/gallary/'.$image.'')),
+                CURLOPT_POSTFIELDS => array('filename' => new \CURLFile('images/gallary/' . $image . '')),
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer '. $facebook['fb_token'].''
+                    'Authorization: Bearer ' . $facebook['fb_token'] . ''
                 ),
             ));
 
 
-            $addImage =json_decode(curl_exec($curl));
+            $addImage = json_decode(curl_exec($curl));
 
             curl_close($curl);
 
@@ -195,8 +233,8 @@ class AdvertisementController extends Controller
             if ($i == 0) {
                 $img1 = $image;
 
-                $img1 =$image;
-                $hash1=$addImage->images->$image->hash;
+                $img1 = $image;
+                $hash1 = $addImage->images->$image->hash;
 
                 $i = 1;
             }
@@ -236,7 +274,10 @@ class AdvertisementController extends Controller
 
                         ],
                         'interests' => $advertisement->interest,
-                        'life_events' => $advertisement->demo,
+                        'life_events' => $advertisement->life_events,
+                        'family_statuses' => $advertisement->family_statuses,
+                        'industries' => $advertisement->industries,
+                        'income' => $advertisement->income,
                     ],
                     'status' => env('FB_STATUS'),
                     'access_token' => $facebook['fb_token'],
@@ -248,22 +289,19 @@ class AdvertisementController extends Controller
                     $addSet_id = $addSet->id;
 
 
-
-
-
                     //creating addCreative
 
                     $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adcreatives', [
 
-                       // 'body' => $request->body[0],
+                        // 'body' => $request->body[0],
                         'object_story_spec' => [
                             'link_data' => [
                                 'name' => $heading,
                                 'image_hash' => $hash1,
                                 'link' => $request->url[0],
                                 'message' => $request->body[0],
-                                "call_to_action"=>[
-                                    'type'=>$request->btn[0],
+                                "call_to_action" => [
+                                    'type' => $request->btn[0],
                                 ]
                             ],
                             'page_id' => $facebook['page_id']
@@ -302,7 +340,7 @@ class AdvertisementController extends Controller
 
                         $this->deleteCompain($advertisement->id);
                         $adCreative = json_decode($adCreative->body());
-                         dd($adCreative);
+                        dd($adCreative);
                         return back()->with('error', isset($adCreative->error->error_user_msg) ? $adCreative->error->error_user_msg : $adCreative->error->message);
                     }
 
@@ -351,7 +389,7 @@ class AdvertisementController extends Controller
 
         }
 
-    //    dd($adCreative);
+        //    dd($adCreative);
         return redirect('manage_view')->with('success', 'Add created successfully');
     }
 
@@ -376,15 +414,21 @@ class AdvertisementController extends Controller
         $facebook = config()->get('services.facebook');
         $com = Advertisement::find($id);
         $com->per_day = $request->per_day;
+        $com->start_date = $request->start;
+        $com->end_date = $request->end;
         $com->update();
 
+        $date1=new \DateTime($com->end_date);
+        $date2=new \DateTime(Carbon::now());
+        $f=  $date1->diff($date2)->days;
+//dd($f);
 
         $adsDel = AdvertisementAds::where('advertisements_id', $com->id)->get();
         foreach ($adsDel as $adsDel) {
             $delete = \Http::delete('https://graph.facebook.com/v13.0/' . $adsDel->addSet_id . '', [
                 'access_token' => $facebook['fb_token'],
             ]);
-            $adsDel->delete();
+          //  $adsDel->delete();
         }
 
 
@@ -392,14 +436,14 @@ class AdvertisementController extends Controller
         $heading = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'heading')->where('status', 'final')->first();
         $button = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'button')->where('status', 'final')->first();
         $image = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'image')->where('status', 'final')->first();
-
+//dd($button);
 
         $addSet = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adsets', [
             'campaign_id' => $com->compain_id,
             'name' => $heading->data,
-            'lifetime_budget' => ($com->per_day * 3) * 100,
-            'start_time' => Carbon::now(),
-            'end_time' => Carbon::now()->addDays(3),
+            'lifetime_budget' => ($com->per_day * $f) * 100,
+            'start_time' => $com->start_date,
+            'end_time' => $com->end_date,
             'bid_amount' => $com->per_day * 100,
             'billing_event' => 'IMPRESSIONS',
             'optimization_goal' => $com->goal,
@@ -413,7 +457,10 @@ class AdvertisementController extends Controller
 
                 ],
                 'interests' => $com->interest,
-                'life_events' => $com->demo,
+                'life_events' => $com->life_events,
+                'family_statuses' => $com->family_statuses,
+                'industries' => $com->industries,
+                'income' => $com->income,
             ],
             'status' => env('FB_STATUS'),
             'access_token' => $facebook['fb_token'],
@@ -425,19 +472,18 @@ class AdvertisementController extends Controller
 
             //creating addCreative
 
-            $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adcreatives', [
-
-               // 'body' => $body->data,
+            $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adcreatives', [
+                'name' => $heading->data,
+                'body'=>$body->data,
                 'object_story_spec' => [
                     'link_data' => [
-                        'image_hash' => md5_file(('images/gallary/' . $image->data . '')),
+                        'name' => $heading->data,
+                        'image_hash' => $image->hash,
                         'link' => $button->url,
                         'message' => $body->data,
-                        'name' => $heading->data,
                         "call_to_action"=>[
-                            'type'=>$button->data[0],
+                            'type'=>$button->data,
                         ]
-
 
                     ],
                     'page_id' => $facebook['page_id']
@@ -453,7 +499,7 @@ class AdvertisementController extends Controller
 
                 //creating add
 
-                $add = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/ads', [
+                $add = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/ads', [
                     'name' => $heading->data,
                     'adset_id' => $addSet_id,
                     'creative' => [
@@ -461,8 +507,9 @@ class AdvertisementController extends Controller
                     ],
                     'status' => env('FB_STATUS'),
 
-                    'access_token' => $facebook['fb_token'],
+                    'access_token' =>$facebook['fb_token'],
                 ]);
+
                 if ($add->status() == 200) {
                     $add = json_decode($add->body());
                     $add_id = $add->id;
@@ -495,6 +542,11 @@ class AdvertisementController extends Controller
         $advertisementAdds->image = $image->data;
         $advertisementAdds->start_date = $request->start;
         $advertisementAdds->end_date = $request->end;
+
+        $advertisementAdds->addSet_id = $addSet_id;
+        $advertisementAdds->addCreative_id = $addCreative_id;
+        $advertisementAdds->add_id = $add_id;
+
         $advertisementAdds->save();
 
         $com->step = 6;

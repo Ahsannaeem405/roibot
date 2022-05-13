@@ -83,7 +83,7 @@ class a_bTestingFacebook extends Command
             $adsStep1->step = 2;
             $adsStep1->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep1->id)->get()) > 1 || count(AdvertisementDetail::where('advertisements_id', $adsStep1->id)->where('type', 'body')->get()) > 1) {
+            if ($adsStep1) {
 
 
                 //delete add
@@ -128,7 +128,10 @@ class a_bTestingFacebook extends Command
 
                             ],
                             'interests' => $advertisement->interest,
-                            'life_events' => $advertisement->demo,
+                            'life_events' => $advertisement->life_events,
+                            'family_statuses' => $advertisement->family_statuses,
+                            'industries' => $advertisement->industries,
+                            'income' => $advertisement->income,
                         ],
                         'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
@@ -218,6 +221,9 @@ class a_bTestingFacebook extends Command
                     $advertisementAdds->image = $image->data;
                     $advertisementAdds->start_date = Carbon::now();
                     $advertisementAdds->end_date = Carbon::now()->addDays(3);
+                    $advertisementAdds->addSet_id = $addSet_id;
+                    $advertisementAdds->addCreative_id = $addCreative_id;
+                    $advertisementAdds->add_id = $add_id;
                     $advertisementAdds->save();
 
                 }
@@ -270,7 +276,7 @@ class a_bTestingFacebook extends Command
             $adsStep2->step = 3;
             $adsStep2->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep2->id)->get()) > 1 || count(AdvertisementDetail::where('advertisements_id', $adsStep2->id)->where('type', 'image')->get()) > 1) {
+            if ($adsStep2) {
                 //delete add
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep2->id)->get();
                 foreach ($adsDel as $adsDel)
@@ -312,7 +318,10 @@ class a_bTestingFacebook extends Command
 
                             ],
                             'interests' => $advertisement->interest,
-                            'life_events' => $advertisement->demo,
+                            'life_events' => $advertisement->life_events,
+                            'family_statuses' => $advertisement->family_statuses,
+                            'industries' => $advertisement->industries,
+                            'income' => $advertisement->income,
                         ],
                         'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
@@ -401,6 +410,9 @@ class a_bTestingFacebook extends Command
                     $advertisementAdds->image = $image->data;
                     $advertisementAdds->start_date = Carbon::now();
                     $advertisementAdds->end_date = Carbon::now()->addDays(3);
+                    $advertisementAdds->addSet_id = $addSet_id;
+                    $advertisementAdds->addCreative_id = $addCreative_id;
+                    $advertisementAdds->add_id = $add_id;
                     $advertisementAdds->save();
 
                 }
@@ -453,7 +465,8 @@ class a_bTestingFacebook extends Command
             $adsStep3->step = 4;
             $adsStep3->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep3->id)->get()) > 1 || count(AdvertisementDetail::where('advertisements_id', $adsStep3->id)->where('type', 'button')->get()) > 1) {
+            if ($adsStep3)
+            {
                 //delete add
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep3->id)->get();
                 foreach ($adsDel as $adsDel)
@@ -494,7 +507,10 @@ class a_bTestingFacebook extends Command
 
                             ],
                             'interests' => $advertisement->interest,
-                            'life_events' => $advertisement->demo,
+                            'life_events' => $advertisement->life_events,
+                            'family_statuses' => $advertisement->family_statuses,
+                            'industries' => $advertisement->industries,
+                            'income' => $advertisement->income,
                         ],
                         'status' => env('FB_STATUS'),
                         'access_token' => $facebook['fb_token'],
@@ -581,6 +597,9 @@ class a_bTestingFacebook extends Command
                     $advertisementAdds->image = $image->data;
                     $advertisementAdds->start_date = Carbon::now();
                     $advertisementAdds->end_date = Carbon::now()->addDays(3);
+                    $advertisementAdds->addSet_id = $addSet_id;
+                    $advertisementAdds->addCreative_id = $addCreative_id;
+                    $advertisementAdds->add_id = $add_id;
                     $advertisementAdds->save();
 
                 }
@@ -634,7 +653,10 @@ class a_bTestingFacebook extends Command
             $adsStep4->step = 5;
             $adsStep4->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep4->id)->get()) > 1) {
+            if ($adsStep4->end_date>Carbon::now()) {
+                $date1=new \DateTime($adsStep4->end_date);
+                $date2=new \DateTime(Carbon::now());
+                $f=  $date1->diff($date2)->days;
                 //delete add
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep4->id)->get();
                 foreach ($adsDel as $adsDel)
@@ -659,9 +681,9 @@ class a_bTestingFacebook extends Command
                 $addSet = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adsets', [
                     'campaign_id' => $compain_id,
                     'name' => $heading->data,
-                    'lifetime_budget' => ($advertisement->per_day * 3) * 100,
+                    'lifetime_budget' => ($advertisement->per_day * $f) * 100,
                     'start_time' => Carbon::now(),
-                    'end_time' => Carbon::now()->addDays(3),
+                    'end_time' => $advertisement->end_date,
                     'bid_amount' => $advertisement->per_day * 100,
                     'billing_event' => 'IMPRESSIONS',
                     'optimization_goal' => $advertisement->goal,
@@ -675,7 +697,10 @@ class a_bTestingFacebook extends Command
 
                         ],
                         'interests' => $advertisement->interest,
-                        'life_events' => $advertisement->demo,
+                        'life_events' => $advertisement->life_events,
+                        'family_statuses' => $advertisement->family_statuses,
+                        'industries' => $advertisement->industries,
+                        'income' => $advertisement->income,
                     ],
                     'status' => env('FB_STATUS'),
                     'access_token' => $facebook['fb_token'],
@@ -761,17 +786,21 @@ class a_bTestingFacebook extends Command
                 $advertisementAdds->url = $button->url;
                 $advertisementAdds->image = $image->data;
                 $advertisementAdds->start_date = Carbon::now();
-                $advertisementAdds->end_date = Carbon::now()->addDays(3);
+                $advertisementAdds->end_date = $advertisement->end_date;
+                $advertisementAdds->addSet_id = $addSet_id;
+                $advertisementAdds->addCreative_id = $addCreative_id;
+                $advertisementAdds->add_id = $add_id;
                 $advertisementAdds->save();
 
 
-            } else {
-                //update end time of add
-
-                AdvertisementAds::where('advertisements_id', $adsStep4->id)->update([
-                    'end_date' => Carbon::now()->addDays(3)
-                ]);
-            }
+       }
+// else {
+//                //update end time of add
+//
+//                AdvertisementAds::where('advertisements_id', $adsStep4->id)->update([
+//                    'end_date' => Carbon::now()->addDays(3)
+//                ]);
+//            }
 
 
         }

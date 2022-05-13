@@ -24,11 +24,16 @@ class CreateAdvertisementsTable extends Migration
             $table->integer('type')->nullable();
             $table->string('status')->default('pending');
             $table->text('compain_id')->nullable();
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
 
             $table->text('cities')->nullable();
             $table->text('countries')->nullable();
             $table->text('interest')->nullable();
-            $table->text('demo')->nullable();
+            $table->text('life_events')->nullable();
+            $table->text('family_statuses')->nullable();
+            $table->text('industries')->nullable();
+            $table->text('income')->nullable();
             $table->text('behaviour')->nullable();
 
             $table->integer('step')->default(1);

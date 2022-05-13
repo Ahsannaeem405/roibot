@@ -36,7 +36,22 @@ class Advertisement extends Model
     {
         return json_decode($val);
     }
-    public function getDemoAttribute($val)
+    public function getLifeEventsAttribute($val)
+    {
+        return json_decode($val);
+    }
+
+    public function getFamilyStatusesAttribute($val)
+    {
+        return json_decode($val);
+    }
+
+    public function getIndustriesAttribute($val)
+    {
+        return json_decode($val);
+    }
+
+    public function getIncomeAttribute($val)
     {
         return json_decode($val);
     }

@@ -31,6 +31,7 @@ class CreateAdvertisementAdsTable extends Migration
             $table->integer('impressions')->default(0);
             $table->integer('cpc')->default(0);
             $table->integer('conversation')->default(0);
+            $table->integer('total')->default(0);
             $table->timestamps();
         });
     }

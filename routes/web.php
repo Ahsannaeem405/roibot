@@ -70,8 +70,6 @@ Route::post('gallery/delete',[UserController::class,'galleryDelete']);
     });
 
 
-
-
 });
 
 //test
@@ -82,6 +80,10 @@ Route::get('step1',[\App\Http\Controllers\Controller::class,'step1']);
 Route::get('step2',[\App\Http\Controllers\Controller::class,'step2']);
 Route::get('step3',[\App\Http\Controllers\Controller::class,'step3']);
 Route::get('step4',[\App\Http\Controllers\Controller::class,'step4']);
+Route::get('intrest',[\App\Http\Controllers\Controller::class,'intrest']);
+Route::get('behaviour',[\App\Http\Controllers\Controller::class,'behaviour']);
+Route::get('dempgraphics',[\App\Http\Controllers\Controller::class,'dempgraphics']);
+Route::get('data',[\App\Http\Controllers\Controller::class,'data']);
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -213,8 +213,19 @@
 
                         <div class="col-lg-9 mt-2">
 
+
+
                             <div class="row m-3 pt-5 pb-5 rounded insight_row">
                                 <div class="col-12 mb-5 text-center">
+
+                                    @if(isset($data->data[0]->status))
+
+
+                                   <p class="font-weight-bolder my-3 text-danger">
+                                        {{$data->data[0]->name}} Status is
+                                    {{$data->data[0]->status}}
+                                   </p>
+                                    @endif
                                     <h3 class="color">Insights</h3>
                                 </div>
                                 <div class="col-md-6 col-lg-3 col-12 mt-2">

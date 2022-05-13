@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
 use App\Models\AdvertisementDetail;
+use App\Models\Behaviour;
+use App\Models\Demographics;
+use App\Models\Intrests;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -141,6 +144,7 @@ dd($adCreative,1);
 
             ]);
             $insight=json_decode($insight->body());
+           // dd($insight);
         if (count($insight->data)>=1){
 
             $ad->clicks=intval($insight->data[0]->clicks);
@@ -193,7 +197,7 @@ dd($adCreative,1);
             $adsStep1->step = 2;
             $adsStep1->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep1->id)->get()) > 1 || count(AdvertisementDetail::where('advertisements_id', $adsStep1->id)->where('type', 'body')->get()) > 1) {
+            if ($adsStep1) {
 
 
                 //delete add
@@ -369,7 +373,7 @@ dd($adCreative,1);
             $adsStep2->step = 3;
             $adsStep2->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep2->id)->get()) > 1 || count(AdvertisementDetail::where('advertisements_id', $adsStep2->id)->where('type', 'image')->get()) > 1) {
+            if ( $adsStep2) {
                 //delete add
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep2->id)->get();
                 foreach ($adsDel as $adsDel)
@@ -541,7 +545,7 @@ dd($adCreative,1);
             $adsStep3->step = 4;
             $adsStep3->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep3->id)->get()) > 1 || count(AdvertisementDetail::where('advertisements_id', $adsStep3->id)->where('type', 'button')->get()) > 1) {
+            if ($adsStep3) {
                 //delete add
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep3->id)->get();
                 foreach ($adsDel as $adsDel)
@@ -678,6 +682,7 @@ dd($adCreative,1);
             ->where('step', 4)
             ->where('type', 1)
             ->get();
+      // dd($adsStep4);
 
         foreach ($adsStep4 as $adsStep4) {
 
@@ -696,6 +701,7 @@ dd($adCreative,1);
             ];
 
 
+
             $ads = AdvertisementAds::where('advertisements_id', $adsStep4->id)->select(
                 '*',
                 DB::raw('sum(clicks + impressions + cpc + conversation) as total'))
@@ -709,11 +715,16 @@ dd($adCreative,1);
                 ->where('type', 'button')
                 ->where('data', $ads->button)
                 ->update(['status' => 'final']);
-            $adsStep4->step = 5;
+            $adsStep4->step = 5; //fake
             $adsStep4->update();
 
-            if (count(AdvertisementAds::where('advertisements_id', $adsStep4->id)->get()) > 1) {
-                //delete add
+            if ($adsStep4->end_date>Carbon::now()) {
+               $date1=new \DateTime($adsStep4->end_date);
+               $date2=new \DateTime(Carbon::now());
+             $f=  $date1->diff($date2)->days;
+
+
+
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep4->id)->get();
                 foreach ($adsDel as $adsDel)
                 {
@@ -737,22 +748,33 @@ dd($adCreative,1);
                 $addSet = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adsets', [
                     'campaign_id' => $compain_id,
                     'name' => $heading->data,
-                    'lifetime_budget' => ($advertisement->per_day * 3) * 100,
+                    'lifetime_budget' => ($advertisement->per_day * $f) * 100,
                     'start_time' => Carbon::now(),
-                    'end_time' => Carbon::now()->addDays(3),
+                    'end_time' => $advertisement->end_date,
                     'bid_amount' => $advertisement->per_day * 100,
                     'billing_event' => 'IMPRESSIONS',
                     'optimization_goal' => $advertisement->goal,
                     'targeting' => ['age_min' => intval($advertisement->age[0]), 'age_max' => intval($advertisement->age[1]),
-                        //'behaviors' => ['id' => 6002714895372, 'name' => 'All travelers'],
-                        'genders' => [1,2],
-                        'geo_locations' => ['countries' => ['US']]
+                        'behaviors' => $advertisement->behaviour,
+
+                        'genders' => [$advertisement->gender],
+                        'geo_locations' => [
+                            'countries' => $advertisement->countries,
+                            'cities' => $advertisement->cities,
+
+                        ],
+                        'interests' => $advertisement->interest,
+                        'life_events' => $advertisement->life_events,
+                        'family_statuses' => $advertisement->family_statuses,
+                        'industries' => $advertisement->industries,
+                        'income' => $advertisement->income,
                     ],
                     'status' => env('FB_STATUS'),
                     'access_token' => $facebook['fb_token'],
                 ]);
                 if ($addSet->status()==200)
                 {
+
                     $addSet = json_decode($addSet->body());
                     $addSet_id = $addSet->id;
 
@@ -764,9 +786,13 @@ dd($adCreative,1);
                         'body'=>$body->data,
                         'object_story_spec' => [
                             'link_data' => [
-                                'image_hash' => md5_file(public_path('images/gallary/'.$image->data.'')),
+                                'name' => $heading->data,
+                                'image_hash' => $image->hash,
                                 'link' => $button->url,
-                                'message' => $button->data,
+                                'message' => $body->data,
+                                "call_to_action"=>[
+                                    'type'=>$button->data,
+                                ]
 
                             ],
                             'page_id' => $facebook['page_id']
@@ -814,7 +840,9 @@ dd($adCreative,1);
 
                 }
                 else{
+
                     $addSet = json_decode($addSet->body());
+                    dd($addSet);
 
                     return back()->with('error',isset($addSet->error_user_msg) ? $addSet->error->error_user_msg  : $addSet->error->message);
                 }
@@ -828,19 +856,234 @@ dd($adCreative,1);
                 $advertisementAdds->url = $button->url;
                 $advertisementAdds->image = $image->data;
                 $advertisementAdds->start_date = Carbon::now();
-                $advertisementAdds->end_date = Carbon::now()->addDays(3);
+                $advertisementAdds->end_date = $advertisement->end_date;
                 $advertisementAdds->save();
 
 
-            } else {
-                //update end time of add
-
-                AdvertisementAds::where('advertisements_id', $adsStep4->id)->update([
-                    'end_date' => Carbon::now()->addDays(3)
-                ]);
             }
 
 
         }
     }
+
+    public function intrest()
+    {
+        $facebook = config()->get('services.facebook');
+
+
+        $interest = \Http::get('https://graph.facebook.com/v13.0/search', [
+
+            'type' => 'adTargetingCategory',
+            //   'limit'=>500,
+           // 'q' => 'all',
+              'class'=>'interests',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+        $data=json_decode($interest->body());
+        $data= collect($data->data);
+    //  $data=$data->where('name','Sports');
+    //  dd($data);
+
+       Intrests::truncate();
+       foreach ($data as $intrest)
+       {
+           $length=count($intrest->path);
+           $total=1;
+           foreach($intrest->path as $path){
+               $find=Intrests::where('name',$path)->first();
+               if ($total==1){
+                   if(!$find){
+                       $ins=new Intrests();
+                       $ins->name=$path;
+                      // $ins->data_id=intval($intrest->id);
+                       $ins->save();
+                       $prev=$ins->id;
+                   }
+                   else{
+                       $prev=$find->id;
+                   }
+
+               }
+               else{
+
+                   if(!$find){
+                       $rec=$data->where('name',"$path")->first();
+                       if ($rec){
+                          // dd($path);
+
+                       $ins=new Intrests();
+                       $ins->name=$path;
+                // dd($rec);
+                       $ins->data_id=intval($rec->id);
+                       $ins->parent=intval($prev);
+                       $ins->save();
+
+                       $prev=$ins->id;
+                       }
+//                       else{
+//                           echo $path.',';
+//                       }
+                   }
+                   else{
+
+                       $prev=$find->id;
+
+                   }
+               }
+
+
+               $total=$total+1;
+
+
+           }
+
+       }
+
+}
+
+    public function behaviour()
+    {
+        $facebook = config()->get('services.facebook');
+
+
+        $behaviour = \Http::get('https://graph.facebook.com/v13.0/search', [
+
+            'type' => 'adTargetingCategory',
+            //   'limit'=>500,
+            'class'=>'behaviors',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+        $data=json_decode($behaviour->body());
+        $data= collect($data->data);
+        //$data=$data->where('name','Home and garden');
+       //  dd($data);
+
+        Behaviour::truncate();
+        foreach ($data as $behaviour)
+        {
+            $length=count($behaviour->path);
+            $total=1;
+            foreach($behaviour->path as $path){
+                $find=Behaviour::where('name',$path)->first();
+                if ($total==1){
+                    if(!$find){
+                        $ins=new Behaviour();
+                        $ins->name=$path;
+                        $ins->data_id=intval($behaviour->id);
+                        $ins->save();
+                        $prev=$ins->id;
+                    }
+                    else{
+                        $prev=$find->id;
+                    }
+
+                }
+                else{
+
+                    if(!$find){
+                        $rec=$data->where('name',"$path")->first();
+                        if ($rec){
+                            // dd($path);
+                            $ins=new Behaviour();
+                            $ins->name=$path;
+                            // dd($rec);
+                            $ins->data_id=intval($rec->id);
+                            $ins->parent=intval($prev);
+                            $ins->save();
+
+                            $prev=$ins->id;
+                        }
+
+                    }
+                    else{
+
+                        $prev=$find->id;
+
+                    }
+                }
+
+
+                $total=$total+1;
+
+
+            }
+
+        }
+
+    }
+
+    public function dempgraphics(){
+
+        $facebook = config()->get('services.facebook');
+
+
+        $demographics= \Http::get('https://graph.facebook.com/v13.0/search', [
+
+            'type' => 'adTargetingCategory',
+            'limit'=>500,
+            'class'=>'demographics',
+            'access_token' => $facebook['fb_token'],
+
+        ]);
+
+
+        $data=json_decode($demographics->body());
+     //   dd($data);
+        $data= collect($data->data);
+
+        $data=$data->groupBy('type');
+          //dd($data);
+
+        Demographics::truncate();
+        foreach ($data as $key => $demographics)
+        {
+
+
+            $ins=new Demographics();
+            $ins->name=str_replace("_",' ',"$key");
+            $ins->type=$key;
+            $ins->save();
+
+            $prev=$ins->id;
+
+            foreach($demographics as  $path){
+
+                $find=Demographics::where('name',$path->name)->first();
+
+
+                    if(!$find){
+
+
+                            // dd($path);
+
+                            $ins=new Demographics();
+                            $ins->name=$path->name;
+                            // dd($rec);
+                            $ins->data_id=intval($path->id);
+                            $ins->parent=intval($prev);
+                            $ins->type=$path->type;
+                            $ins->save();
+
+
+
+                    }
+
+
+
+
+
+
+
+            }
+
+        }
+    }
+
+    public function data()
+    {
+
+    }
+
 }
