@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
 use App\Models\AdvertisementDetail;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use FacebookAds\Object\AdImage;
 use FacebookAds\Object\Fields\AdImageFields;
@@ -21,7 +23,6 @@ class AdvertisementController extends Controller
         if (!$request->countries) {
             return back()->with('error', 'Please add a Country');
         }
-
 
         if (!$request->image) {
             return back()->with('error', 'Please add a image');
@@ -47,6 +48,7 @@ class AdvertisementController extends Controller
             }
 
         }
+        //  dd($cities);
         if ($request->interest) {
             foreach ($request->interest as $int) {
                 $data = explode(',', $int);
@@ -59,7 +61,9 @@ class AdvertisementController extends Controller
         if ($request->countries) {
 
             foreach ($request->countries as $contry) {
-                $countries[] = $contry;
+                $data = explode(',', $contry);
+
+                $countries[] = $data[0];
             }
 
         }
@@ -393,6 +397,344 @@ class AdvertisementController extends Controller
         return redirect('manage_view')->with('success', 'Add created successfully');
     }
 
+
+    public function PostAddGoogle(Request $request)
+    {
+        $rand = rand(1111, 9999);
+        $budget = intval($request->perday_budget) * 1000000;
+        $google = config()->get('services.google');
+
+
+        if (!$request->city) {
+            return back()->with('error', 'Please add a Country');
+        }
+
+        if ($request->chanel != 'SEARCH') {
+            if (!$request->image) {
+                return back()->with('error', 'Please add a image');
+            }
+        }
+
+
+        $i = 0;
+        $img1 = $hash1 = null;
+        $radius = $request->radius;
+        $cities = array();
+        $countries = array();
+        $intrest = array();
+        $behaviour = array();
+        $life_events = $family_statuses = $industries = $income = array();
+        if ($request->city) {
+
+            foreach ($request->city as $city) {
+                $cities[] = $city;
+            }
+
+        }
+
+
+        if ($request->countries) {
+
+            foreach ($request->countries as $contry) {
+
+                $countries[] = $contry;
+            }
+
+        }
+
+
+        //saving compain google
+
+//dd($google);
+        $compain_budget = \Http::withHeaders([
+
+            'developer-token' => $google['dev_token'],
+            'login-customer-id' => $google['manager_id'],
+        ])->withToken($google['accsss_token'])->
+        post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignBudgets:mutate', [
+            'operations' => [
+                'create' => array(
+                    'name' => "my budget $rand",
+                    'amountMicros' => $budget * 3
+                )
+            ]
+        ]);
+
+        if ($compain_budget->status() == 200) {
+
+            $compain_budget = json_decode($compain_budget->body());
+            $compain_budget = $compain_budget->results[0]->resourceName;
+
+
+            $compain = \Http::withHeaders([
+
+                'developer-token' => $google['dev_token'],
+                'login-customer-id' => $google['manager_id'],
+            ])->withToken($google['accsss_token'])->
+            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaigns:mutate', [
+                'operations' => [
+                    'create' => array(
+                        'status' => env('GA_STATUS'),
+                        'advertisingChannelType' => $request->chanel,
+                        "geoTargetTypeSetting" => array(
+                            "positiveGeoTargetType" => 'PRESENCE_OR_INTEREST',
+                            "negativeGeoTargetType" => 'PRESENCE_OR_INTEREST',
+                        ),
+
+                        'name' => "$request->title $rand",
+                        'campaignBudget' => $compain_budget,
+
+                        'targetSpend' => array(
+                            'cpcBidCeilingMicros' => 1
+                        ),
+                        'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
+                        'endDate' => Carbon::create(Carbon::now()->addDays(3))->format('Y-m-d'),
+
+                    )
+                ]
+            ]);
+
+            if ($compain->status() == 200) {
+
+                $compain = json_decode($compain->body());
+                $compain = $compain->results[0]->resourceName;
+
+
+                $compain_criteria = \Http::withHeaders([
+
+                    'developer-token' => $google['dev_token'],
+                    'login-customer-id' => $google['manager_id'],
+                ])->withToken($google['accsss_token'])->
+                post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                    'operations' => [
+                        'create' => array(
+                            'displayName' => "my campaign criteria $rand",
+                            'campaign' => $compain,
+                            'negative' => true,
+                            "ageRange" => array(
+                                'type' => $request->age
+                            ),
+
+
+                        )
+                    ]
+                ]);
+
+
+                $compain_criteria2 = \Http::withHeaders([
+
+                    'developer-token' => $google['dev_token'],
+                    'login-customer-id' => $google['manager_id'],
+                ])->withToken($google['accsss_token'])->
+                post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                    'operations' => [
+                        'create' => array(
+                            'displayName' => "my campaign criteria $rand",
+                            'campaign' => $compain,
+                            'negative' => true,
+                            "gender" => array(
+                                'type' => $request->gender
+                            ),
+
+
+                        )
+                    ]
+                ]);
+
+
+                foreach ($cities as $cit) {
+
+                    $compain_criteria3 = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                        'operations' => [
+                            'create' => array(
+                                'displayName' => "my campaign criteria $rand",
+                                'campaign' => $compain,
+                                'negative' => true,
+                                "location" => array(
+                                    'geoTargetConstant' => $cit
+                                ),
+                            )
+                        ]
+                    ]);
+
+
+                }
+
+                //      dd(json_decode($compain_criteria3->body()),$compain,$cities);
+
+                //        dd(json_decode($compain_criteria->body()), json_decode($compain_criteria2->body()));
+
+
+                $adgroup = \Http::withHeaders([
+
+                    'developer-token' => $google['dev_token'],
+                    'login-customer-id' => $google['manager_id'],
+                ])->withToken($google['accsss_token'])->
+                post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/adGroups:mutate', [
+                    'operations' => [
+                        'create' => array(
+                            'status' => env('GA_STATUS'),
+                            'name' => "my adgroup $rand",
+                          //  'type' => "SEARCH_DYNAMIC_ADS",
+                            'type' => "SEARCH_STANDARD",
+                            'campaign' => $compain,
+
+
+                        )
+                    ]
+                ]);
+                if ($adgroup->status()) {
+                    $adgroup = json_decode($adgroup->body());
+                    $adgroup = $adgroup->results[0]->resourceName;
+
+
+//dd(json_decode($adgroupadd));
+
+                } else {
+                    $adgroup = json_decode($adgroup->body());
+                    return back()->with('error', isset($adgroup->error->message) ? $adgroup->error->message : 'Something went wrong');
+
+
+                }
+
+
+            } else {
+                $compain = json_decode($compain->body());
+
+                return back()->with('error', isset($compain->error->message) ? $compain->error->message : 'Something went wrong');
+
+            }
+        } else {
+            $compain_budget = json_decode($compain_budget->body());
+
+            return back()->with('error', isset($compain_budget->error->message) ? $compain_budget->error->message : 'Something went wrong');
+        }
+
+        //adgeoup ad
+
+
+        $advertisement = new Advertisement();
+        $advertisement->goal = $request->chanel;
+        $advertisement->title = $request->title;
+        $advertisement->user_id = \Auth::user()->id;
+
+        $advertisement->age2 = $request->age;
+        $advertisement->gender = $request->gender;
+        $advertisement->per_day = $request->perday_budget;
+
+        $advertisement->type = 2;
+        $advertisement->compain_id = $compain;
+
+        $advertisement->cities = json_encode($cities);
+        $advertisement->countries = json_encode($countries);
+        $advertisement->start_date = $request->start_date;
+        $advertisement->end_date = $request->end_date;
+
+
+        $advertisement->save();
+        //  dd($advertisement,$countries);
+
+
+        //save body
+        foreach ($request->body as $body) {
+            $advertisementDetail = new AdvertisementDetail();
+            $advertisementDetail->data = $body;
+            $advertisementDetail->advertisements_id = $advertisement->id;
+            $advertisementDetail->type = 'body';
+            $advertisementDetail->save();
+
+
+        }
+
+
+        //save button and url
+        for ($j = 0; $j < count($request->url); $j++) {
+            $advertisementDetail = new AdvertisementDetail();
+            // $advertisementDetail->data = $request->btn[$j];
+            $advertisementDetail->url = $request->url[$j];
+            $advertisementDetail->advertisements_id = $advertisement->id;
+            $advertisementDetail->type = 'button';
+            $advertisementDetail->save();
+        }
+
+
+
+        //save heading and creating ads
+$check=0;
+        foreach ($request->heading as $heading) {
+
+
+            $adgroupadd = \Http::withHeaders([
+
+                'developer-token' => $google['dev_token'],
+                'login-customer-id' => $google['manager_id'],
+            ])->withToken($google['accsss_token'])->
+            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/adGroupAds:mutate', [
+                'operations' => [
+                    'create' => array(
+                        'status' => env('GA_STATUS'),
+                        'adGroup' => $adgroup,
+                        "ad" => array(
+
+                            "expandedTextAd" => array(
+                                'headlinePart1' =>$heading,
+                            'headlinePart2'=>$request->heading2[$check],
+                                'description'=>$request->body[0]
+                        ),
+                           "finalUrls"=>[$request->url[0]]
+                        )
+
+                    )
+                ]
+            ]);
+
+      if ($adgroupadd->status()==200)
+      {
+          $advertisementDetail = new AdvertisementDetail();
+          $advertisementDetail->data = $heading .' | '. $request->heading2[$check];
+          $advertisementDetail->advertisements_id = $advertisement->id;
+          $advertisementDetail->type = 'heading';
+          $advertisementDetail->save();
+
+          $advertisementAdds = new AdvertisementAds();
+          $advertisementAdds->advertisements_id = $advertisement->id;
+          $advertisementAdds->heading = $heading .' | '. $request->heading2[$check];
+
+          $advertisementAdds->body = $request->body[0];
+          // $advertisementAdds->button = $request->btn[0];
+          $advertisementAdds->url = $request->url[0];
+          // $advertisementAdds->image = $img1;
+          $advertisementAdds->start_date = Carbon::now();
+          $advertisementAdds->end_date = Carbon::now()->addDays(3);
+           $advertisementAdds->addSet_id = $adgroup;
+           //$advertisementAdds->addCreative_id = $compain_budget;
+           $advertisementAdds->add_id = $adgroupadd;
+
+          //  dd($compain_id,$addSet_id,$addCreative_id,$add_id);
+          $advertisementAdds->save();
+
+          $check++;
+      }
+      else{
+         $advertisement->delete();
+          $adgroupadd = json_decode($adgroupadd->body());
+
+          return back()->with('error', isset($adgroupadd->error->message) ? $adgroupadd->error->message : 'Something went wrong');
+      }
+
+
+
+        }
+
+        //    dd($adCreative);
+        return redirect('manage_view')->with('success', 'Add created successfully');
+    }
+
     public function deleteCompain($id)
     {
         $adv = Advertisement::find($id);
@@ -412,146 +754,486 @@ class AdvertisementController extends Controller
     public function publish($id, Request $request)
     {
         $facebook = config()->get('services.facebook');
+        $google = config()->get('services.google');
         $com = Advertisement::find($id);
-        $com->per_day = $request->per_day;
-        $com->start_date = $request->start;
-        $com->end_date = $request->end;
-        $com->update();
+        if ($com->type==1)
+        {
+            $com->per_day = $request->per_day;
+            $com->start_date = $request->start;
+            $com->end_date = $request->end;
+            $com->update();
 
-        $date1=new \DateTime($com->end_date);
-        $date2=new \DateTime(Carbon::now());
-        $f=  $date1->diff($date2)->days;
+            $date1 = new \DateTime($com->end_date);
+            $date2 = new \DateTime(Carbon::now());
+            $f = $date1->diff($date2)->days;
 //dd($f);
 
-        $adsDel = AdvertisementAds::where('advertisements_id', $com->id)->get();
-        foreach ($adsDel as $adsDel) {
-            $delete = \Http::delete('https://graph.facebook.com/v13.0/' . $adsDel->addSet_id . '', [
-                'access_token' => $facebook['fb_token'],
-            ]);
-          //  $adsDel->delete();
-        }
-
-
-        $body = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'body')->where('status', 'final')->first();
-        $heading = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'heading')->where('status', 'final')->first();
-        $button = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'button')->where('status', 'final')->first();
-        $image = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'image')->where('status', 'final')->first();
-//dd($button);
-
-        $addSet = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adsets', [
-            'campaign_id' => $com->compain_id,
-            'name' => $heading->data,
-            'lifetime_budget' => ($com->per_day * $f) * 100,
-            'start_time' => $com->start_date,
-            'end_time' => $com->end_date,
-            'bid_amount' => $com->per_day * 100,
-            'billing_event' => 'IMPRESSIONS',
-            'optimization_goal' => $com->goal,
-            'targeting' => ['age_min' => intval($com->age[0]), 'age_max' => intval($com->age[1]),
-                'behaviors' => $com->behaviour,
-
-                'genders' => [$com->gender],
-                'geo_locations' => [
-                    'countries' => $com->countries,
-                    'cities' => $com->cities,
-
-                ],
-                'interests' => $com->interest,
-                'life_events' => $com->life_events,
-                'family_statuses' => $com->family_statuses,
-                'industries' => $com->industries,
-                'income' => $com->income,
-            ],
-            'status' => env('FB_STATUS'),
-            'access_token' => $facebook['fb_token'],
-        ]);
-        if ($addSet->status() == 200) {
-            $addSet = json_decode($addSet->body());
-            $addSet_id = $addSet->id;
-
-
-            //creating addCreative
-
-            $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adcreatives', [
-                'name' => $heading->data,
-                'body'=>$body->data,
-                'object_story_spec' => [
-                    'link_data' => [
-                        'name' => $heading->data,
-                        'image_hash' => $image->hash,
-                        'link' => $button->url,
-                        'message' => $body->data,
-                        "call_to_action"=>[
-                            'type'=>$button->data,
-                        ]
-
-                    ],
-                    'page_id' => $facebook['page_id']
-                ],
-
-                'access_token' => $facebook['fb_token'],
-            ]);
-
-
-            if ($adCreative->status() == 200) {
-                $adCreative = json_decode($adCreative->body());
-                $addCreative_id = $adCreative->id;
-
-                //creating add
-
-                $add = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/ads', [
-                    'name' => $heading->data,
-                    'adset_id' => $addSet_id,
-                    'creative' => [
-                        'creative_id' => $addCreative_id,
-                    ],
-                    'status' => env('FB_STATUS'),
-
-                    'access_token' =>$facebook['fb_token'],
+            $adsDel = AdvertisementAds::where('advertisements_id', $com->id)->get();
+            foreach ($adsDel as $adsDel) {
+                $delete = \Http::delete('https://graph.facebook.com/v13.0/' . $adsDel->addSet_id . '', [
+                    'access_token' => $facebook['fb_token'],
                 ]);
-
-                if ($add->status() == 200) {
-                    $add = json_decode($add->body());
-                    $add_id = $add->id;
-
-                } else {
-                    $add = json_decode($add->body());
-                    return back()->with('error', isset($add->error->error_user_msg) ? $add->error->error_user_msg : $add->error->message);
-                }
-
-            } else {
-                $adCreative = json_decode($adCreative->body());
-
-                return back()->with('error', isset($adCreative->error->error_user_msg) ? $adCreative->error->error_user_msg : $adCreative->error->message);
+                //  $adsDel->delete();
             }
 
 
-        } else {
-            $addSet = json_decode($addSet->body());
+            $body = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'body')->where('status', 'final')->first();
+            $heading = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'heading')->where('status', 'final')->first();
+            $button = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'button')->where('status', 'final')->first();
+            $image = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'image')->where('status', 'final')->first();
+//dd($button);
 
-            return back()->with('error', isset($addSet->error->error_user_msg) ? $addSet->error->error_user_msg : $addSet->error->message);
+            $addSet = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adsets', [
+                'campaign_id' => $com->compain_id,
+                'name' => $heading->data,
+                'lifetime_budget' => ($com->per_day * $f) * 100,
+                'start_time' => $com->start_date,
+                'end_time' => $com->end_date,
+                'bid_amount' => $com->per_day * 100,
+                'billing_event' => 'IMPRESSIONS',
+                'optimization_goal' => $com->goal,
+                'targeting' => ['age_min' => intval($com->age[0]), 'age_max' => intval($com->age[1]),
+                    'behaviors' => $com->behaviour,
+
+                    'genders' => [$com->gender],
+                    'geo_locations' => [
+                        'countries' => $com->countries,
+                        'cities' => $com->cities,
+
+                    ],
+                    'interests' => $com->interest,
+                    'life_events' => $com->life_events,
+                    'family_statuses' => $com->family_statuses,
+                    'industries' => $com->industries,
+                    'income' => $com->income,
+                ],
+                'status' => env('FB_STATUS'),
+                'access_token' => $facebook['fb_token'],
+            ]);
+            if ($addSet->status() == 200) {
+                $addSet = json_decode($addSet->body());
+                $addSet_id = $addSet->id;
+
+
+                //creating addCreative
+
+                $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adcreatives', [
+                    'name' => $heading->data,
+                    'body' => $body->data,
+                    'object_story_spec' => [
+                        'link_data' => [
+                            'name' => $heading->data,
+                            'image_hash' => $image->hash,
+                            'link' => $button->url,
+                            'message' => $body->data,
+                            "call_to_action" => [
+                                'type' => $button->data,
+                            ]
+
+                        ],
+                        'page_id' => $facebook['page_id']
+                    ],
+
+                    'access_token' => $facebook['fb_token'],
+                ]);
+
+
+                if ($adCreative->status() == 200) {
+                    $adCreative = json_decode($adCreative->body());
+                    $addCreative_id = $adCreative->id;
+
+                    //creating add
+
+                    $add = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/ads', [
+                        'name' => $heading->data,
+                        'adset_id' => $addSet_id,
+                        'creative' => [
+                            'creative_id' => $addCreative_id,
+                        ],
+                        'status' => env('FB_STATUS'),
+
+                        'access_token' => $facebook['fb_token'],
+                    ]);
+
+                    if ($add->status() == 200) {
+                        $add = json_decode($add->body());
+                        $add_id = $add->id;
+
+                    } else {
+                        $add = json_decode($add->body());
+                        return back()->with('error', isset($add->error->error_user_msg) ? $add->error->error_user_msg : $add->error->message);
+                    }
+
+                } else {
+                    $adCreative = json_decode($adCreative->body());
+
+                    return back()->with('error', isset($adCreative->error->error_user_msg) ? $adCreative->error->error_user_msg : $adCreative->error->message);
+                }
+
+
+            } else {
+                $addSet = json_decode($addSet->body());
+
+                return back()->with('error', isset($addSet->error->error_user_msg) ? $addSet->error->error_user_msg : $addSet->error->message);
+            }
+
+
+            $advertisementAdds = new AdvertisementAds();
+            $advertisementAdds->advertisements_id = $com->id;
+            $advertisementAdds->heading = $heading->data;
+            $advertisementAdds->body = $body->data;
+            $advertisementAdds->button = $button->data;
+            $advertisementAdds->url = $button->url;
+            $advertisementAdds->image = $image->data;
+            $advertisementAdds->start_date = $request->start;
+            $advertisementAdds->end_date = $request->end;
+
+            $advertisementAdds->addSet_id = $addSet_id;
+            $advertisementAdds->addCreative_id = $addCreative_id;
+            $advertisementAdds->add_id = $add_id;
+
+            $advertisementAdds->save();
+
+            $com->step = 6;
+            $com->update();
+            return back()->with('success', 'Add published successfully');
+        }
+        else{
+            $com->per_day = $request->per_day;
+            $com->start_date = $request->start;
+            $com->end_date = $request->end;
+            $com->update();
+
+            $date1 = new \DateTime($com->end_date);
+            $date2 = new \DateTime(Carbon::now());
+            $f = $date1->diff($date2)->days;
+
+
+
+
+
+                $rand = rand(1111, 9999);
+                $budget = intval($com->per_day) * 1000000;
+
+
+
+
+
+                    $i = 0;
+                    $img1 = $hash1 = null;
+                    $radius = $com->radius;
+                    $cities = array();
+                    $countries = array();
+                    $intrest = array();
+                    $behaviour = array();
+                    $life_events = $family_statuses = $industries = $income = array();
+                    if ($com->cities) {
+
+                        foreach ($com->cities as $city) {
+
+                            $cities[] = $city;
+                        }
+
+                    }
+
+
+
+                    if ($com->countries) {
+
+                        foreach ($com->countries as $contry) {
+
+                            $countries[] = $contry;
+                        }
+
+                    }
+
+
+                    //saving compain google
+
+//dd($google);
+                    $date1=new \DateTime($com->end_date);
+                    $date2=new \DateTime(Carbon::now());
+                    $f=  $date1->diff($date2)->days;
+                    $f=$f>=1 ? $f : 3;
+                    $compain_budget = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignBudgets:mutate', [
+                        'operations' => [
+                            'create' => array(
+                                'name' => "my budget $rand",
+                                'amountMicros' => $budget * $f
+                            )
+                        ]
+                    ]);
+
+                    if ($compain_budget->status() == 200) {
+
+
+
+
+                        $compain_budget = json_decode($compain_budget->body());
+                        $compain_budget = $compain_budget->results[0]->resourceName;
+
+
+                        $compain = \Http::withHeaders([
+
+                            'developer-token' => $google['dev_token'],
+                            'login-customer-id' => $google['manager_id'],
+                        ])->withToken($google['accsss_token'])->
+                        post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaigns:mutate', [
+                            'operations' => [
+                                'create' => array(
+                                    'status' => env('GA_STATUS'),
+                                    'advertisingChannelType' => $com->goal,
+                                    "geoTargetTypeSetting" => array(
+                                        "positiveGeoTargetType" => 'PRESENCE_OR_INTEREST',
+                                        "negativeGeoTargetType" => 'PRESENCE_OR_INTEREST',
+                                    ),
+
+                                    'name' => "$com->title $rand",
+                                    'campaignBudget' => $compain_budget,
+
+                                    'targetSpend' => array(
+                                        'cpcBidCeilingMicros' => 1
+                                    ),
+                                    'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
+                                    'endDate' => Carbon::create(Carbon::now()->addDays($f))->format('Y-m-d'),
+
+                                )
+                            ]
+                        ]);
+
+                        if ($compain->status() == 200) {
+
+                            $compain = json_decode($compain->body());
+                            $compain = $compain->results[0]->resourceName;
+
+
+                            $compain_criteria = \Http::withHeaders([
+
+                                'developer-token' => $google['dev_token'],
+                                'login-customer-id' => $google['manager_id'],
+                            ])->withToken($google['accsss_token'])->
+                            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                                'operations' => [
+                                    'create' => array(
+                                        'displayName' => "my campaign criteria $rand",
+                                        'campaign' => $compain,
+                                        'negative' => true,
+                                        "ageRange" => array(
+                                            'type' => $com->age2
+                                        ),
+
+
+                                    )
+                                ]
+                            ]);
+
+
+                            $compain_criteria2 = \Http::withHeaders([
+
+                                'developer-token' => $google['dev_token'],
+                                'login-customer-id' => $google['manager_id'],
+                            ])->withToken($google['accsss_token'])->
+                            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                                'operations' => [
+                                    'create' => array(
+                                        'displayName' => "my campaign criteria $rand",
+                                        'campaign' => $compain,
+                                        'negative' => true,
+                                        "gender" => array(
+                                            'type' => $com->gender
+                                        ),
+
+
+                                    )
+                                ]
+                            ]);
+
+
+                            foreach ($cities as $cit) {
+
+                                $compain_criteria3 = \Http::withHeaders([
+
+                                    'developer-token' => $google['dev_token'],
+                                    'login-customer-id' => $google['manager_id'],
+                                ])->withToken($google['accsss_token'])->
+                                post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                                    'operations' => [
+                                        'create' => array(
+                                            'displayName' => "my campaign criteria $rand",
+                                            'campaign' => $compain,
+                                            'negative' => true,
+                                            "location" => array(
+                                                'geoTargetConstant' => $cit
+                                            ),
+                                        )
+                                    ]
+                                ]);
+
+
+                            }
+
+                            //      dd(json_decode($compain_criteria3->body()),$compain,$cities);
+
+                            //        dd(json_decode($compain_criteria->body()), json_decode($compain_criteria2->body()));
+
+
+                            $adgroup = \Http::withHeaders([
+
+                                'developer-token' => $google['dev_token'],
+                                'login-customer-id' => $google['manager_id'],
+                            ])->withToken($google['accsss_token'])->
+                            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/adGroups:mutate', [
+                                'operations' => [
+                                    'create' => array(
+                                        'status' => env('GA_STATUS'),
+                                        'name' => "my adgroup $rand",
+                                        //  'type' => "SEARCH_DYNAMIC_ADS",
+                                        'type' => "SEARCH_STANDARD",
+                                        'campaign' => $compain,
+
+
+                                    )
+                                ]
+                            ]);
+
+                            if ($adgroup->status()) {
+                                $adgroup = json_decode($adgroup->body());
+                                $adgroup = $adgroup->results[0]->resourceName;
+
+
+//dd(json_decode($adgroupadd));
+
+                            } else {
+                                $adgroup = json_decode($adgroup->body());
+                                return back()->with('error', isset($adgroup->error->message) ? $adgroup->error->message : 'Something went wrong');
+
+
+                            }
+
+
+                        } else {
+                            $compain = json_decode($compain->body());
+
+                            return back()->with('error', isset($compain->error->message) ? $compain->error->message : 'Something went wrong');
+
+                        }
+                    } else {
+                        $compain_budget = json_decode($compain_budget->body());
+
+                        return back()->with('error', isset($compain_budget->error->message) ? $compain_budget->error->message : 'Something went wrong');
+                    }
+
+                    //adgeoup ad
+
+
+                    $advertisement = new Advertisement();
+                    $advertisement->goal = $com->goal;
+                    $advertisement->title = $com->title;
+                    $advertisement->user_id = $com->user_id;
+
+                    $advertisement->age2 = $com->age2;
+                    $advertisement->gender = $com->gender;
+                    $advertisement->per_day = $com->per_day;
+
+                    $advertisement->type = 2;
+                    $advertisement->step = 5;
+                    $advertisement->compain_id = $compain;
+
+                    $advertisement->cities = json_encode($cities);
+                    $advertisement->countries = json_encode($countries);
+
+                    $advertisement->start_date = $com->start_date;
+                    $advertisement->end_date = $com->end_date;
+
+                    $advertisement->save();
+
+
+            $detail = AdvertisementDetail::where('advertisements_id', $com->id)->update(['advertisements_id' => $advertisement->id]);
+
+            $com->delete();
+
+                    $body = AdvertisementDetail::where('advertisements_id', $advertisement->id)->where('type', 'body')->where('status', 'final')->first();
+                    $heading = AdvertisementDetail::where('advertisements_id', $advertisement->id)->where('type', 'heading')->where('status', 'final')->first();
+                    $button = AdvertisementDetail::where('advertisements_id', $advertisement->id)->where('type', 'button')->where('status', 'final')->first();
+
+                    $headingExp = explode('|', $heading->data);
+
+
+                    //save heading and creating ads
+                    $check = 0;
+
+
+
+                    $adgroupadd = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/adGroupAds:mutate', [
+                        'operations' => [
+                            'create' => array(
+                                'status' => env('GA_STATUS'),
+                                'adGroup' => $adgroup,
+                                "ad" => array(
+
+                                    "expandedTextAd" => array(
+                                        'headlinePart1' => $headingExp[0],
+                                        'headlinePart2' => $headingExp[1],
+                                        'description' => $body->data
+                                    ),
+                                    "finalUrls" => [$button->url]
+                                )
+
+                            )
+                        ]
+                    ]);
+
+                    if ($adgroupadd->status() == 200) {
+
+
+                        $advertisementAdds = new AdvertisementAds();
+                        $advertisementAdds->advertisements_id = $advertisement->id;
+                        $advertisementAdds->heading = $heading->data;
+
+                        $advertisementAdds->body = $body->data;
+                        // $advertisementAdds->button = $request->btn[0];
+                        $advertisementAdds->url = $button->url;
+                        // $advertisementAdds->image = $img1;
+                        $advertisementAdds->start_date = Carbon::now();
+                        $advertisementAdds->end_date = Carbon::now()->addDays($f);
+                        $advertisementAdds->addSet_id = $adgroup;
+                        //$advertisementAdds->addCreative_id = $compain_budget;
+                        $advertisementAdds->add_id = $adgroupadd;
+
+                        //  dd($compain_id,$addSet_id,$addCreative_id,$add_id);
+                        $advertisementAdds->save();
+
+                        $check++;
+                    } else {
+
+                        $adgroupadd = json_decode($adgroupadd->body());
+
+                        $advertisement->delete();
+
+                        return back()->with('error', isset($adgroupadd->error->message) ? $adgroupadd->error->message : 'Something went wrong');
+                    }
+
+
+
+
+
+
+            $advertisement->step = 6;
+            $advertisement->update();
+            return redirect("manage_detail/$advertisement->id")->with('success', 'Add published successfully');
+
         }
 
-
-        $advertisementAdds = new AdvertisementAds();
-        $advertisementAdds->advertisements_id = $com->id;
-        $advertisementAdds->heading = $heading->data;
-        $advertisementAdds->body = $body->data;
-        $advertisementAdds->button = $button->data;
-        $advertisementAdds->url = $button->url;
-        $advertisementAdds->image = $image->data;
-        $advertisementAdds->start_date = $request->start;
-        $advertisementAdds->end_date = $request->end;
-
-        $advertisementAdds->addSet_id = $addSet_id;
-        $advertisementAdds->addCreative_id = $addCreative_id;
-        $advertisementAdds->add_id = $add_id;
-
-        $advertisementAdds->save();
-
-        $com->step = 6;
-        $com->update();
-        return back()->with('success', 'Add published successfully');
 
     }
 
@@ -559,6 +1241,7 @@ class AdvertisementController extends Controller
     public function conpainDelete($id)
     {
         $facebook = config()->get('services.facebook');
+        $google = config()->get('services.google');
         $compain = Advertisement::find($id);
         if ($compain->type == 1) {
             //facebooke delete
@@ -578,6 +1261,30 @@ class AdvertisementController extends Controller
             //google delete
 
 
+            $delete = \Http::withHeaders([
+
+                'developer-token' => $google['dev_token'],
+                'login-customer-id' => $google['manager_id'],
+            ])->withToken($google['accsss_token'])->
+            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaigns:mutate', [
+                'operations' => [
+                    'remove' => $compain->compain_id,
+                ]
+            ]);
+//dd($compain->body());
+            if ($delete->status() == 200) {
+
+
+                $compain->delete();
+                return redirect('manage_view')->with('success', 'campaign deleted successfully');
+
+
+            } else {
+                $delete = json_decode($delete->body());
+
+                return back()->with('error', isset($delete->error->message) ? $delete->error->message : 'Something went wrong');
+
+            }
         }
 
 
@@ -587,6 +1294,7 @@ class AdvertisementController extends Controller
     public function activeCompain($id)
     {
         $facebook = config()->get('services.facebook');
+        $google = config()->get('services.google');
         $compain = Advertisement::find($id);
         if ($compain->type == 1) {
             //facebooke active
@@ -605,7 +1313,31 @@ class AdvertisementController extends Controller
             }
 
         } else {
-            //google active
+            $update = \Http::withHeaders([
+
+                'developer-token' => $google['dev_token'],
+                'login-customer-id' => $google['manager_id'],
+            ])->withToken($google['accsss_token'])->
+            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaigns:mutate', [
+                'operations' => [
+                    'updateMask' => 'status',
+                    'update'=>array(
+                        'resourceName'=>$compain->compain_id,
+                        'status'=>'ENABLED'
+                    )
+                ]
+            ]);
+
+            if ($update->status()==200)
+            {
+                return back()->with('success', 'campaign status updated successfully');
+
+            }
+            else{
+
+                $delete = json_decode($update->body());
+                return back()->with('error', isset($update->error->error_user_msg) ? $update->error->error_user_msg : $active->error->message);
+            }
         }
 
     }
@@ -613,6 +1345,7 @@ class AdvertisementController extends Controller
     public function pauseCompain($id)
     {
         $facebook = config()->get('services.facebook');
+        $google = config()->get('services.google');
         $compain = Advertisement::find($id);
         if ($compain->type == 1) {
             //facebooke active
@@ -630,38 +1363,103 @@ class AdvertisementController extends Controller
                 return back()->with('error', isset($pause->error->error_user_msg) ? $pause->error->error_user_msg : $pause->error->message);
             }
         } else {
-            //google active
+
+
+
+            $update = \Http::withHeaders([
+
+                'developer-token' => $google['dev_token'],
+                'login-customer-id' => $google['manager_id'],
+            ])->withToken($google['accsss_token'])->
+            post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaigns:mutate', [
+                'operations' => [
+                    'updateMask' => 'status',
+                    'update'=>array(
+                        'resourceName'=>$compain->compain_id,
+                      'status'=>'PAUSED'
+                    )
+                ]
+            ]);
+
+          if ($update->status()==200)
+          {
+              return back()->with('success', 'campaign status updated successfully');
+
+          }
+          else{
+
+              $delete = json_decode($update->body());
+              return back()->with('error', isset($update->error->error_user_msg) ? $update->error->error_user_msg : $active->error->message);
+          }
+
+
         }
 
     }
 
     public function searchCity(Request $request)
     {
+        $total = [];
         $facebook = config()->get('services.facebook');
-        $city = \Http::get('https://graph.facebook.com/v13.0/search', [
-            'location_types' => ["city"],
-            'type' => 'adgeolocation',
-            'limit' => 100,
-            'q' => $request->city,
-            'access_token' => $facebook['fb_token'],
+        //    dd($request->city);
+        foreach ($request->city as $citi) {
+            $data = explode(',', $citi);
+            $city = \Http::get('https://graph.facebook.com/v13.0/search', [
+                'location_types' => ["city"],
+                'type' => 'adgeolocation',
+                'limit' => 500,
+                'q' => $data[1],
+                'access_token' => $facebook['fb_token'],
 
-        ]);
+            ]);
+            $city = json_decode($city->body());
+            $city = collect($city->data);
+            $total = collect($total);
+            $total = $total->merge($city);
+            $total->all();
 
-        return response()->json(json_decode($city->body()));
+        }
+
+
+//dd(json_decode($city->body()));
+        return response()->json($total);
     }
 
-    public function searchInterest(Request $request)
+    public function searchCityGoogle(Request $request)
     {
-        $facebook = config()->get('services.facebook');
-        $city = \Http::get('https://graph.facebook.com/v13.0/search', [
+        $total = [];
+        $google = config()->get('services.google');
+        //    dd($request->city);
 
 
-            'type' => 'adinterest',
-            'q' => $request->interest,
-            'access_token' => $facebook['fb_token'],
+        $city = \Http::withHeaders([
 
-        ]);
+            'developer-token' => $google['dev_token'],
+            'login-customer-id' => $google['manager_id'],
+        ])->withToken($google['accsss_token'])->
+        post('https://googleads.googleapis.com/v10/geoTargetConstants:suggest', [
+                'locationNames' => array(
+                    'names' => [$request->city],
+                ),
+            ]
+        );
+        $city = json_decode($city->body());
 
-        return response()->json(json_decode($city->body()));
+
+//dd(json_decode($city->body()));
+        return response()->json($city->geoTargetConstantSuggestions);
+    }
+
+
+
+
+    public function connectWithFacebook()
+    {
+        return redirect('/pdf/connect-with-facebook.pdf');
+    }
+
+    public function connectWithGoogle()
+    {
+        return redirect('/pdf/connect-with-google.pdf');
     }
 }

@@ -657,6 +657,7 @@ class a_bTestingFacebook extends Command
                 $date1=new \DateTime($adsStep4->end_date);
                 $date2=new \DateTime(Carbon::now());
                 $f=  $date1->diff($date2)->days;
+                $f=$f>=1 ? $f : 3;
                 //delete add
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep4->id)->get();
                 foreach ($adsDel as $adsDel)
@@ -683,7 +684,7 @@ class a_bTestingFacebook extends Command
                     'name' => $heading->data,
                     'lifetime_budget' => ($advertisement->per_day * $f) * 100,
                     'start_time' => Carbon::now(),
-                    'end_time' => $advertisement->end_date,
+                    'end_time' => Carbon::now()->addDays($f),
                     'bid_amount' => $advertisement->per_day * 100,
                     'billing_event' => 'IMPRESSIONS',
                     'optimization_goal' => $advertisement->goal,
@@ -786,7 +787,7 @@ class a_bTestingFacebook extends Command
                 $advertisementAdds->url = $button->url;
                 $advertisementAdds->image = $image->data;
                 $advertisementAdds->start_date = Carbon::now();
-                $advertisementAdds->end_date = $advertisement->end_date;
+                $advertisementAdds->end_date =Carbon::now()->addDays($f);
                 $advertisementAdds->addSet_id = $addSet_id;
                 $advertisementAdds->addCreative_id = $addCreative_id;
                 $advertisementAdds->add_id = $add_id;

@@ -61,29 +61,4 @@ class Advertisement extends Model
         return json_decode($val);
     }
 
-
-
-
-//    public function setCitiesAttribute($val)
-//    {
-//        return json_encode($val);
-//    }
-//
-//    public function setCountriesAttribute($val)
-//    {
-//        return json_encode($val);
-//    }
-//    public function setInterestAttribute($val)
-//    {
-//        return json_encode($val);
-//    }
-//    public function setDemoAttribute($val)
-//    {
-//        return json_encode($val);
-//    }
-//
-//    public function setBehaviourAttribute($val)
-//    {
-//        return json_encode($val);
-//    }
 }

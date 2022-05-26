@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
 use App\Models\Behaviour;
+use App\Models\countries;
 use App\Models\Demographics;
 use App\Models\Intrests;
 use App\Models\mediaGallary;
@@ -22,9 +23,27 @@ class UserController extends Controller
     public function profile()
     {
         $user = \Auth::user();
-//        $url=\Http::get('https://graph.facebook.com/debug_token?input_token='.$user->fb_token.'&access_token='.$user->fb_token.'');
-//   dd(json_decode($url->body()));
-        return view('profile', compact('user'));
+        $pages=\Http::get('https://graph.facebook.com/v13.0/me/accounts?access_token='.$user->fb_token.'');
+        $accounts=\Http::get('https://graph.facebook.com/v13.0/me/adaccounts?access_token='.$user->fb_token.'');
+
+if ($pages->status()==200)
+{
+    $pages=json_decode($pages->body());
+    $pages=$pages->data;
+}
+else{
+    $pages=[];
+}
+if ($accounts->status()==200)
+{
+    $accounts=json_decode($accounts->body());
+    $accounts=$accounts->data;
+}
+else{
+    $accounts=[];
+}
+
+        return view('profile', compact('user','pages','accounts'));
     }
 
     public function profileUpdate(Request $request)
@@ -83,7 +102,6 @@ class UserController extends Controller
         if ($api->status() == 200) {
             $api = json_decode($api->body());
 
-
             $user = User::find(\Auth::user()->id);
             $user->fb_client = $request->fb_client;
             $user->fb_secret = $request->fb_secret;
@@ -101,9 +119,32 @@ class UserController extends Controller
 
 
     }
-
-    function create_ad($id)
+    public function updateGoogle(Request $request)
     {
+
+
+
+
+
+            $user = User::find(\Auth::user()->id);
+            $user->gg_client = $request->gg_client;
+            $user->gg_secret = $request->gg_secret;
+            $user->gg_dev = $request->gg_dev;
+            $user->gg_manager = $request->gg_manager;
+            $user->gg_customer = $request->gg_customer;
+            $user->gg_access = $request->gg_access;
+            $user->gg_refresh = $request->gg_refresh;
+            $user->update();
+            return back()->with('success', 'Profile updated successfully');
+
+
+
+
+    }
+
+    function create_ad_fb(Request $request)
+    {
+
         $facebook = config()->get('services.facebook');
 
         $country = \Http::get('https://graph.facebook.com/v13.0/search', [
@@ -125,6 +166,7 @@ class UserController extends Controller
 
         ]);
         $city = json_decode($city->body());
+        $city = [];
 
         $intrests = Intrests::where('parent', 0)->get();
 //dd($intrests[0]->child[0]->child);
@@ -136,9 +178,32 @@ class UserController extends Controller
         //  dd($demographics);
 
 
-        $advert = $id;
+        $advert = 1;
         $gallary = mediaGallary::where('user_id', \Auth::user()->id)->OrderBY('id', 'DESC')->get();
-        return view('create_add', compact('advert', 'city', 'gallary', 'country', 'behaviour', 'intrests', 'demographics'));
+
+
+      return view('create_add', compact('advert', 'city', 'gallary', 'country', 'behaviour', 'intrests', 'demographics'));
+
+
+
+    }
+
+    function create_ad_gg(Request $request)
+    {
+
+        $google = config()->get('services.google');
+        //    dd($request->city);
+
+
+
+       $country=countries::all();
+       $advert = 2;
+        $gallary = mediaGallary::where('user_id', \Auth::user()->id)->OrderBY('id', 'DESC')->get();
+
+
+            return view('google_add', compact('advert', 'gallary', 'country'));
+
+
     }
 
     public function ManageAdd()
@@ -180,10 +245,11 @@ class UserController extends Controller
         $facebook = config()->get('services.facebook');
         $addData = \Http::get('https://graph.facebook.com/v13.0/' . $add->addSet_id . '/ads', [
 
-            'fields' => 'status,name',
+            'fields' => 'status,name,effective_status',
             'access_token' => $facebook['fb_token'],
         ]);
         $data = json_decode($addData->body());
+      //  dd($data);
 
         $facebook = config()->get('services.facebook');
 

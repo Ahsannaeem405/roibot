@@ -58,18 +58,17 @@
 
 
 
-                                            <div class="position-relative text-center">
+                                            <div class="position-relative">
+                                                <span class="ml-2" >Ad . <span class="divurl_1"> {{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}} </span></span>
 
-                                                <img src="{{asset('images/gallary/'.$com->activeAdd[0]->image.'')}}" class="img-fluid" alt="">
 
-                                                <h4 class="position-absolute heading_fb text-white">{{$com->activeAdd[0]->heading}}</h4>
+                                                <h5 class=" heading_fb  heading1_prev ml-2 mt-1" style="color: blue!important;">{{isset($com->activeAdd[0]->heading) ? $com->activeAdd[0]->heading : null}}</h5>
 
                                             </div>
-                                            <div class="p-3 d-flex justify-content-between ">
+                                            <div class="d-flex justify-content-between ">
 
 
-                                                <p>{{$com->activeAdd[0]->body}}</p>
-                                                <a href="{{$com->activeAdd[0]->url}}" target="_blank" class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
+                                                <p class="ml-2"> {{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
                                             </div>
 
                                         </div>

@@ -19,6 +19,7 @@ class CreateAdvertisementsTable extends Migration
             $table->text('title')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('age')->nullable();
+            $table->string('age2')->nullable();
             $table->string('gender')->nullable();
             $table->string('per_day')->nullable();
             $table->integer('type')->nullable();

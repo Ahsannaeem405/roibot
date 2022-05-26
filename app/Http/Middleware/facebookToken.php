@@ -16,7 +16,7 @@ class facebookToken
      */
     public function handle(Request $request, Closure $next)
     {
-        $permisions=collect(['ads_management','ads_read','public_profile']);
+        $permisions=collect(['ads_management','ads_read','public_profile','pages_show_list']);
         if (\Auth::user()->fb_client == null) {
             return redirect('profile')->with('error', 'Please connect with facebook');
         } else {
@@ -33,12 +33,12 @@ class facebookToken
 
                   $scopes=     collect($url->data->scopes);
 
-                  $diff=    count($permisions->diff($scopes));
+                  $diff= count($permisions->diff($scopes));
 
                   if ($diff>=1)
                   {
 
-                      return redirect('profile')->with('error', 'Some permissions are missing.');
+                      return redirect('profile')->with('error', 'please provide these permissions ads_management , ads_read, public_profile, pages_show_list');
                   }
                   else{
                       return $next($request);

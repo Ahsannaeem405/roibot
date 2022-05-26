@@ -25,6 +25,15 @@ class CreateUsersTable extends Migration
             $table->text('fb_token')->nullable();
             $table->bigInteger('fb_page')->nullable();
             $table->bigInteger('fb_account')->nullable();
+
+            $table->text('gg_client')->nullable();
+            $table->text('gg_secret')->nullable();
+            $table->text('gg_dev')->nullable();
+            $table->text('gg_manager')->nullable();
+            $table->text('gg_customer')->nullable();
+            $table->text('gg_access')->nullable();
+            $table->text('gg_refresh')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -16,7 +16,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('facebook:insight')->everyMinute();
+        $schedule->command('google:insight')->everyMinute();
         $schedule->command('ab:facebook')->everyMinute();
+        $schedule->command('ab:googleText')->everyMinute();
     }
 
     /**

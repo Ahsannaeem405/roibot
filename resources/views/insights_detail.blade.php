@@ -184,18 +184,19 @@
 
 
 
-                                            <div class="position-relative text-center">
+                                            <div class="position-relative ">
 
-                                                <img src="{{asset('images/gallary/'.$com->image.'')}}" class="img-fluid" alt="">
 
-                                                <h4 class="position-absolute heading_fb text-white">{{$com->heading}}</h4>
+                                                <span class="ml-2" >Ad . <span class="divurl_1"> {{$com->url}} </span></span>
+
+
+                                                <h5 class=" heading_fb  heading1_prev ml-2 mt-1" style="color: blue!important;">{{$com->heading}}</h5>
 
                                             </div>
                                             <div class="p-3 d-flex justify-content-between ">
 
 
-                                                <p>{{$com->body}}</p>
-                                                <a href="{{$com->url}}" target="_blank" class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
+                                                <p class="ml-2">{{$com->body}}</p>
                                             </div>
 
                                         </div>
@@ -222,8 +223,8 @@
 
 
                                    <p class="font-weight-bolder my-3 text-danger">
-                                        {{$data->data[0]->name}} Status is
-                                    {{$data->data[0]->status}}
+                                        Status:
+                                    {{$data->data[0]->effective_status}}
                                    </p>
                                     @endif
                                     <h3 class="color">Insights</h3>

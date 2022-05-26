@@ -29,10 +29,13 @@ Route::get('index',[UserController::class,'main']);
         return view('Select_advert');
     });
 
-    Route::get('create_ad/{id}',[UserController::class,'create_ad'])->middleware('facebookToken');
+    Route::get('create_ad/1',[UserController::class,'create_ad_fb'])->middleware('facebookToken');
+    Route::get('create_ad/2',[UserController::class,'create_ad_gg'])->middleware('googleToken');
     Route::post('post/add',[\App\Http\Controllers\AdvertisementController::class,'PostAdd'])->middleware('facebookToken');
+    Route::post('post/add/google',[\App\Http\Controllers\AdvertisementController::class,'PostAddGoogle'])->middleware('facebookToken');
     Route::post('publish/{id}',[\App\Http\Controllers\AdvertisementController::class,'publish'])->middleware('facebookToken');
     Route::get('search/city',[\App\Http\Controllers\AdvertisementController::class,'searchCity'])->middleware('facebookToken');
+    Route::get('search/city/google',[\App\Http\Controllers\AdvertisementController::class,'searchCityGoogle']);
     Route::get('search/interest',[\App\Http\Controllers\AdvertisementController::class,'searchInterest'])->middleware('facebookToken');
 
     //manage add
@@ -55,6 +58,7 @@ Route::get('index',[UserController::class,'main']);
 Route::get('profile',[UserController::class,'profile']);
 Route::post('profile/update',[UserController::class,'profileUpdate']);
 Route::post('update/fb',[UserController::class,'updateFb']);
+Route::post('update/google',[UserController::class,'updateGoogle']);
 
     //gallary
 Route::get('mediaGallery',[UserController::class,'mediaGallery']);
@@ -71,7 +75,8 @@ Route::post('gallery/delete',[UserController::class,'galleryDelete']);
 
 
 });
-
+Route::get('connect-with-facebook',[\App\Http\Controllers\AdvertisementController::class,'connectWithFacebook']);
+Route::get('connect-with-google',[\App\Http\Controllers\AdvertisementController::class,'connectWithGoogle']);
 //test
 Route::get('compainFB',[\App\Http\Controllers\Controller::class,'index']);
 Route::get('compainGG',[\App\Http\Controllers\Controller::class,'index2']);
@@ -84,6 +89,7 @@ Route::get('intrest',[\App\Http\Controllers\Controller::class,'intrest']);
 Route::get('behaviour',[\App\Http\Controllers\Controller::class,'behaviour']);
 Route::get('dempgraphics',[\App\Http\Controllers\Controller::class,'dempgraphics']);
 Route::get('data',[\App\Http\Controllers\Controller::class,'data']);
+
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
