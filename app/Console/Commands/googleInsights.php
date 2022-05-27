@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
+use App\Models\insightDetail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class googleInsights extends Command
@@ -115,6 +117,14 @@ class googleInsights extends Command
                     $adsStep1->impressions = intval($res->results[0]->metrics->impressions);
                     $adsStep1->total= intval($adsStep1->clicks+  $adsStep1->impressions);
                     $adsStep1->update();
+
+                        $ins_detail=insightDetail::updateOrCreate(
+                            ['add_id'=>$adsStep1->id,'date'=>Carbon::now()->format('Y-m-d')],
+                            ['cpc'=>isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0],
+                            ['impressions'=> intval($res->results[0]->metrics->impressions)],
+                            ['clicks'=>intval($res->results[0]->metrics->clicks)],
+
+                        );
 
                     }
                 }

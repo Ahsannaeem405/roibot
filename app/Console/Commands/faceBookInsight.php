@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\AdvertisementAds;
+use App\Models\insightDetail;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class faceBookInsight extends Command
@@ -47,7 +49,12 @@ class faceBookInsight extends Command
                 'access_token' => $ad->compain->user->fb_token,
 
             ]);
+            if ($insight->status()==200)
+            {
+
+
             $insight=json_decode($insight->body());
+
             if (count($insight->data)>=1){
 
                 $ad->clicks=intval($insight->data[0]->clicks);
@@ -56,6 +63,16 @@ class faceBookInsight extends Command
                 $ad->total= intval($ad->clicks+  $ad->impressions);
                 $ad->update();
 
+                $ins_detail=insightDetail::updateOrCreate(
+                    ['add_id'=>$ad->id,'date'=>Carbon::now()->format('Y-m-d')],
+                    ['cpc'=>$ad->cpc],
+                    ['impressions'=> $ad->impressions],
+                    ['clicks'=>$ad->clicks],
+
+                );
+
+
+            }
             }
         }
     }

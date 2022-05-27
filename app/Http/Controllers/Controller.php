@@ -7,6 +7,7 @@ use App\Models\AdvertisementAds;
 use App\Models\AdvertisementDetail;
 use App\Models\Behaviour;
 use App\Models\Demographics;
+use App\Models\insightDetail;
 use App\Models\Intrests;
 use App\Models\User;
 use Carbon\Carbon;
@@ -1342,7 +1343,6 @@ class Controller extends BaseController
     public function data2()
     {
 
-
         $adv = Advertisement::whereHas('activeAdd', function ($q) {
             //  $q->where('end_date', '<', Carbon::now());
         })
@@ -1407,18 +1407,30 @@ class Controller extends BaseController
   FROM ad_group_ad
   where  ad_group_ad.resource_name='$ad'"
                     ]);
-                    if ($insight->status()==200)
-                    {
-                    $res = json_decode($insight->body());
-
-                    $adsStep1->cpc = isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0;
-                    $adsStep1->clicks = intval($res->results[0]->metrics->clicks);
-                    $adsStep1->impressions = intval($res->results[0]->metrics->impressions);
-                        $adsStep1->total= intval($adsStep1->clicks+  $adsStep1->impressions);
-                    $adsStep1->update();
+                    if ($insight->status() == 200) {
 
 
-                }
+                        $res = json_decode($insight->body());
+
+                        $adsStep1->cpc = isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0;
+                        $adsStep1->clicks = intval($res->results[0]->metrics->clicks);
+                        $adsStep1->impressions = intval($res->results[0]->metrics->impressions);
+                        $adsStep1->total = intval($adsStep1->clicks + $adsStep1->impressions);
+                        $adsStep1->update();
+
+
+
+                        $ins_detail=insightDetail::updateOrCreate(
+                            ['add_id'=>$adsStep1->id,'date'=>Carbon::now()->format('Y-m-d')],
+                            ['cpc'=>isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0],
+                            ['impressions'=> intval($res->results[0]->metrics->impressions)],
+                            ['clicks'=>intval($res->results[0]->metrics->clicks)],
+
+                        );
+
+
+
+                    }
                 }
 
 

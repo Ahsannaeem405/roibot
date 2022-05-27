@@ -238,8 +238,8 @@ else{
     {
 
         $compain = Advertisement::where('id', $id)->orderBy('id', 'DESC')->first();
-        $add = AdvertisementAds::find($add);
-        //   dd($add);
+        $add = AdvertisementAds::with('insightDetail')->find($add);
+
 
         $facebook = config()->get('services.facebook');
         $addData = \Http::get('https://graph.facebook.com/v13.0/' . $add->addSet_id . '/ads', [

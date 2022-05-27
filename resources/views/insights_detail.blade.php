@@ -8,12 +8,11 @@
                 text: "Insights"
             },
             axisX: {
-                valueFormatString: "MMM YYYY"
+                valueFormatString: "DD MMM YYYY"
             },
             axisY2: {
                 title: "Analytics",
-                prefix: "$",
-                suffix: "K"
+
             },
             toolTip: {
                 shared: true
@@ -25,89 +24,70 @@
                 dockInsidePlotArea: true,
                 itemclick: toogleDataSeries
             },
-            data: [{
+            data: [
+                {
                 type: "line",
                 axisYType: "secondary",
                 name: "Clicks",
                 showInLegend: true,
                 markerSize: 0,
-                yValueFormatString: "$#,###k",
-                dataPoints: [{
-                    x: new Date(2014, 00, 01),
-                    y: 850
-                }, {
-                    x: new Date(2014, 01, 01),
-                    y: 889
-                }, {
-                    x: new Date(2017, 05, 01),
-                    y: 1170
-                }]
+                yValueFormatString: "#",
+                dataPoints: [
+                    @foreach($add->insightDetail as $detail)
+                    {
+
+                    x: new Date({{\Carbon\Carbon::create($detail->date)->format('Y,m,d')}}),
+                    y: {{$detail->clicks}}
+                },
+                @endforeach
+                ]
             }, {
                 type: "line",
                 axisYType: "secondary",
                 name: "CPC",
                 showInLegend: true,
                 markerSize: 0,
-                yValueFormatString: "$#,###k",
-                dataPoints: [{
-                    x: new Date(2014, 00, 01),
-                    y: 1200
-                }, {
-                    x: new Date(2014, 01, 01),
-                    y: 1200
-                }, {
-                    x: new Date(2014, 02, 01),
-                    y: 1190
-                }, {
-                    x: new Date(2014, 03, 01),
-                    y: 1180
-                }, {
-                    x: new Date(2014, 04, 01),
-                    y: 1250
-                }, {
-                    x: new Date(2017, 05, 01),
-                    y: 1730
-                }]
+                yValueFormatString: "#",
+                dataPoints: [
+                        @foreach($add->insightDetail as $detail)
+                    {
+
+                        x: new Date({{\Carbon\Carbon::create($detail->date)->format('Y,m,d')}}),
+                        y: {{$detail->cpc}}
+                    },
+                    @endforeach
+
+                    ]
             }, {
                 type: "line",
                 axisYType: "secondary",
                 name: "Impressions",
                 showInLegend: true,
                 markerSize: 0,
-                yValueFormatString: "$#,###k",
-                dataPoints: [{
-                    x: new Date(2014, 00, 01),
-                    y: 409
-                }, {
-                    x: new Date(2014, 01, 01),
-                    y: 415
-                }, {
-                    x: new Date(2014, 02, 01),
-                    y: 419
-                }, {
-                    x: new Date(2017, 05, 01),
-                    y: 675
-                }]
+                yValueFormatString: "#",
+                dataPoints: [ @foreach($add->insightDetail as $detail)
+                {
+
+                    x: new Date({{\Carbon\Carbon::create($detail->date)->format('Y,m,d')}}),
+                    y: {{$detail->impressions}}
+                },
+                    @endforeach]
             }, {
                 type: "line",
                 axisYType: "secondary",
                 name: "Conversation",
                 showInLegend: true,
                 markerSize: 0,
-                yValueFormatString: "$#,###k",
-                dataPoints: [{
-                    x: new Date(2014, 00, 01),
-                    y: 529
-                }, {
-                    x: new Date(2014, 01, 01),
-                    y: 540
-                },  {
-                    x: new Date(2017, 04, 01),
-                    y: 749
-                }, {
-                    x: new Date(2017, 05, 01),
-                    y: 740
-                }]
+                yValueFormatString: "#",
+                dataPoints: [
+                        @foreach($add->insightDetail as $detail)
+                {
+
+                    x: new Date({{\Carbon\Carbon::create($detail->date)->format('Y,m,d')}}),
+                    y: {{$detail->clicks}}/{{$detail->impressions==0 ? 1 : $detail->impressions}}
+                },
+                    @endforeach
+                ]
             }]
         });
         chart.render();

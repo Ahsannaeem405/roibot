@@ -19,4 +19,9 @@ class AdvertisementAds extends Model
     {
         return $this->belongsTo(Advertisement::class,'advertisements_id');
     }
+
+    public function insightDetail()
+    {
+        return $this->hasMany(insightDetail::class,'add_id');
+    }
 }

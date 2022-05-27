@@ -449,7 +449,7 @@
                                         <h5 class=" heading_fb text-white heading1_prev ml-2 mt-1" style="color: blue!important;">This is your heading part 1 | This is your heading part 2</h5>
 
                                     </div>
-                                    <div class="ml-2 d-flex justify-content-between ">
+                                    <div class="ml-2 d-flex justify-content-between">
 
 
                                         <p class="body1_prev">This is your body</p>
