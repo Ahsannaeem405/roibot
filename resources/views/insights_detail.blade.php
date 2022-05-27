@@ -180,7 +180,7 @@
                                 <div class="col-12 mt-3">
                                     <a href="{{url('insight_detail/'.$compain->id.'/'.$com->id.'')}}" class="a_card">
 
-                                        <div class="box-shadow p-0 overflow-hidden ">
+                                        <div class="box-shadow p-0 overflow-hidden p-3">
 
 
 
@@ -193,7 +193,7 @@
                                                 <h5 class=" heading_fb  heading1_prev ml-2 mt-1" style="color: blue!important;">{{$com->heading}}</h5>
 
                                             </div>
-                                            <div class="p-3 d-flex justify-content-between ">
+                                            <div class=" d-flex justify-content-between ">
 
 
                                                 <p class="ml-2">{{$com->body}}</p>
@@ -250,7 +250,11 @@
                                 <div class="col-md-6 col-lg-3 col-12 mt-2">
                                     <div class="bg-insight text-center">
                                         <h5>Conversation</h5>
-                                        <p class="mb-0 color">{{$add->conversation}}</p>
+                                        @php
+                                           $val= $add->impressions==0 ? 1 : $add->impressions
+                                        @endphp
+
+                                        <p class="mb-0 color">{{round($add->clicks / $val,2)}}</p>
                                     </div>
                                 </div>
                                 <div class="col-12 pt-5">

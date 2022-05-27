@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class googleInsights extends Command
@@ -38,28 +40,88 @@ class googleInsights extends Command
      */
     public function handle()
     {
-        $ads=AdvertisementAds::where('add_id','!=',null)->get();
-        foreach ($ads as $ad)
-        {
-            $insight = \Http::get('https://graph.facebook.com/v13.0/'.$ad->add_id.'/insights', [
-                "date_preset"=>"maximum",
-                "fields"=>'impressions,clicks,cpc,reach',
-                'access_token' => $ad->compain->user->fb_token,
+        $adv = Advertisement::whereHas('activeAdd', function ($q) {
+            //  $q->where('end_date', '<', Carbon::now());
+        })
+            ->where('status', 'pending')
+            ->where('type', 2)
+            ->get();
 
+
+        foreach ($adv as $advs) {
+
+            $adsStep1 = $advs->activeAdd;
+
+
+            $rand = rand(1111, 9999);
+
+
+            $user = User::find($advs->user_id);
+            $api = \Http::post('https://www.googleapis.com/oauth2/v3/token', [
+                'grant_type' => 'refresh_token',
+                'client_id' => $user->gg_client,
+                'client_secret' => $user->gg_secret,
+                'refresh_token' => $user->gg_refresh,
             ]);
-            $insight=json_decode($insight->body());
-            if (count($insight->data)>=1){
+            if ($api->status() == 200) {
+                $api = json_decode($api->body());
 
-                $ad->clicks=intval($insight->data[0]->clicks);
-                $ad->impressions=intval($insight->data[0]->impressions);
-                $ad->cpc=intval($insight->data[0]->cpc);
-                $ad->conversation=intval($insight->data[0]->reach);
-                $ad->total= intval($ad->clicks+  $ad->impressions +  $ad->cpc+  $ad->conversation);
+                $user->gg_access = $api->access_token;
+                $user->update();
 
 
-                $ad->update();
+                $google = [
+                    'dev_token' => $user->gg_dev,
+                    'manager_id' => $user->gg_manager,
+                    'customer_id' => $user->gg_customer,
+                    'client_id' => $user->gg_client,
+                    'secret_id' => $user->gg_secret,
+                    'accsss_token' => $user->gg_access,
+                    'refresh_token' => $user->gg_refresh,
+
+                ];
+
+
+                foreach ($adsStep1 as $adsStep1) {
+                    $ad = json_decode($adsStep1->add_id);
+                    $ad = $ad->results[0]->resourceName;
+                    // dd($ad);
+
+
+                    $insight = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/googleAds:search', [
+
+                        "query" => "SELECT
+    metrics.clicks,
+    metrics.impressions,
+    metrics.ctr,
+    metrics.average_cpc,
+    metrics.cost_micros
+  FROM ad_group_ad
+  where  ad_group_ad.resource_name='$ad'"
+                    ]);
+                    if ($insight->status()==200)
+                    {
+
+
+                    $res = json_decode($insight->body());
+
+                    $adsStep1->cpc = isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0;
+                    $adsStep1->clicks = intval($res->results[0]->metrics->clicks);
+                    $adsStep1->impressions = intval($res->results[0]->metrics->impressions);
+                    $adsStep1->total= intval($adsStep1->clicks+  $adsStep1->impressions);
+                    $adsStep1->update();
+
+                    }
+                }
+
 
             }
         }
+
     }
 }

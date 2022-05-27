@@ -219,12 +219,11 @@ else{
             withSum('activeAdd as cpc', 'cpc')
             ->withSum('activeAdd as clicks', 'clicks')
             ->withSum('activeAdd as impressions', 'impressions')
-            ->withSum('activeAdd as conversation', 'conversation')
             ->withSum('activeAdd as total', 'total')
             ->where('user_id', \Auth::user()->id)->orderBy('total', 'DESC')->take(5)->get();
 
 
-        //dd($compain);
+
 
         return view('index', compact('compain'));
     }

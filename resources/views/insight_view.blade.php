@@ -54,7 +54,7 @@
                                 <div class="col-md-4 col-12 mt-3">
                                     <a href="{{url('insight_detail/'.$com->id.'/'.$com->activeAdd[0]->id.'')}}" class="a_card">
 
-                                        <div class="box-shadow p-0 overflow-hidden h-100">
+                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3">
 
 
 

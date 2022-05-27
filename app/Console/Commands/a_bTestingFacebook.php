@@ -69,7 +69,7 @@ class a_bTestingFacebook extends Command
 
             $ads = AdvertisementAds::where('advertisements_id', $adsStep1->id)->select(
                 '*',
-                DB::raw('sum(clicks + impressions + cpc + conversation) as total'))
+                DB::raw('sum(clicks + impressions) as total'))
                 ->groupBY('id')
                 ->orderBy('total', 'DESC')
                 ->first();
@@ -262,7 +262,7 @@ class a_bTestingFacebook extends Command
 
             $ads = AdvertisementAds::where('advertisements_id', $adsStep2->id)->select(
                 '*',
-                DB::raw('sum(clicks + impressions + cpc + conversation) as total'))
+                DB::raw('sum(clicks + impressions) as total'))
                 ->groupBY('id')
                 ->orderBy('total', 'DESC')
                 ->first();
@@ -451,7 +451,7 @@ class a_bTestingFacebook extends Command
 
             $ads = AdvertisementAds::where('advertisements_id', $adsStep3->id)->select(
                 '*',
-                DB::raw('sum(clicks + impressions + cpc + conversation) as total'))
+                DB::raw('sum(clicks + impressions) as total'))
                 ->groupBY('id')
                 ->orderBy('total', 'DESC')
                 ->first();
@@ -639,7 +639,7 @@ class a_bTestingFacebook extends Command
 
             $ads = AdvertisementAds::where('advertisements_id', $adsStep4->id)->select(
                 '*',
-                DB::raw('sum(clicks + impressions + cpc + conversation) as total'))
+                DB::raw('sum(clicks + impressions) as total'))
                 ->groupBY('id')
                 ->orderBy('total', 'DESC')
                 ->first();

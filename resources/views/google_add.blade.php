@@ -439,7 +439,7 @@
 
                             <a class="a_card">
 
-                                <div class="box-shadow p-0 overflow-hidden">
+                                <div class="box-shadow p-0 overflow-hidden p-3">
 
 
                                     <div class="position-relative">

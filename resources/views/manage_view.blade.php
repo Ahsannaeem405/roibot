@@ -55,7 +55,7 @@
                                 <div class="col-md-4 col-12 mt-3">
                                     <a href="{{url('manage_detail/'.$com->id.'')}}" class="a_card">
 
-                                        <div class="box-shadow p-0 overflow-hidden h-100">
+                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3">
 
 
 

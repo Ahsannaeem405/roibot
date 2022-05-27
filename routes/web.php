@@ -78,17 +78,15 @@ Route::post('gallery/delete',[UserController::class,'galleryDelete']);
 Route::get('connect-with-facebook',[\App\Http\Controllers\AdvertisementController::class,'connectWithFacebook']);
 Route::get('connect-with-google',[\App\Http\Controllers\AdvertisementController::class,'connectWithGoogle']);
 //test
-Route::get('compainFB',[\App\Http\Controllers\Controller::class,'index']);
-Route::get('compainGG',[\App\Http\Controllers\Controller::class,'index2']);
+
+
 Route::get('insightFB',[\App\Http\Controllers\Controller::class,'insightFB']);
-Route::get('step1',[\App\Http\Controllers\Controller::class,'step1']);
-Route::get('step2',[\App\Http\Controllers\Controller::class,'step2']);
-Route::get('step3',[\App\Http\Controllers\Controller::class,'step3']);
-Route::get('step4',[\App\Http\Controllers\Controller::class,'step4']);
+
 Route::get('intrest',[\App\Http\Controllers\Controller::class,'intrest']);
 Route::get('behaviour',[\App\Http\Controllers\Controller::class,'behaviour']);
 Route::get('dempgraphics',[\App\Http\Controllers\Controller::class,'dempgraphics']);
 Route::get('data',[\App\Http\Controllers\Controller::class,'data']);
+Route::get('data2',[\App\Http\Controllers\Controller::class,'data2']);
 
 Auth::routes();
 

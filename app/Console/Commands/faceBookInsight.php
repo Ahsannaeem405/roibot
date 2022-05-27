@@ -52,11 +52,8 @@ class faceBookInsight extends Command
 
                 $ad->clicks=intval($insight->data[0]->clicks);
                 $ad->impressions=intval($insight->data[0]->impressions);
-                $ad->cpc=intval($insight->data[0]->cpc);
-                $ad->conversation=intval($insight->data[0]->reach);
-                $ad->total= intval($ad->clicks+  $ad->impressions +  $ad->cpc+  $ad->conversation);
-
-
+                $ad->cpc=$insight->data[0]->cpc;
+                $ad->total= intval($ad->clicks+  $ad->impressions);
                 $ad->update();
 
             }

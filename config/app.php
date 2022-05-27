@@ -174,7 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Edujugon\GoogleAds\Providers\GoogleAdsServiceProvider::class,
+      //  Edujugon\GoogleAds\Providers\GoogleAdsServiceProvider::class,
 
 
 
@@ -232,7 +232,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'GoogleAds' => Edujugon\GoogleAds\Facades\GoogleAds::class,
+   //     'GoogleAds' => Edujugon\GoogleAds\Facades\GoogleAds::class,
     ],
 
 ];
