@@ -249,9 +249,10 @@
                                 Select advertising Channel Type:
 
 
-                                <select name="chanel" class="form-control mt-2">
-                                    <option selected value="">Choose advertising Channel...</option>
-                                    <option value="SEARCH">SEARCH</option>
+                                <select name="chanel" id="chanel" class="form-control mt-2">
+
+                                    <option selected value="SEARCH">SEARCH</option>
+                                    <option value="DISPLAY">DISPLAY</option>
 
                                 </select>
 
@@ -288,7 +289,6 @@
                             <h3 class="text-center step-heading mx-auto">Step: 2</h3>
 
 
-
                             <p class="mt-3 w-100">
                                 Geo Location Country:
                                 <select id="countryChnage" class="form-control  mt-2 js-example-basic-multiple w-100"
@@ -304,7 +304,6 @@
                                 Geo Location City:
                                 <select id="search_city" class="form-control mt-2 js-example-basic-multiple city"
                                         name="city[]" multiple="multiple">
-
 
 
                                 </select>
@@ -346,7 +345,10 @@
                             <h3 class="text-center step-heading mx-auto">Step: 3</h3>
 
 
-                            <p class="my-3">
+                            <p class="my-3 ">
+                            <div class="all_preview SEARCH_preview">
+
+
                             <div class="d-flex justify-content-between align-items-center my-2">
                                 Add Heading
                                 <button class="heading-btn" type="button">+</button>
@@ -362,9 +364,13 @@
                                            value="This is your heading part 2" name="heading2[]">
                                 </div>
                             </div>
+                            </div>
                             </p>
 
-                            <p class="my-3">
+                            <p class="my-3 ">
+                            <div class="all_preview SEARCH_preview">
+
+
                             <div class="d-flex justify-content-between align-items-center my-2">
                                 Add Body Text
                                 <button class="add-text" type="button">+</button>
@@ -373,8 +379,8 @@
                                 <input placeholder="Text 1" value="This is your body" name="body[]"
                                        class="preview_1 body1_btn">
                             </div>
+                            </div>
                             </p>
-
 
 
                             <p class="my-3">
@@ -390,14 +396,34 @@
                                     {{--                                <input placeholder="Button 1" value="Action" class="preview_1 text1_btn mb-1"--}}
                                     {{--                                       name="btn[]">--}}
 
-                                    <input class="my-2 preview_1 url1_btn" placeholder="https://example.com" value="https://example.com"  name="url[]">
+                                    <input class="my-2 preview_1 url1_btn" placeholder="https://example.com"
+                                           value="https://example.com" name="url[]">
 
                                 </div>
                             </div>
                             </p>
 
                             <p class="my-3">
-                            <div class="d-none">
+                            <div class="all_preview DISPLAY_preview" style="display: none">
+
+                                Image Dimension
+                                <select name="dimentions" id="">
+                                    <option value="300 x 100">300 x 100</option>
+                                    <option value="750 x 300">750 x 300</option>
+                                    <option value="750 x 200">750 x 200</option>
+                                    <option value="750 x 100">750 x 100</option>
+                                    <option value="950 x 900">950 x 900</option>
+                                    <option value="88 x 31">88 x 31</option>
+                                    <option value="220 x 90">220 x 90</option>
+                                    <option value="980 x 90">980 x 90</option>
+                                    <option value="240 x 133">240 x 133</option>
+                                    <option value="970 x 66">970 x 66</option>
+                                    <option value="600 x 314">600 x 314</option>
+                                    <option value="728 x 90">728 x 90</option>
+                                    <option value="160 x 600">160 x 600</option>
+                                    <option value="736 x 414">736 x 414</option>
+                                    <option value="970 x 250">970 x 250</option>
+                                </select>
 
 
                                 <div class="d-flex justify-content-between align-items-center my-2">
@@ -412,8 +438,6 @@
                             </div>
                             </p>
                         </div>
-
-
 
 
                         {{--                        <div class="tab">--}}
@@ -435,29 +459,49 @@
                     </form>
                 </div>
                 <div class="col-md-4 col-12 mt-2">
-                    <div class="preview1">
+                    <div class="preview1 all_preview SEARCH_preview">
 
-                            <a class="a_card">
+                        <a class="a_card">
 
-                                <div class="box-shadow p-0 overflow-hidden p-3">
-
-
-                                    <div class="position-relative">
-                                        <span class="ml-2 " >Ad . <span class="divurl_1"> www.example.com/ </span></span>
+                            <div class="box-shadow p-0 overflow-hidden p-3">
 
 
-                                        <h5 class=" heading_fb text-white heading1_prev ml-2 mt-1" style="color: blue!important;">This is your heading part 1 | This is your heading part 2</h5>
-
-                                    </div>
-                                    <div class="ml-2 d-flex justify-content-between">
+                                <div class="position-relative">
+                                    <span class="ml-2 ">Ad . <span class="divurl_1"> www.example.com/ </span></span>
 
 
-                                        <p class="body1_prev">This is your body</p>
-
-                                    </div>
+                                    <h5 class=" heading_fb text-white heading1_prev ml-2 mt-1"
+                                        style="color: blue!important;">This is your heading part 1 | This is your
+                                        heading part 2</h5>
 
                                 </div>
-                            </a>
+                                <div class="ml-2 d-flex justify-content-between">
+
+
+                                    <p class="body1_prev">This is your body</p>
+
+                                </div>
+
+                            </div>
+                        </a>
+
+
+                    </div>
+                    <div class="preview1 all_preview DISPLAY_preview" style="display: none">
+
+                        <a class="a_card">
+
+                            <div class="box-shadow p-0 overflow-hidden p-3">
+
+
+                                <div class="position-relative">
+                                    <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid w-100 img1" alt="">
+
+                                </div>
+
+
+                            </div>
+                        </a>
 
 
                     </div>
@@ -588,10 +632,6 @@
             $('.js-example-basic-multiple').select2();
 
 
-
-
-
-
             $(document.body).on("change", "#countryChnage", function () {
                 var city = $(this).val();
 
@@ -603,7 +643,7 @@
                     async: false,
 
                     success: function (response) {
-console.log(response[0].geoTargetConstant);
+                        console.log(response[0].geoTargetConstant);
 
                         for (i = 1; i < response.length; i++) {
                             $('#search_city').append(`<option value="${response[i].geoTargetConstant.resourceName}">${response[i].geoTargetConstant.name}</option>`);
@@ -615,13 +655,19 @@ console.log(response[0].geoTargetConstant);
             });
 
 
-
-
             $('#change_radius').change(function () {
 
                 var val = $(this).val();
                 $('#radius').empty().text(val + ' miles')
                 // $(this).val(50);
+            });
+
+
+            $('#chanel').change(function () {
+                var chanel = $(this).val();
+                $('.all_preview').hide();
+                $('.' + chanel + '_preview').show();
+
             });
         });
     </script>
@@ -629,7 +675,7 @@ console.log(response[0].geoTargetConstant);
 
         function uplaodImage() {
 
-              // jQuery.noConflict();
+            // jQuery.noConflict();
             $.ajax({
                 type: 'get',
                 url: "{{url('get/images')}}",
@@ -685,8 +731,7 @@ console.log(response[0].geoTargetConstant);
             if (buttonNumber < 5) {
                 buttonNumber++;
                 $(".button-feilds").append(
-
-` Action button url:
+                    ` Action button url:
  <input class="my-2" placeholder="https://example.com"  name="url[]">`
                 );
 
@@ -695,7 +740,7 @@ console.log(response[0].geoTargetConstant);
 
         var imageNumber = 1;
         $(".image-btn").click(() => {
-         //   jQuery.noConflict();
+            //   jQuery.noConflict();
             $('#exampleModal').modal('show');
         })
 
@@ -758,7 +803,6 @@ console.log(response[0].geoTargetConstant);
             var head2 = $('.heading2_btn').val();
             var body = $('.body1_btn').val();
             var url = $('.url1_btn').val();
-
 
 
             $('.heading1_prev').empty().append(head + ' | ' + head2);

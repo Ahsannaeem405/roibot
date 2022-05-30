@@ -7,14 +7,12 @@
             <div class="row">
 
 
-
                 <div class="col-12 pt-5">
                     <div class="row m-3  pt-5 pb-5 rounded insight_row">
                         <div class="col-12 mb-5 text-center">
                             <h3 class="color">Manage Ads</h3>
                         </div>
                         @foreach($compain as $com)
-
 
                             @if($com->type==1)
                                 <div class="col-md-4 col-12 mt-3">
@@ -23,7 +21,8 @@
                                         <div class="box-shadow p-3">
                                             <div class="d-flex">
                                                 <div>
-                                                    <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle" width="50" alt="">
+                                                    <img src="{{asset('images/img_avatar.png')}}" class="rounded-circle"
+                                                         width="50" alt="">
                                                 </div>
                                                 <div class="ml-3">
                                                     <h5 class="mb-0">{{Auth::user()->name}}</h5>
@@ -34,7 +33,9 @@
                                             </div>
                                             <div class="pt-0 pb-0 text-center">
 
-                                                <img src="{{isset($com->activeAdd[0]->image) ? asset('images/gallary/'.$com->activeAdd[0]->image.'') : null}}" class="img-fluid" alt="">
+                                                <img
+                                                    src="{{isset($com->activeAdd[0]->image) ? asset('images/gallary/'.$com->activeAdd[0]->image.'') : null}}"
+                                                    class="img-fluid" alt="">
 
                                             </div>
                                             <div class="bg_gray d-flex p-2 justify-content-between">
@@ -43,7 +44,9 @@
                                                     <p class="text-black-50">{{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <a href="{{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}}" target="_blank" class="btn btn-secondary learn">{{isset($com->activeAdd[0]->button) ? $com->activeAdd[0]->button : null}}</a>
+                                                    <a href="{{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}}"
+                                                       target="_blank"
+                                                       class="btn btn-secondary learn">{{isset($com->activeAdd[0]->button) ? $com->activeAdd[0]->button : null}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,22 +58,36 @@
                                 <div class="col-md-4 col-12 mt-3">
                                     <a href="{{url('manage_detail/'.$com->id.'')}}" class="a_card">
 
-                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3">
+                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3 d-flex align-items-center" style="">
+
+                                            @if($com->chanel=='SEARCH')
+
+                                                <div class="position-relative">
+                                                    <span class="ml-2">Ad . <span
+                                                            class="divurl_1"> {{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}} </span></span>
 
 
+                                                    <h5 class=" heading_fb  heading1_prev ml-2 mt-1"
+                                                        style="color: blue!important;">{{isset($com->activeAdd[0]->heading) ? $com->activeAdd[0]->heading : null}}</h5>
 
-                                            <div class="position-relative">
-                                                <span class="ml-2" >Ad . <span class="divurl_1"> {{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}} </span></span>
-
-
-                                                <h5 class=" heading_fb  heading1_prev ml-2 mt-1" style="color: blue!important;">{{isset($com->activeAdd[0]->heading) ? $com->activeAdd[0]->heading : null}}</h5>
-
-                                            </div>
-                                            <div class="d-flex justify-content-between ">
+                                                </div>
+                                                <div class="d-flex justify-content-between ">
 
 
-                                                <p class="ml-2"> {{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
-                                            </div>
+                                                    <p class="ml-2"> {{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
+                                                </div>
+
+                                            @else
+                                                <div class="position-relative">
+
+                                                    <img
+                                                        src="{{isset($com->activeAdd[0]->image) ? asset('images/gallary/'.$com->activeAdd[0]->image.'') : null}}"
+                                                        class="img-fluid w-100 img1" alt="">
+
+                                                </div>
+
+                                            @endif
+
 
                                         </div>
                                     </a>

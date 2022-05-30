@@ -164,20 +164,33 @@
 
 
 
-                                            <div class="position-relative ">
+                                            @if($com->chanel=='SEARCH')
+
+                                                <div class="position-relative">
+                                                    <span class="ml-2">Ad . <span
+                                                            class="divurl_1"> {{$com->url}} </span></span>
 
 
-                                                <span class="ml-2" >Ad . <span class="divurl_1"> {{$com->url}} </span></span>
+                                                    <h5 class=" heading_fb  heading1_prev ml-2 mt-1"
+                                                        style="color: blue!important;">{{$com->heading}}</h5>
+
+                                                </div>
+                                                <div class="d-flex justify-content-between ">
 
 
-                                                <h5 class=" heading_fb  heading1_prev ml-2 mt-1" style="color: blue!important;">{{$com->heading}}</h5>
+                                                    <p class="ml-2"> {{$com->activeAdd[0]->body}}</p>
+                                                </div>
 
-                                            </div>
-                                            <div class=" d-flex justify-content-between ">
+                                            @else
+                                                <div class="position-relative">
 
+                                                    <img
+                                                        src="{{asset('images/gallary/'.$com->image.'')}}"
+                                                        class="img-fluid w-100 img1" alt="">
 
-                                                <p class="ml-2">{{$com->body}}</p>
-                                            </div>
+                                                </div>
+
+                                            @endif
 
                                         </div>
                                     </a>

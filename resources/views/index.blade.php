@@ -135,22 +135,36 @@
                                 <div class="col-md-4 col-12 mt-3">
                                     <a href="{{url('manage_detail/'.$com->id.'')}}" class="a_card">
 
-                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3">
+                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3 d-flex align-items-center">
 
 
+                                            @if($com->chanel=='SEARCH')
 
-                                            <div class="position-relative">
-                                                <span class="ml-2" >Ad . <span class="divurl_1"> {{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}} </span></span>
-
-
-                                                <h5 class=" heading_fb  heading1_prev ml-2 mt-1" style="color: blue!important;">{{isset($com->activeAdd[0]->heading) ? $com->activeAdd[0]->heading : null}}</h5>
-
-                                            </div>
-                                            <div class="d-flex justify-content-between ">
+                                                <div class="position-relative">
+                                                    <span class="ml-2">Ad . <span
+                                                            class="divurl_1"> {{isset($com->activeAdd[0]->url) ? $com->activeAdd[0]->url : null}} </span></span>
 
 
-                                                <p class="ml-2"> {{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
-                                            </div>
+                                                    <h5 class=" heading_fb  heading1_prev ml-2 mt-1"
+                                                        style="color: blue!important;">{{isset($com->activeAdd[0]->heading) ? $com->activeAdd[0]->heading : null}}</h5>
+
+                                                </div>
+                                                <div class="d-flex justify-content-between ">
+
+
+                                                    <p class="ml-2"> {{isset($com->activeAdd[0]->body) ? $com->activeAdd[0]->body : null}}</p>
+                                                </div>
+
+                                            @else
+                                                <div class="position-relative">
+
+                                                    <img
+                                                        src="{{isset($com->activeAdd[0]->image) ? asset('images/gallary/'.$com->activeAdd[0]->image.'') : null}}"
+                                                        class="img-fluid w-100 img1" alt="">
+
+                                                </div>
+
+                                            @endif
 
                                         </div>
                                     </a>
