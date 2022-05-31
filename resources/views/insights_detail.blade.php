@@ -164,7 +164,7 @@
 
 
 
-                                            @if($com->chanel=='SEARCH')
+                                            @if($compain->goal=='SEARCH')
 
                                                 <div class="position-relative">
                                                     <span class="ml-2">Ad . <span
@@ -178,8 +178,9 @@
                                                 <div class="d-flex justify-content-between ">
 
 
-                                                    <p class="ml-2"> {{$com->activeAdd[0]->body}}</p>
+                                                    <p class="ml-2"> {{$com->body}}</p>
                                                 </div>
+
 
                                             @else
                                                 <div class="position-relative">

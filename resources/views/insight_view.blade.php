@@ -54,11 +54,11 @@
                                 <div class="col-md-4 col-12 mt-3">
                                     <a href="{{url('insight_detail/'.$com->id.'/'.$com->activeAdd[0]->id.'')}}" class="a_card">
 
-                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3 d-flex align-items-center">
+                                        <div class="box-shadow p-0 overflow-hidden  p-3  align-items-center">
 
 
 
-                                            @if($com->chanel=='SEARCH')
+                                            @if($com->goal=='SEARCH')
 
                                                 <div class="position-relative">
                                                     <span class="ml-2">Ad . <span

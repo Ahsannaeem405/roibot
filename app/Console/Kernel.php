@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('google:insight')->everyMinute();
         $schedule->command('ab:facebook')->everyMinute();
         $schedule->command('ab:googleText')->everyMinute();
+        $schedule->command('ab:googleImage')->everyMinute();
     }
 
     /**

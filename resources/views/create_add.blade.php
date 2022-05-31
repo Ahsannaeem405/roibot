@@ -265,7 +265,7 @@
                             </p>
 
                             <p class="my-3">
-                                Budget:
+                                Daily budget:
 
                                 <input placeholder="Per Day" name="perday_budget"
                                        class="mt-2 perday_budget" type="number">

@@ -235,56 +235,6 @@
 
                         <!-- One "tab" for each step in the form: -->
 
-
-                        <div class="tab">
-                            <h3 class="text-center step-heading mx-auto">Step: 1</h3>
-
-
-                            <p class="my-3">
-                                Campaign Title
-                                <input type="text" class="my-2" name="title" placeholder="Campaign Title">
-                            </p>
-
-                            <p class="my-3">
-                                Select advertising Channel Type:
-
-
-                                <select name="chanel" id="chanel" class="form-control mt-2">
-
-                                    <option selected value="SEARCH">SEARCH</option>
-                                    <option value="DISPLAY">DISPLAY</option>
-
-                                </select>
-
-                            </p>
-
-
-                            <p class="my-3">
-                                Budget:
-
-                                <input placeholder="Per Day" name="perday_budget"
-                                       class="mt-2 perday_budget" type="number">
-
-                            </p>
-
-                            <p class="my-3">
-                                Start Date:
-
-                                <input name="start_date"
-                                       class="mt-2 " type="datetime-local">
-
-                            </p>
-
-                            <p class="my-3">
-                                End Date:
-
-                                <input name="end_date"
-                                       class="mt-2 " type="datetime-local">
-
-                            </p>
-
-
-                        </div>
                         <div class="tab mt-4">
                             <h3 class="text-center step-heading mx-auto">Step: 2</h3>
 
@@ -303,10 +253,15 @@
                             <p class="mt-3 w-100">
                                 Geo Location City:
                                 <select id="search_city" class="form-control mt-2 js-example-basic-multiple city"
-                                        name="city[]" multiple="multiple">
+                                        name="city[]" multiple="multiple" >
 
 
                                 </select>
+                            </p>
+
+                            <p class="mt-3 w-100">
+                                Add Keywords (Max 80 characters and 10 words):
+                                <textarea name="keywords" class="form-control" id="" cols="2" rows="3"></textarea>
                             </p>
 
                             {{--                            <p class="mt-3">--}}
@@ -340,6 +295,56 @@
 
 
                         </div>
+                        <div class="tab">
+                            <h3 class="text-center step-heading mx-auto">Step: 1</h3>
+
+
+                            <p class="my-3">
+                                Campaign Title
+                                <input type="text" class="my-2" name="title" placeholder="Campaign Title">
+                            </p>
+
+                            <p class="my-3">
+                                Select advertising Channel Type:
+
+
+                                <select name="chanel" id="chanel" class="form-control mt-2">
+
+                                    <option selected value="SEARCH">SEARCH</option>
+                                    <option value="DISPLAY">DISPLAY</option>
+
+                                </select>
+
+                            </p>
+
+
+                            <p class="my-3">
+                                Daily budget:
+
+                                <input placeholder="Per Day" name="perday_budget"
+                                       class="mt-2 perday_budget" type="number">
+
+                            </p>
+
+                            <p class="my-3">
+                                Start Date:
+
+                                <input name="start_date"
+                                       class="mt-2 " type="datetime-local">
+
+                            </p>
+
+                            <p class="my-3">
+                                End Date:
+
+                                <input name="end_date"
+                                       class="mt-2 " type="datetime-local">
+
+                            </p>
+
+
+                        </div>
+
 
                         <div class="tab">
                             <h3 class="text-center step-heading mx-auto">Step: 3</h3>
@@ -408,7 +413,7 @@
 
                                 Image Dimension
                                 <select name="dimentions" id="">
-                                    <option value="300 x 100">300 x 100</option>
+                                    <option selected value="300 x 100">300 x 100</option>
                                     <option value="750 x 300">750 x 300</option>
                                     <option value="750 x 200">750 x 200</option>
                                     <option value="750 x 100">750 x 100</option>
@@ -630,6 +635,10 @@
         $(document).ready(function () {
 
             $('.js-example-basic-multiple').select2();
+            $('.js-example-basic-tag').select2({
+                tags:true,
+                maximumSelectionLength:10
+            });
 
 
             $(document.body).on("change", "#countryChnage", function () {

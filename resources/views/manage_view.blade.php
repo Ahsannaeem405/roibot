@@ -58,9 +58,9 @@
                                 <div class="col-md-4 col-12 mt-3">
                                     <a href="{{url('manage_detail/'.$com->id.'')}}" class="a_card">
 
-                                        <div class="box-shadow p-0 overflow-hidden h-100 p-3 d-flex align-items-center" style="">
+                                        <div class="box-shadow p-0 overflow-hidden  p-3  align-items-center" style="">
 
-                                            @if($com->chanel=='SEARCH')
+                                            @if($com->goal=='SEARCH')
 
                                                 <div class="position-relative">
                                                     <span class="ml-2">Ad . <span

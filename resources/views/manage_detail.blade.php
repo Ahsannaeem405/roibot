@@ -54,7 +54,7 @@
 
 
 
-                                            @if($com->chanel=='SEARCH')
+                                            @if($com->goal=='SEARCH')
 
                                                 <div class="position-relative">
                                                     <span class="ml-2">Ad . <span
