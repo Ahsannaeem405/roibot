@@ -916,6 +916,16 @@ class AdvertisementController extends Controller
         }
         if ($request->chanel == 'DISPLAY2') {
 
+
+            foreach ($request->image as $imgdata)
+            {
+                $advertisementDetail = new AdvertisementDetail();
+                $advertisementDetail->data = $imgdata;
+                $advertisementDetail->advertisements_id = $advertisement->id;
+                $advertisementDetail->type = 'image';
+                $advertisementDetail->save();
+
+            }
             foreach ($request->heading as $heading) {
 
 
@@ -1110,15 +1120,17 @@ class AdvertisementController extends Controller
         $facebook = config()->get('services.facebook');
         $google = config()->get('services.google');
         $com = Advertisement::find($id);
+        $date1 = new \DateTime($com->end_date);
+        $date2 = new \DateTime(Carbon::now());
+        $f = $date1->diff($date2)->days;
+        $f = $f >= 1 ? $f : 3;
         if ($com->type == 1) {
             $com->per_day = $request->per_day;
             $com->start_date = $request->start;
             $com->end_date = $request->end;
             $com->update();
 
-            $date1 = new \DateTime($com->end_date);
-            $date2 = new \DateTime(Carbon::now());
-            $f = $date1->diff($date2)->days;
+
 //dd($f);
 
             $adsDel = AdvertisementAds::where('advertisements_id', $com->id)->get();
@@ -1250,15 +1262,15 @@ class AdvertisementController extends Controller
             $com->step = 6;
             $com->update();
             return back()->with('success', 'Add published successfully');
-        } else {
+        }
+
+        else {
             $com->per_day = $request->per_day;
             $com->start_date = $request->start;
             $com->end_date = $request->end;
             $com->update();
 
-            $date1 = new \DateTime($com->end_date);
-            $date2 = new \DateTime(Carbon::now());
-            $f = $date1->diff($date2)->days;
+
 
 
             $rand = rand(1111, 9999);
@@ -1292,14 +1304,13 @@ class AdvertisementController extends Controller
 
             }
 
-
             //saving compain google
 
 //dd($google);
-            $date1 = new \DateTime($com->end_date);
-            $date2 = new \DateTime(Carbon::now());
-            $f = $date1->diff($date2)->days;
-            $f = $f >= 1 ? $f : 3;
+//            $date1 = new \DateTime($com->end_date);
+//            $date2 = new \DateTime(Carbon::now());
+//            $f = $date1->diff($date2)->days;
+//            $f = $f >= 1 ? $f : 3;
             $compain_budget = \Http::withHeaders([
 
                 'developer-token' => $google['dev_token'],
@@ -1330,7 +1341,7 @@ class AdvertisementController extends Controller
                     'operations' => [
                         'create' => array(
                             'status' => env('GA_STATUS'),
-                            'advertisingChannelType' => $com->goal,
+                            'advertisingChannelType' => $com->goal=='DISPLAY2' ? 'DISPLAY' : $com->goal,
                             "geoTargetTypeSetting" => array(
                                 "positiveGeoTargetType" => 'PRESENCE_OR_INTEREST',
                                 "negativeGeoTargetType" => 'PRESENCE_OR_INTEREST',
@@ -1340,7 +1351,7 @@ class AdvertisementController extends Controller
                             'campaignBudget' => $compain_budget,
 
                             'targetSpend' => array(
-                                'cpcBidCeilingMicros' => 1
+                                'cpcBidCeilingMicros' => $com->target
                             ),
                             'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
                             'endDate' => Carbon::create(Carbon::now()->addDays($f))->format('Y-m-d'),
@@ -1397,6 +1408,30 @@ class AdvertisementController extends Controller
                     ]);
 
 
+
+
+                    $compain_criteria3 = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                        'operations' => [
+                            'create' => array(
+                                'displayName' => "my campaign criteria $rand",
+                                'campaign' => $compain,
+                                'negative' => true,
+                                "keyword" => array(
+                                    'matchType' => 'PHRASE',
+                                    'text' => $com->keywords
+                                ),
+
+
+                            )
+                        ]
+                    ]);
+
+
                     foreach ($cities as $cit) {
 
                         $compain_criteria3 = \Http::withHeaders([
@@ -1436,7 +1471,7 @@ class AdvertisementController extends Controller
                                 'status' => env('GA_STATUS'),
                                 'name' => "my adgroup $rand",
                                 //  'type' => "SEARCH_DYNAMIC_ADS",
-                                'type' => $com->goal . '_STANDARD',
+                                'type' => $com->goal=='DISPLAY2'?'DISPLAY_STANDARD': $com->goal.'_STANDARD',
                                 'campaign' => $compain,
 
 
@@ -1444,7 +1479,7 @@ class AdvertisementController extends Controller
                         ]
                     ]);
 
-                    if ($adgroup->status()) {
+                    if ($adgroup->status()==200) {
                         $adgroup = json_decode($adgroup->body());
                         $adgroup = $adgroup->results[0]->resourceName;
 
@@ -1453,6 +1488,7 @@ class AdvertisementController extends Controller
 
                     } else {
                         $adgroup = json_decode($adgroup->body());
+
                         return back()->with('error', isset($adgroup->error->message) ? $adgroup->error->message : 'Something went wrong');
 
 
@@ -1476,6 +1512,9 @@ class AdvertisementController extends Controller
 
             $advertisement = new Advertisement();
             $advertisement->goal = $com->goal;
+            $advertisement->target = $com->target;
+            $advertisement->business = $com->business;
+            $advertisement->keywords = $com->keywords;
             $advertisement->title = $com->title;
             $advertisement->dimentions = $com->dimentions;
             $advertisement->user_id = $com->user_id;
@@ -1655,6 +1694,182 @@ class AdvertisementController extends Controller
 
             }
 
+            if ($advertisement->goal=='DISPLAY2')
+            {
+                $image = AdvertisementDetail::where('advertisements_id', $advertisement->id)->where('type', 'image')->where('status', 'final')->first();
+                $button = AdvertisementDetail::where('advertisements_id', $advertisement->id)->where('type', 'button')->where('status', 'final')->first();
+                $body = AdvertisementDetail::where('advertisements_id', $advertisement->id)->where('type', 'body')->where('status', 'final')->first();
+                $heading = AdvertisementDetail::where('advertisements_id', $advertisement->id)->where('type', 'heading')->where('status', 'final')->first();
+
+                //save heading and creating ads
+                $check = 0;
+                //    $dimentions=explode(' x ',$advertisement->dimentions);
+                // dd($dimentions);
+
+
+                    $images = $image->data;
+                    $img1 = ('images/gallary/') . $images . '';
+
+                    $imgp = ImageManagerStatic::make($img1);
+                    $imgp->resize(600, 314);
+                    $imgp->save(('images/gallary/resize/') . $images . '');
+
+                    $img = 'images/gallary/resize/' . $images . '';
+                    $imgContent = file_get_contents($img);
+                    $imgType = pathinfo($img, PATHINFO_EXTENSION);
+                    $imageData = base64_encode($imgContent);
+
+
+                    $img1 = ('images/gallary/') . $images . '';
+
+                    $imgp = ImageManagerStatic::make($img1);
+                    $imgp->resize(300, 300);
+                    $imgp->save('images/gallary/resize/' . $images . '');
+
+                    $img = ('images/gallary/resize/') . $images . '';
+                    $imgContent = file_get_contents($img);
+                    $imgType = pathinfo($img, PATHINFO_EXTENSION);
+                    $imageData2 = base64_encode($imgContent);
+
+//marketing image
+                    $asset = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/assets:mutate', [
+                        'operations' => [
+                            'create' => array(
+
+                                "name" => $images,
+                                "imageAsset" => array(
+
+                                    'mimeType' => 'IMAGE_PNG',
+                                    'data' => $imageData,
+
+                                )
+
+                            )
+                        ]
+                    ]);
+
+//squre image
+                    $asset2 = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/assets:mutate', [
+                        'operations' => [
+                            'create' => array(
+
+                                "name" => $images,
+                                "imageAsset" => array(
+
+                                    'mimeType' => 'IMAGE_PNG',
+                                    'data' => $imageData2,
+
+                                )
+
+                            )
+                        ]
+                    ]);
+
+                    $asset = json_decode($asset->body());
+                    $asset = $asset->results[0]->resourceName;
+                    $asset2 = json_decode($asset2->body());
+                    $asset2 = $asset2->results[0]->resourceName;
+
+
+                    $adgroupadd = \Http::withHeaders([
+
+                        'developer-token' => $google['dev_token'],
+                        'login-customer-id' => $google['manager_id'],
+                    ])->withToken($google['accsss_token'])->
+                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/adGroupAds:mutate', [
+                        'operations' => [
+                            'create' => array(
+                                'status' => env('GA_STATUS'),
+                                'adGroup' => $adgroup,
+                                "ad" => array(
+
+                                    "responsiveDisplayAd" => array(
+
+                                        "marketingImages" => [
+                                            array('asset' => $asset),
+                                        ],
+
+                                        "squareMarketingImages" => [
+                                            array('asset' => $asset2),
+                                        ],
+
+                                        'headlines' => [
+                                            array(
+                                                "text" => $heading->data
+                                            )
+                                        ],
+                                        'longHeadline' => array('text' => $heading->data2),
+                                        'descriptions' => [
+                                            array(
+                                                "text" => $body->data
+                                            )
+                                        ],
+                                        // 'data' => $imageData,
+                                        'businessName' => $advertisement->business,
+
+                                    ),
+
+//                                'name' => $images,
+                                    "finalUrls" => [$button->url],
+//                                "displayUrl" => $request->url[0]
+
+                                )
+
+                            )
+                        ]
+                    ]);
+
+
+                    //  dd(json_decode($adgroupadd->body()));
+
+                    unlink(('images/gallary/resize/') . $images . '');
+                    //dd(json_decode($adgroupadd->body()));
+
+
+                    if ($adgroupadd->status() == 200) {
+
+
+                        $advertisementAdds = new AdvertisementAds();
+                        $advertisementAdds->advertisements_id = $advertisement->id;
+
+                        $advertisementAdds->url = $button->url;
+                        $advertisementAdds->image = $image->data;
+                        $advertisementAdds->body = $body->data;
+                        $advertisementAdds->heading = $heading->data;
+                        $advertisementAdds->start_date = Carbon::now();
+                        $advertisementAdds->end_date = Carbon::now()->addDays($f);
+                        $advertisementAdds->addSet_id = $adgroup;
+                        //$advertisementAdds->addCreative_id = $compain_budget;
+                        $advertisementAdds->add_id = $adgroupadd;
+
+
+                        //  dd($compain_id,$addSet_id,$addCreative_id,$add_id);
+                        $advertisementAdds->save();
+
+                        $check++;
+                    } else {
+
+                        $adgroupadd = json_decode($adgroupadd->body());
+//dd($adgroupadd);
+                //        $advertisement->delete();
+
+                        return redirect('manage_view')->with('error', isset($adgroupadd->error->message) ? $adgroupadd->error->message : 'Something went wrong');
+                    }
+
+
+                }
+
+
 
             $advertisement->step = 6;
             $advertisement->update();
@@ -1699,7 +1914,7 @@ class AdvertisementController extends Controller
                     'remove' => $compain->compain_id,
                 ]
             ]);
-//dd($compain->body());
+
             if ($delete->status() == 200) {
 
 

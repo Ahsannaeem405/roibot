@@ -318,6 +318,7 @@ class a_bTestingGoogleImageAdd extends Command
                 $advertisement->goal = $adsStep1->goal;
                 $advertisement->dimentions = $adsStep1->dimentions;
                 $advertisement->title = $adsStep1->title;
+                $advertisement->keywords = $adsStep1->keywords;
                 $advertisement->target = $adsStep1->target;
                 $advertisement->user_id = $adsStep1->user_id;
 
@@ -565,7 +566,7 @@ class a_bTestingGoogleImageAdd extends Command
                                 'campaignBudget' => $compain_budget,
 
                                 'targetSpend' => array(
-                                    'cpcBidCeilingMicros' => $adsStep2->target
+                                    'cpcBidCeilingMicros' => $adsStep1->target
                                 ),
                                 'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
                                 'endDate' => Carbon::create(Carbon::now()->addDays($f))->format('Y-m-d'),
@@ -725,8 +726,9 @@ class a_bTestingGoogleImageAdd extends Command
                 $advertisement->goal = $adsStep1->goal;
                 $advertisement->dimentions = $adsStep1->dimentions;
                 $advertisement->keywords = $adsStep1->keywords;
-                $advertisement->title = $adsStep1->title;
                 $advertisement->target = $adsStep1->target;
+                $advertisement->title = $adsStep1->title;
+
                 $advertisement->user_id = $adsStep1->user_id;
 
                 $advertisement->age2 = $adsStep1->age2;

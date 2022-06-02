@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('ab:facebook')->everyMinute();
         $schedule->command('ab:googleText')->everyMinute();
         $schedule->command('ab:googleImage')->everyMinute();
+        $schedule->command('ab:googleResponsiveImage')->everyMinute();
     }
 
     /**
