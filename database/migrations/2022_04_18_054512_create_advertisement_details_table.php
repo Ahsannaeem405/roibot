@@ -17,6 +17,7 @@ class CreateAdvertisementDetailsTable extends Migration
             $table->id();
             $table->foreignId('advertisements_id')->constrained('advertisements')->onDelete('cascade');
             $table->text('data')->nullable();
+            $table->text('data2')->nullable();
             $table->string('type')->nullable();
             $table->text('url')->nullable();
             $table->text('hash')->nullable();

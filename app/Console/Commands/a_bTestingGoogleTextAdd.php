@@ -15,7 +15,7 @@ class a_bTestingGoogleTextAdd extends Command
     /**
      * The name and signature of the console command.
      *
-     * @var string
+     *@var string
      */
     protected $signature = 'ab:googleText';
 
@@ -155,7 +155,7 @@ class a_bTestingGoogleTextAdd extends Command
                                 'campaignBudget' => $compain_budget,
 
                                 'targetSpend' => array(
-                                    'cpcBidCeilingMicros' => 1
+                                    'cpcBidCeilingMicros' => $adsStep1->target
                                 ),
                                 'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
                                 'endDate' => Carbon::create(Carbon::now()->addDays(3))->format('Y-m-d'),
@@ -211,6 +211,27 @@ class a_bTestingGoogleTextAdd extends Command
                             ]
                         ]);
 
+
+                        $compain_criteria3 = \Http::withHeaders([
+
+                            'developer-token' => $google['dev_token'],
+                            'login-customer-id' => $google['manager_id'],
+                        ])->withToken($google['accsss_token'])->
+                        post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                            'operations' => [
+                                'create' => array(
+                                    'displayName' => "my campaign criteria $rand",
+                                    'campaign' => $compain,
+                                    'negative' => true,
+                                    "keyword" => array(
+                                        'matchType' => 'PHRASE',
+                                        'text' => $adsStep1->keywords
+                                    ),
+
+
+                                )
+                            ]
+                        ]);
 
                         foreach ($cities as $cit) {
 
@@ -292,6 +313,8 @@ class a_bTestingGoogleTextAdd extends Command
                 $advertisement = new Advertisement();
                 $advertisement->goal = $adsStep1->goal;
                 $advertisement->title = $adsStep1->title;
+                $advertisement->keywords = $adsStep1->keywords;
+                $advertisement->target = $adsStep1->target;
                 $advertisement->user_id = $adsStep1->user_id;
 
                 $advertisement->age2 = $adsStep1->age2;
@@ -516,7 +539,7 @@ class a_bTestingGoogleTextAdd extends Command
                                 'campaignBudget' => $compain_budget,
 
                                 'targetSpend' => array(
-                                    'cpcBidCeilingMicros' => 1
+                                    'cpcBidCeilingMicros' => $adsStep2->target
                                 ),
                                 'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
                                 'endDate' => Carbon::create(Carbon::now()->addDays(3))->format('Y-m-d'),
@@ -565,6 +588,28 @@ class a_bTestingGoogleTextAdd extends Command
                                     'negative' => true,
                                     "gender" => array(
                                         'type' => $adsStep2->gender
+                                    ),
+
+
+                                )
+                            ]
+                        ]);
+
+
+                        $compain_criteria3 = \Http::withHeaders([
+
+                            'developer-token' => $google['dev_token'],
+                            'login-customer-id' => $google['manager_id'],
+                        ])->withToken($google['accsss_token'])->
+                        post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                            'operations' => [
+                                'create' => array(
+                                    'displayName' => "my campaign criteria $rand",
+                                    'campaign' => $compain,
+                                    'negative' => true,
+                                    "keyword" => array(
+                                        'matchType' => 'PHRASE',
+                                        'text' => $adsStep2->keywords
                                     ),
 
 
@@ -652,6 +697,8 @@ class a_bTestingGoogleTextAdd extends Command
 
                 $advertisement = new Advertisement();
                 $advertisement->goal = $adsStep2->goal;
+                $advertisement->keywords = $adsStep2->keywords;
+                $advertisement->target = $adsStep2->target;
                 $advertisement->title = $adsStep2->title;
                 $advertisement->user_id = $adsStep2->user_id;
 
@@ -882,7 +929,7 @@ class a_bTestingGoogleTextAdd extends Command
                                 'campaignBudget' => $compain_budget,
 
                                 'targetSpend' => array(
-                                    'cpcBidCeilingMicros' => 1
+                                    'cpcBidCeilingMicros' => $adsStep3->target
                                 ),
                                 'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
                                 'endDate' => Carbon::create(Carbon::now()->addDays($f))->format('Y-m-d'),
@@ -930,6 +977,28 @@ class a_bTestingGoogleTextAdd extends Command
                                     'negative' => true,
                                     "gender" => array(
                                         'type' => $adsStep3->gender
+                                    ),
+
+
+                                )
+                            ]
+                        ]);
+
+
+                        $compain_criteria3 = \Http::withHeaders([
+
+                            'developer-token' => $google['dev_token'],
+                            'login-customer-id' => $google['manager_id'],
+                        ])->withToken($google['accsss_token'])->
+                        post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                            'operations' => [
+                                'create' => array(
+                                    'displayName' => "my campaign criteria $rand",
+                                    'campaign' => $compain,
+                                    'negative' => true,
+                                    "keyword" => array(
+                                        'matchType' => 'PHRASE',
+                                        'text' => $adsStep3->keywords
                                     ),
 
 
@@ -1017,6 +1086,8 @@ class a_bTestingGoogleTextAdd extends Command
 
                 $advertisement = new Advertisement();
                 $advertisement->goal = $adsStep3->goal;
+                $advertisement->keywords = $adsStep3->keywords;
+                $advertisement->target = $adsStep3->target;
                 $advertisement->title = $adsStep3->title;
                 $advertisement->user_id = $adsStep3->user_id;
 

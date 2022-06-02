@@ -158,7 +158,7 @@ class a_bTestingGoogleImageAdd extends Command
                                 'campaignBudget' => $compain_budget,
 
                                 'targetSpend' => array(
-                                    'cpcBidCeilingMicros' => 1
+                                    'cpcBidCeilingMicros' => $adsStep1->target
                                 ),
                                 'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
                                 'endDate' => Carbon::create(Carbon::now()->addDays(3))->format('Y-m-d'),
@@ -214,6 +214,27 @@ class a_bTestingGoogleImageAdd extends Command
                             ]
                         ]);
 
+
+                        $compain_criteria3 = \Http::withHeaders([
+
+                            'developer-token' => $google['dev_token'],
+                            'login-customer-id' => $google['manager_id'],
+                        ])->withToken($google['accsss_token'])->
+                        post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                            'operations' => [
+                                'create' => array(
+                                    'displayName' => "my campaign criteria $rand",
+                                    'campaign' => $compain,
+                                    'negative' => true,
+                                    "keyword" => array(
+                                        'matchType' => 'PHRASE',
+                                        'text' => $adsStep1->keywords
+                                    ),
+
+
+                                )
+                            ]
+                        ]);
 
                         foreach ($cities as $cit) {
 
@@ -297,6 +318,7 @@ class a_bTestingGoogleImageAdd extends Command
                 $advertisement->goal = $adsStep1->goal;
                 $advertisement->dimentions = $adsStep1->dimentions;
                 $advertisement->title = $adsStep1->title;
+                $advertisement->target = $adsStep1->target;
                 $advertisement->user_id = $adsStep1->user_id;
 
                 $advertisement->age2 = $adsStep1->age2;
@@ -543,7 +565,7 @@ class a_bTestingGoogleImageAdd extends Command
                                 'campaignBudget' => $compain_budget,
 
                                 'targetSpend' => array(
-                                    'cpcBidCeilingMicros' => 1
+                                    'cpcBidCeilingMicros' => $adsStep2->target
                                 ),
                                 'startDate' => Carbon::create(Carbon::now())->format('Y-m-d'),
                                 'endDate' => Carbon::create(Carbon::now()->addDays($f))->format('Y-m-d'),
@@ -592,6 +614,28 @@ class a_bTestingGoogleImageAdd extends Command
                                     'negative' => true,
                                     "gender" => array(
                                         'type' => $adsStep1->gender
+                                    ),
+
+
+                                )
+                            ]
+                        ]);
+
+
+                        $compain_criteria3 = \Http::withHeaders([
+
+                            'developer-token' => $google['dev_token'],
+                            'login-customer-id' => $google['manager_id'],
+                        ])->withToken($google['accsss_token'])->
+                        post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/campaignCriteria:mutate', [
+                            'operations' => [
+                                'create' => array(
+                                    'displayName' => "my campaign criteria $rand",
+                                    'campaign' => $compain,
+                                    'negative' => true,
+                                    "keyword" => array(
+                                        'matchType' => 'PHRASE',
+                                        'text' => $adsStep1->keywords
                                     ),
 
 
@@ -680,7 +724,9 @@ class a_bTestingGoogleImageAdd extends Command
                 $advertisement = new Advertisement();
                 $advertisement->goal = $adsStep1->goal;
                 $advertisement->dimentions = $adsStep1->dimentions;
+                $advertisement->keywords = $adsStep1->keywords;
                 $advertisement->title = $adsStep1->title;
+                $advertisement->target = $adsStep1->target;
                 $advertisement->user_id = $adsStep1->user_id;
 
                 $advertisement->age2 = $adsStep1->age2;

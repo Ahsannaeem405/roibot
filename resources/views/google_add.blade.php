@@ -235,6 +235,57 @@
 
                         <!-- One "tab" for each step in the form: -->
 
+                        <div class="tab">
+                            <h3 class="text-center step-heading mx-auto">Step: 1</h3>
+
+
+                            <p class="my-3">
+                                Campaign Title
+                                <input type="text" class="my-2" name="title" placeholder="Campaign Title">
+                            </p>
+
+                            <p class="my-3">
+                                Select advertising Channel Type:
+
+
+                                <select name="chanel" id="chanel" class="form-control mt-2">
+
+                                    <option selected value="SEARCH">SEARCH (Text Add)</option>
+                                    <option value="DISPLAY">DISPLAY (Image Display Add)</option>
+                                    <option value="DISPLAY2">DISPLAY (Responsive Display Add)</option>
+
+                                </select>
+
+                            </p>
+
+
+                            <p class="my-3">
+                                Daily budget:
+
+                                <input placeholder="Per Day" name="perday_budget"
+                                       class="mt-2 perday_budget" type="number">
+
+                            </p>
+
+                            <p class="my-3">
+                                Start Date:
+
+                                <input name="start_date"
+                                       class="mt-2 " type="datetime-local">
+
+                            </p>
+
+                            <p class="my-3">
+                                End Date:
+
+                                <input name="end_date"
+                                       class="mt-2 " type="datetime-local">
+
+                            </p>
+
+
+                        </div>
+
                         <div class="tab mt-4">
                             <h3 class="text-center step-heading mx-auto">Step: 2</h3>
 
@@ -253,7 +304,7 @@
                             <p class="mt-3 w-100">
                                 Geo Location City:
                                 <select id="search_city" class="form-control mt-2 js-example-basic-multiple city"
-                                        name="city[]" multiple="multiple" >
+                                        name="city[]" multiple="multiple">
 
 
                                 </select>
@@ -293,97 +344,98 @@
                             </select>
                             </p>
 
-
-                        </div>
-                        <div class="tab">
-                            <h3 class="text-center step-heading mx-auto">Step: 1</h3>
-
-
                             <p class="my-3">
-                                Campaign Title
-                                <input type="text" class="my-2" name="title" placeholder="Campaign Title">
-                            </p>
+                                Bidding Strategy:
 
-                            <p class="my-3">
-                                Select advertising Channel Type:
+{{--                                <select name="bidding" class="form-control" id="bidding">--}}
+{{--                                    <option value="targetCpa" selected>Target Cpa</option>--}}
+{{--                                    <option value="targetRoas">Target Roas</option>--}}
+{{--                                </select>--}}
 
+                            <div class="targetCpa_bidding bid">
 
-                                <select name="chanel" id="chanel" class="form-control mt-2">
-
-                                    <option selected value="SEARCH">SEARCH</option>
-                                    <option value="DISPLAY">DISPLAY</option>
-
-                                </select>
-
-                            </p>
+                                Target Spend (CPC Bid Ceiling Amount):
+                                <input type="text" class="mb-2 bid_data targetCpa_bidding" name="target">
 
 
-                            <p class="my-3">
-                                Daily budget:
 
-                                <input placeholder="Per Day" name="perday_budget"
-                                       class="mt-2 perday_budget" type="number">
+{{--                                CPC Bid Floor Amount:--}}
+{{--                                <input type="text" class="mb-2 bid_data targetCpa_bidding" name="second">--}}
 
-                            </p>
 
-                            <p class="my-3">
-                                Start Date:
+                            </div>
 
-                                <input name="start_date"
-                                       class="mt-2 " type="datetime-local">
+{{--                            <div class="targetRoas_bidding bid" style="display: none">--}}
 
-                            </p>
 
-                            <p class="my-3">
-                                End Date:
+{{--                                Target Roas Amount:--}}
+{{--                                <input type="text" class="mb-2 bid_data targetRoas_bidding" value="value" name="target2">--}}
 
-                                <input name="end_date"
-                                       class="mt-2 " type="datetime-local">
+{{--                                CPC Bid Ceiling Amount:--}}
+{{--                                <input type="text" class="mb-2 bid_data targetRoas_bidding" value="value" name="first2">--}}
 
+{{--                                CPC Bid Floor Amount:--}}
+{{--                                <input type="text" class="mb-2 bid_data targetRoas_bidding" name="second2">--}}
+
+
+{{--                            </div>--}}
                             </p>
 
 
                         </div>
+
+
 
 
                         <div class="tab">
                             <h3 class="text-center step-heading mx-auto">Step: 3</h3>
+                            <p class="my-3">
+                            <div class="all_preview  DISPLAY2_preview" style="display: none">
 
+                                Business Name
 
-                            <p class="my-3 ">
-                            <div class="all_preview SEARCH_preview">
-
-
-                            <div class="d-flex justify-content-between align-items-center my-2">
-                                Add Heading
-                                <button class="heading-btn" type="button">+</button>
-                            </div>
-                            <div class="heading-feilds row">
-
-                                <div class="col-lg-6">
-                                    <input placeholder="Heading 1" class="preview_1 heading1_btn"
-                                           value="This is your heading part 1" name="heading[]">
-                                </div>
-                                <div class="col-lg-6">
-                                    <input placeholder="Heading 1" class="preview_1 heading2_btn"
-                                           value="This is your heading part 2" name="heading2[]">
-                                </div>
-                            </div>
+                                <input type="text" name="business" value="Business Name" class="preview_1 business">
                             </div>
                             </p>
 
                             <p class="my-3 ">
-                            <div class="all_preview SEARCH_preview">
+                            <div class="all_preview SEARCH_preview DISPLAY2_preview">
 
 
-                            <div class="d-flex justify-content-between align-items-center my-2">
-                                Add Body Text
-                                <button class="add-text" type="button">+</button>
+                                <div class="d-flex justify-content-between align-items-center my-2">
+                                    Add Heading
+                                    <button class="heading-btn" type="button">+</button>
+                                </div>
+                                <div class="heading-feilds row">
+
+                                    <div class="col-lg-6">
+                                        <input placeholder="Heading 1" class="preview_1 heading1_btn"
+                                               value="This is your heading part 1" name="heading[]">
+                                    </div>
+                                    <div class="col-lg-6 all_preview SEARCH_preview">
+                                        <input placeholder="Heading 1" class="preview_1 heading2_btn"
+                                               value="This is your heading part 2" name="heading2[]">
+                                    </div>
+                                    <div class="col-lg-6 all_preview DISPLAY2_preview" style="display: none">
+                                        <input placeholder="Long heading" class="preview_1 heading2_btn"
+                                               value="Long heading" name="long[]">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="text-feilds">
-                                <input placeholder="Text 1" value="This is your body" name="body[]"
-                                       class="preview_1 body1_btn">
-                            </div>
+                            </p>
+
+                            <p class="my-3 ">
+                            <div class="all_preview SEARCH_preview DISPLAY2_preview">
+
+
+                                <div class="d-flex justify-content-between align-items-center my-2">
+                                    Add Body Text
+                                    <button class="add-text" type="button">+</button>
+                                </div>
+                                <div class="text-feilds">
+                                    <input placeholder="Text 1" value="This is your body" name="body[]"
+                                           class="preview_1 body1_btn">
+                                </div>
                             </div>
                             </p>
 
@@ -409,10 +461,11 @@
                             </p>
 
                             <p class="my-3">
-                            <div class="all_preview DISPLAY_preview" style="display: none">
+                            <div class="all_preview DISPLAY_preview DISPLAY2_preview" style="display: none">
 
-                                Image Dimension
-                                <select name="dimentions" id="">
+                                <span class="all_preview DISPLAY_preview">Image Dimension</span>
+
+                                <select name="dimentions" class="all_preview DISPLAY_preview" id="">
                                     <option selected value="300 x 100">300 x 100</option>
                                     <option value="750 x 300">750 x 300</option>
                                     <option value="750 x 200">750 x 200</option>
@@ -504,6 +557,34 @@
 
                                 </div>
 
+
+                            </div>
+                        </a>
+
+
+                    </div>
+                    <div class="preview1 all_preview DISPLAY2_preview" style="display: none">
+
+                        <a class="a_card">
+
+                            <div class="box-shadow p-0 overflow-hidden">
+
+
+                                <div class="position-relative text-center">
+
+                                    <img src="{{asset('images/adsdata.jpg')}}" class="img-fluid w-100 img1" alt="">
+
+                                    <h4 class="position-absolute heading_fb text-white heading1_prev">This is your
+                                        heading</h4>
+
+                                </div>
+                                <div class="p-3 d-flex justify-content-between ">
+
+
+                                    <p class="body1_prev">This is your body</p>
+                                    <p class="business_div">Business Name</p>
+                                    <a class="my-auto"><i class="fas fa-angle-right font_icon "></i></a>
+                                </div>
 
                             </div>
                         </a>
@@ -636,8 +717,8 @@
 
             $('.js-example-basic-multiple').select2();
             $('.js-example-basic-tag').select2({
-                tags:true,
-                maximumSelectionLength:10
+                tags: true,
+                maximumSelectionLength: 10
             });
 
 
@@ -670,7 +751,16 @@
                 $('#radius').empty().text(val + ' miles')
                 // $(this).val(50);
             });
+            $('#bidding').change(function () {
 
+                var val = $(this).val();
+                $('.bid').hide();
+                $('.bid_data').val('value');
+                $('.' + val + '_bidding').show();
+                $('.' + val + '_bidding').val('');
+
+                // $(this).val(50);
+            });
 
             $('#chanel').change(function () {
                 var chanel = $(this).val();
@@ -709,16 +799,35 @@
             if (headingNumber < 5) {
 
                 headingNumber++;
-                $(".heading-feilds").append(
-                    ` <div class="col-lg-6 mt-2">
+                if ($('#chanel').val() == 'SEARCH') {
+                    $(".heading-feilds").append(
+                        ` <div class="col-lg-6 mt-2">
                                     <input placeholder="Heading 1" class=" "
                                            value="This is your heading part 1" name="heading[]">
                                 </div>
-                                <div class="col-lg-6 mt-2">
+                                <div class="col-lg-6 mt-2 ">
                                 <input placeholder="Heading 1" class=" "
                                        value="This is your heading part 2" name="heading2[]">
                                 </div>`
-                );
+                    );
+                } else {
+
+                    $(".heading-feilds").append(
+                        ` <div class="col-lg-6 mt-2">
+                                    <input placeholder="Heading 1" class=" "
+                                           value="This is your heading" name="heading[]">
+                                </div>
+
+
+                                <div class="col-lg-6 mt-2">
+                                    <input placeholder="Long heading" class=" "
+                                           value="Long heading" name="long[]">
+                                </div>
+                               `
+                    );
+
+
+                }
 
 
             }
@@ -809,14 +918,21 @@
 
 
             var head = $('.heading1_btn').val();
+            var business = $('.business').val();
             var head2 = $('.heading2_btn').val();
             var body = $('.body1_btn').val();
             var url = $('.url1_btn').val();
 
+            if ($('#chanel').val() == 'SEARCH') {
+                $('.heading1_prev').empty().append(head + ' | ' + head2);
+            } else {
+                $('.heading1_prev').empty().append(head);
 
-            $('.heading1_prev').empty().append(head + ' | ' + head2);
+            }
+
             $('.body1_prev').empty().append(body);
             $('.divurl_1').empty().append(url);
+            $('.business_div').empty().append(business);
 
 
         });

@@ -1031,7 +1031,7 @@
 
         function uplaodImage() {
 
-                 jQuery.noConflict();
+              //   jQuery.noConflict();
             $.ajax({
                 type: 'get',
                 url: "{{url('get/images')}}",
@@ -1151,7 +1151,7 @@
 
         var imageNumber = 1;
         $(".image-btn").click(() => {
-             jQuery.noConflict();
+            // jQuery.noConflict();
             $('#exampleModal').modal('show');
         })
 

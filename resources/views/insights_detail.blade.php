@@ -164,31 +164,53 @@
 
 
 
+
                                             @if($compain->goal=='SEARCH')
 
-                                                <div class="position-relative">
+                                                <div class="p-3">
+                                                    <div class="position-relative">
                                                     <span class="ml-2">Ad . <span
                                                             class="divurl_1"> {{$com->url}} </span></span>
 
 
-                                                    <h5 class=" heading_fb  heading1_prev ml-2 mt-1"
-                                                        style="color: blue!important;">{{$com->heading}}</h5>
+                                                        <h5 class=" heading_fb  heading1_prev ml-2 mt-1"
+                                                            style="color: blue!important;">{{$com->heading}}</h5>
 
+                                                    </div>
+                                                    <div class="d-flex justify-content-between ">
+
+
+                                                        <p class="ml-2"> {{$com->body}}</p>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex justify-content-between ">
 
 
-                                                    <p class="ml-2"> {{$com->body}}</p>
-                                                </div>
 
 
-                                            @else
-                                                <div class="position-relative">
+
+                                            @elseif($compain->goal=='DISPLAY')
+                                                <div class="position-relative p-3">
 
                                                     <img
                                                         src="{{asset('images/gallary/'.$com->image.'')}}"
                                                         class="img-fluid w-100 img1" alt="">
 
+                                                </div>
+
+                                            @elseif($compain->goal=='DISPLAY2')
+
+                                                <div class="position-relative text-center">
+
+                                                    <img src="{{asset('images/gallary/'.$com->image.'')}}" class="img-fluid w-100 img1" alt="">
+
+                                                    <h4 class="position-absolute heading_fb text-white heading1_prev">{{$com->heading}}</h4>
+
+                                                </div>
+                                                <div class="p-3 d-flex justify-content-between ">
+
+                                                    <p class="body1_prev">{{$com->body}}</p>
+                                                    <p class="business_div" >{{$compain->business}}</p>
+                                                    <a class="my-auto" target="_blank" href="{{$com->url}}"><i class="fas fa-angle-right font_icon "></i></a>
                                                 </div>
 
                                             @endif
