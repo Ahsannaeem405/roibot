@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('ab:googleText')->everyMinute();
         $schedule->command('ab:googleImage')->everyMinute();
         $schedule->command('ab:googleResponsiveImage')->everyMinute();
+        $schedule->command('update:googleToken')->everyThirtyMinutes();
     }
 
     /**
@@ -31,7 +32,6 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }

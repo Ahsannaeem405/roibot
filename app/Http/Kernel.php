@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\admin;
 use App\Http\Middleware\facebookToken;
 use App\Http\Middleware\googleToken;
 use App\Http\Middleware\setData;
@@ -49,6 +50,9 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+        'admin'=>[
+            admin::class,
+        ]
     ];
 
     /**

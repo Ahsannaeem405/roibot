@@ -36,25 +36,25 @@
                                            value="{{$user->email}}" readonly id="email">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="password"><b>Old Password:</b></label>
-                                    <input type="password" class="form-control form-control-sm" name="old_password"
-                                           id="old_password">
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="password"><b>Old Password:</b></label>--}}
+{{--                                    <input type="password" class="form-control form-control-sm" name="old_password"--}}
+{{--                                           id="old_password">--}}
 
 
-                                </div>
+{{--                                </div>--}}
 
-                                <div class="form-group">
-                                    <label for="password"><b>New Password:</b></label>
-                                    <input type="password" name="password" class="form-control form-control-sm"
-                                           id="password">
-                                    @if($errors->has('password'))
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="password"><b>New Password:</b></label>--}}
+{{--                                    <input type="password" name="password" class="form-control form-control-sm"--}}
+{{--                                           id="password">--}}
+{{--                                    @if($errors->has('password'))--}}
 
-                                        <span style="color: red">
-                                        <strong>{{$errors->first('password')}}</strong>
-                                    </span>
-                                    @endif
-                                </div>
+{{--                                        <span style="color: red">--}}
+{{--                                        <strong>{{$errors->first('password')}}</strong>--}}
+{{--                                    </span>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
                                 <div class="text-center">
                                     <button class="btn px-4 btn-update" type="submit">Update</button>
                                 </div>

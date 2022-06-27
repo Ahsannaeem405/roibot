@@ -28,21 +28,16 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" name="name" placeholder="Name" value="{{old('name')}}" required="required">
 
-                                @if($errors->has('email'))
+                                @if($errors->has('name'))
 
                                     <span style="color: red">
-                                        <strong>{{$errors->first('email')}}</strong>
+                                        <strong>{{$errors->first('name')}}</strong>
                                     </span>
                                 @endif
 
                             </div>
 
-                            @if($errors->has('name'))
 
-                                <span style="color: red">
-                                        <strong>{{$errors->first('name')}}</strong>
-                                    </span>
-                            @endif
 
                             <div class="form-group">
                                 <input type="email" class="form-control" name="email" placeholder="Email" value="{{old('email')}}" required="required">
@@ -67,7 +62,6 @@
                                         <strong>{{$errors->first('password')}}</strong>
                                     </span>
                                 @endif
-
 
                             </div>
 
