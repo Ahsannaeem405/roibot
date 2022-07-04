@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
+use App\Models\creditials;
 use App\Models\insightDetail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -42,6 +43,7 @@ class googleInsights extends Command
      */
     public function handle()
     {
+        $admin = creditials::first();
         $adv = Advertisement::whereHas('activeAdd', function ($q) {
             //  $q->where('end_date', '<', Carbon::now());
         })
@@ -59,45 +61,34 @@ class googleInsights extends Command
 
 
             $user = User::find($advs->user_id);
-            $api = \Http::post('https://www.googleapis.com/oauth2/v3/token', [
-                'grant_type' => 'refresh_token',
-                'client_id' => $user->gg_client,
-                'client_secret' => $user->gg_secret,
-                'refresh_token' => $user->gg_refresh,
-            ]);
-            if ($api->status() == 200) {
-                $api = json_decode($api->body());
-
-                $user->gg_access = $api->access_token;
-                $user->update();
 
 
-                $google = [
-                    'dev_token' => $user->gg_dev,
-                    'manager_id' => $user->gg_manager,
-                    'customer_id' => $user->gg_customer,
-                    'client_id' => $user->gg_client,
-                    'secret_id' => $user->gg_secret,
-                    'accsss_token' => $user->gg_access,
-                    'refresh_token' => $user->gg_refresh,
+            $google = [
+                'dev_token' => $admin->google_developer,
+                'manager_id' => $admin->manager,
+                'customer_id' => $user->gg_customer,
+                'client_id' => $admin->google_app,
+                'secret_id' => $admin->google_secret,
+                'accsss_token' => $admin->google_token,
+                'refresh_token' => $admin->google_refresh,
 
-                ];
-
-
-                foreach ($adsStep1 as $adsStep1) {
-                    $ad = json_decode($adsStep1->add_id);
-                    $ad = $ad->results[0]->resourceName;
-                    // dd($ad);
+            ];
 
 
-                    $insight = \Http::withHeaders([
+            foreach ($adsStep1 as $adsStep1) {
+                $ad = json_decode($adsStep1->add_id);
+                $ad = $ad->results[0]->resourceName;
+                // dd($ad);
 
-                        'developer-token' => $google['dev_token'],
-                        'login-customer-id' => $google['manager_id'],
-                    ])->withToken($google['accsss_token'])->
-                    post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/googleAds:search', [
 
-                        "query" => "SELECT
+                $insight = \Http::withHeaders([
+
+                    'developer-token' => $google['dev_token'],
+                    'login-customer-id' => $google['manager_id'],
+                ])->withToken($google['accsss_token'])->
+                post('https://googleads.googleapis.com/v10/customers/' . $google['customer_id'] . '/googleAds:search', [
+
+                    "query" => "SELECT
     metrics.clicks,
     metrics.impressions,
     metrics.ctr,
@@ -105,9 +96,8 @@ class googleInsights extends Command
     metrics.cost_micros
   FROM ad_group_ad
   where  ad_group_ad.resource_name='$ad'"
-                    ]);
-                    if ($insight->status()==200)
-                    {
+                ]);
+                if ($insight->status() == 200) {
 
 
                     $res = json_decode($insight->body());
@@ -115,23 +105,23 @@ class googleInsights extends Command
                     $adsStep1->cpc = isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0;
                     $adsStep1->clicks = intval($res->results[0]->metrics->clicks);
                     $adsStep1->impressions = intval($res->results[0]->metrics->impressions);
-                    $adsStep1->total= intval($adsStep1->clicks+  $adsStep1->impressions);
+                    $adsStep1->total = intval($adsStep1->clicks + $adsStep1->impressions);
                     $adsStep1->update();
 
-                        $ins_detail=insightDetail::updateOrCreate(
-                            ['add_id'=>$adsStep1->id,'date'=>Carbon::now()->format('Y-m-d')],
-                            ['cpc'=>isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0],
-                            ['impressions'=> intval($res->results[0]->metrics->impressions)],
-                            ['clicks'=>intval($res->results[0]->metrics->clicks)],
+                    $ins_detail = insightDetail::updateOrCreate(
+                        ['add_id' => $adsStep1->id, 'date' => Carbon::now()->format('Y-m-d')],
+                        ['cpc' => isset($res->results[0]->metrics->averageCpc) ? $res->results[0]->metrics->averageCpc : 0],
+                        ['impressions' => intval($res->results[0]->metrics->impressions)],
+                        ['clicks' => intval($res->results[0]->metrics->clicks)],
 
-                        );
+                    );
 
-                    }
                 }
-
-
             }
+
+
         }
+
 
     }
 }

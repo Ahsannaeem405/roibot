@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\AdvertisementAds;
+use App\Models\creditials;
 use App\Models\insightDetail;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -40,13 +41,14 @@ class faceBookInsight extends Command
      */
     public function handle()
     {
+        $admin = creditials::first();
         $ads=AdvertisementAds::where('add_id','!=',null)->get();
         foreach ($ads as $ad)
         {
-            $insight = \Http::get('https://graph.facebook.com/v13.0/'.$ad->add_id.'/insights', [
+            $insight = \Http::get('https://graph.facebook.com/v14.0/'.$ad->add_id.'/insights', [
                 "date_preset"=>"maximum",
                 "fields"=>'impressions,clicks,cpc,reach',
-                'access_token' => $ad->compain->user->fb_token,
+                'access_token' => $admin->facebook_token,
 
             ]);
             if ($insight->status()==200)

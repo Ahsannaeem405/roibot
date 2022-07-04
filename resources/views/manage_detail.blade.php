@@ -131,8 +131,7 @@
                                     <a href="{{url('compain/pause/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to Pause this item?');">  <button class="btn btn-warning btn_manage mt-4 text-light">Pause</button></a><br>
                             <a href="{{url('compain/delete/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to delete this item?');"><button class="btn btn-danger  mt-4 btn_manage text-light">Delete</button></a><br>
                             <a href="{{url('compain/reactive/'.$com->id.'')}}" onclick="return confirm('Are you sure you want to Reactivate this item?');">  <button class="btn btn-success  mt-4 btn_manage text-light">Reactivate</button></a><br>
-                            <button class="btn btn-primary  mt-4 btn_manage text-light">Duplicate</button><br>
-
+{{--                            <button class="btn btn-primary  mt-4 btn_manage text-light">Duplicate</button><br>--}}
 
                             <button   data-toggle="modal" data-target="#publish{{$com->id}}"    @if($com->step!=5) disabled  @endif class="btn btn-secondary  mt-4 btn_manage text-light">
                                 Publish ADD

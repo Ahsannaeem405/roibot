@@ -84,45 +84,47 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-12 d-none">
                                                     <lable>App ID</lable>
                                                     <input type="text" name="fb_client" value="{{$user->fb_client}}"
-                                                           required class="form-control">
+                                                            class="form-control">
                                                 </div>
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-12 d-none">
                                                     <lable>Secret ID</lable>
                                                     <input type="text" name="fb_secret" value="{{$user->fb_secret}}"
-                                                           required class="form-control">
+                                                            class="form-control">
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <lable>Page ID</lable>
-                                                    <select name="fb_page" class="form-control" id="">
-                                                        <option selected  value="">select page</option>
-                                                        @foreach($pages as $page)
+                                                    <input type="text" required class="form-control" value="{{$user->fb_page}}" name="fb_page">
+{{--                                                    <select name="fb_page" class="form-control" id="">--}}
+{{--                                                        <option selected  value="">select page</option>--}}
+{{--                                                        @foreach($pages as $page)--}}
 
-                                                            <option  {{$user->fb_page==$page->id ? 'selected' : null}} value="{{$page->id}}">{{$page->name}}</option>
-                                                        @endforeach
-                                                    </select>
+{{--                                                            <option  {{$user->fb_page==$page->id ? 'selected' : null}} value="{{$page->id}}">{{$page->name}}</option>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </select>--}}
 
 
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <lable>Account ID</lable>
 
-                                                    <select name="fb_account" class="form-control" id="">
-                                                        <option selected  value="">select Account</option>
-                                                        @foreach($accounts as $account)
+                                                    <input type="text" required class="form-control" value="{{$user->fb_account}}" name="fb_account">
+{{--                                                    <select name="fb_account" class="form-control" id="">--}}
+{{--                                                        <option selected  value="">select Account</option>--}}
+{{--                                                        @foreach($accounts as $account)--}}
 
-                                                            <option  {{$user->fb_account==$account->account_id ? 'selected' : null}} value="{{$account->account_id}}">{{$account->account_id}}</option>
-                                                        @endforeach
-                                                    </select>
+{{--                                                            <option  {{$user->fb_account==$account->account_id ? 'selected' : null}} value="{{$account->account_id}}">{{$account->account_id}}</option>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </select>--}}
 
 
                                                 </div>
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-12 d-none">
                                                     <lable>Access TOKEN</lable>
                                                     <input type="text" name="fb_token" value="{{$user->fb_token}}"
-                                                           required class="form-control">
+                                                            class="form-control">
                                                 </div>
 
                                             </div>
@@ -231,7 +233,7 @@
                                     <br>
 
                                     <button class="btn btn-danger w-100 mt-2" data-toggle="modal"
-                                            data-target="#google"><i class="fab fa-google-plus-g"></i> Link
+                                            data-target="#google2"><i class="fab fa-google-plus-g"></i> Conected
                                         with Google
                                     </button>
 

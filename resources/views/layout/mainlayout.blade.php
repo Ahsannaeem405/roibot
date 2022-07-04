@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{url('/')}}">Home </a>
+                        <a class="nav-link" href="{{url('/index')}}">Home </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/manage_view')}}">Manage Ads</a>
@@ -60,7 +60,7 @@
                 <form class="form-inline my-2 mr-lg-5 my-lg-0">
                     <div class="dropdown">
                         <!-- <button class="btn btn_profile" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-                        <img src="{{asset('images/profile/'.\Illuminate\Support\Facades\Auth::user()->profile.'')}}" class="rounded-circle" width="50" alt="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{asset('images/profile/'.\Illuminate\Support\Facades\Auth::user()->profile.'')}}" class="rounded-circle" width="50" height="50" alt="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <!-- </button> -->
                         <div class="dropdown-menu text-center " aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{url('profile')}}">Profile</a>

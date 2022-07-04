@@ -15,7 +15,7 @@
 <body>
 <section class="login-page section">
     <div class="container">
-        <div class="row d-flex justify-content-center pt-5 align-items-center" >
+        <div class="row d-flex justify-content-center pt-5 align-items-center"  style="height: 100vh">
             <div class="col-12 col-xl-4 col-lg-6 col-md-8">
                 <div class="login-details">
                     <div class="logo mx-auto pt-4">
@@ -45,14 +45,14 @@
 
                             <div class="form-group clearfix">
 
-                                <a href="#" class="forgot-link">Forgot Password?</a>
+                                <a href="{{route('password.request')}}" class="forgot-link">Forgot Password?</a>
                             </div>
 
 
-                            <div class="form-group clearfix">
-                                <label class="checkbox-inline"><span class="pl-2">Don't have an account?</span></label>
-                                <a href="{{url('register')}}" class="forgot-link">Click here</a>
-                            </div>
+{{--                            <div class="form-group clearfix">--}}
+{{--                                <label class="checkbox-inline"><span class="pl-2">Don't have an account?</span></label>--}}
+{{--                                <a href="{{url('register')}}" class="forgot-link">Click here</a>--}}
+{{--                            </div>--}}
                             <div class="d-flex justify-content-center">
                                 <button class="btn px-5 py-2" type="submit">Login</button>
                             </div>

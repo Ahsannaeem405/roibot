@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
 use App\Models\AdvertisementDetail;
+use App\Models\creditials;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -44,7 +45,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
      */
     public function handle()
     {
-
+        $admin = creditials::first();
         //step 1
         $adsStep1 = Advertisement::whereHas('activeAdd', function ($q) {
             $q->where('end_date', '<', Carbon::now());
@@ -62,29 +63,20 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
             $budget = intval($adsStep1->per_day) * 1000000;
 
             $user = User::find($adsStep1->user_id);
-            $api = \Http::post('https://www.googleapis.com/oauth2/v3/token', [
-                'grant_type' => 'refresh_token',
-                'client_id' => $user->gg_client,
-                'client_secret' => $user->gg_secret,
-                'refresh_token' => $user->gg_refresh,
-            ]);
-            if ($api->status() == 200) {
-                $api = json_decode($api->body());
-
-                $user->gg_access = $api->access_token;
-                $user->update();
 
 
-                $google = [
-                    'dev_token' => $user->gg_dev,
-                    'manager_id' => $user->gg_manager,
-                    'customer_id' => $user->gg_customer,
-                    'client_id' => $user->gg_client,
-                    'secret_id' => $user->gg_secret,
-                    'accsss_token' => $user->gg_access,
-                    'refresh_token' => $user->gg_refresh,
 
-                ];
+
+            $google = [
+                'dev_token' => $admin->google_developer,
+                'manager_id' => $admin->manager,
+                'customer_id' => $user->gg_customer,
+                'client_id' => $admin->google_app,
+                'secret_id' => $admin->google_secret,
+                'accsss_token' => $admin->google_token,
+                'refresh_token' => $admin->google_refresh,
+
+            ];
 
 
                 $i = 0;
@@ -534,7 +526,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
                 }
 
             }
-        }
+
 
 
 
@@ -556,30 +548,19 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
             $budget = intval($adsStep2->per_day) * 1000000;
 
             $user = User::find($adsStep2->user_id);
-            $api = \Http::post('https://www.googleapis.com/oauth2/v3/token', [
-                'grant_type' => 'refresh_token',
-                'client_id' => $user->gg_client,
-                'client_secret' => $user->gg_secret,
-                'refresh_token' => $user->gg_refresh,
-            ]);
-            if ($api->status() == 200) {
-                $api = json_decode($api->body());
-
-                $user->gg_access = $api->access_token;
-                $user->update();
 
 
-                $google = [
-                    'dev_token' => $user->gg_dev,
-                    'manager_id' => $user->gg_manager,
-                    'customer_id' => $user->gg_customer,
-                    'client_id' => $user->gg_client,
-                    'secret_id' => $user->gg_secret,
-                    'accsss_token' => $user->gg_access,
-                    'refresh_token' => $user->gg_refresh,
 
-                ];
+            $google = [
+                'dev_token' => $admin->google_developer,
+                'manager_id' => $admin->manager,
+                'customer_id' => $user->gg_customer,
+                'client_id' => $admin->google_app,
+                'secret_id' => $admin->google_secret,
+                'accsss_token' => $admin->google_token,
+                'refresh_token' => $admin->google_refresh,
 
+            ];
 
                 $i = 0;
                 $img1 = $hash1 = null;
@@ -1029,7 +1010,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
                 }
 
             }
-        }
+
 
 
 
@@ -1051,29 +1032,19 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
             $budget = intval($adsStep3->per_day) * 1000000;
 
             $user = User::find($adsStep3->user_id);
-            $api = \Http::post('https://www.googleapis.com/oauth2/v3/token', [
-                'grant_type' => 'refresh_token',
-                'client_id' => $user->gg_client,
-                'client_secret' => $user->gg_secret,
-                'refresh_token' => $user->gg_refresh,
-            ]);
-            if ($api->status() == 200) {
-                $api = json_decode($api->body());
-
-                $user->gg_access = $api->access_token;
-                $user->update();
 
 
-                $google = [
-                    'dev_token' => $user->gg_dev,
-                    'manager_id' => $user->gg_manager,
-                    'customer_id' => $user->gg_customer,
-                    'client_id' => $user->gg_client,
-                    'secret_id' => $user->gg_secret,
-                    'accsss_token' => $user->gg_access,
-                    'refresh_token' => $user->gg_refresh,
 
-                ];
+            $google = [
+                'dev_token' => $admin->google_developer,
+                'manager_id' => $admin->manager,
+                'customer_id' => $user->gg_customer,
+                'client_id' => $admin->google_app,
+                'secret_id' => $admin->google_secret,
+                'accsss_token' => $admin->google_token,
+                'refresh_token' => $admin->google_refresh,
+
+            ];
 
 
                 $i = 0;
@@ -1523,7 +1494,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
                 }
 
             }
-        }
+
 
 
 
@@ -1552,29 +1523,20 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
             $budget = intval($adsStep4->per_day) * 1000000;
 
             $user = User::find($adsStep4->user_id);
-            $api = \Http::post('https://www.googleapis.com/oauth2/v3/token', [
-                'grant_type' => 'refresh_token',
-                'client_id' => $user->gg_client,
-                'client_secret' => $user->gg_secret,
-                'refresh_token' => $user->gg_refresh,
-            ]);
-            if ($api->status() == 200) {
-                $api = json_decode($api->body());
-
-                $user->gg_access = $api->access_token;
-                $user->update();
 
 
-                $google = [
-                    'dev_token' => $user->gg_dev,
-                    'manager_id' => $user->gg_manager,
-                    'customer_id' => $user->gg_customer,
-                    'client_id' => $user->gg_client,
-                    'secret_id' => $user->gg_secret,
-                    'accsss_token' => $user->gg_access,
-                    'refresh_token' => $user->gg_refresh,
 
-                ];
+
+            $google = [
+                'dev_token' => $admin->google_developer,
+                'manager_id' => $admin->manager,
+                'customer_id' => $user->gg_customer,
+                'client_id' => $admin->google_app,
+                'secret_id' => $admin->google_secret,
+                'accsss_token' => $admin->google_token,
+                'refresh_token' => $admin->google_refresh,
+
+            ];
 
 
                 $i = 0;
@@ -2021,6 +1983,6 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
 
             }
 
-        }
+
     }
 }

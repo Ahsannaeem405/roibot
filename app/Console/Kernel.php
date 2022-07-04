@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('ab:googleText')->everyMinute();
         $schedule->command('ab:googleImage')->everyMinute();
         $schedule->command('ab:googleResponsiveImage')->everyMinute();
-        $schedule->command('update:googleToken')->everyThirtyMinutes();
+        $schedule->command('update:googleToken')->everyMinute();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Advertisement;
 use App\Models\AdvertisementAds;
 use App\Models\AdvertisementDetail;
+use App\Models\creditials;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -43,7 +44,7 @@ class a_bTestingFacebook extends Command
      */
     public function handle()
     {
-
+        $admin = creditials::first();
 //step 1
         $adsStep1 = Advertisement::whereHas('activeAdd', function ($q) {
             $q->where('end_date', '<', Carbon::now());
@@ -59,9 +60,9 @@ class a_bTestingFacebook extends Command
 
             $user = User::find($adsStep1->user_id);
             $facebook = [
-                'fb_client' => $user->fb_client,
-                'fb_secret' => $user->fb_secret,
-                'fb_token' => $user->fb_token,
+                'fb_client' => $admin->facebook_app,
+                'fb_secret' => $admin->facebook_secret,
+                'fb_token' => $admin->facebook_token,
                 'page_id' => $user->fb_page,
                 'fb_account' => $user->fb_account,
 
@@ -93,7 +94,7 @@ class a_bTestingFacebook extends Command
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep1->id)->get();
                 foreach ($adsDel as $adsDel)
                 {
-                    $delete = \Http::delete('https://graph.facebook.com/v13.0/'.$adsDel->addSet_id.'', [
+                    $delete = \Http::delete('https://graph.facebook.com/v14.0/'.$adsDel->addSet_id.'', [
                         'access_token' => $facebook['fb_token'],
                     ]);
                     $adsDel->delete();
@@ -109,7 +110,7 @@ class a_bTestingFacebook extends Command
                 //inserting add
                 foreach ($body as $body) {
 
-                    $addSet = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adsets', [
+                    $addSet = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adsets', [
                         'campaign_id' => $compain_id,
                         'name' => $heading->data,
                         'lifetime_budget' => ($advertisement->per_day * 3) * 100,
@@ -144,7 +145,7 @@ class a_bTestingFacebook extends Command
 
                         //creating addCreative
 
-                        $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adcreatives', [
+                        $adCreative = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adcreatives', [
 
                             //'body'=>$body->data,
                             'object_story_spec' => [
@@ -172,7 +173,7 @@ class a_bTestingFacebook extends Command
 
                             //creating add
 
-                            $add = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/ads', [
+                            $add = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/ads', [
                                 'name' => $heading->data,
                                 'adset_id' => $addSet_id,
                                 'creative' => [
@@ -252,9 +253,9 @@ class a_bTestingFacebook extends Command
 
             $user = User::find($adsStep2->user_id);
             $facebook = [
-                'fb_client' => $user->fb_client,
-                'fb_secret' => $user->fb_secret,
-                'fb_token' => $user->fb_token,
+                'fb_client' => $admin->facebook_app,
+                'fb_secret' => $admin->facebook_secret,
+                'fb_token' => $admin->facebook_token,
                 'page_id' => $user->fb_page,
                 'fb_account' => $user->fb_account,
 
@@ -281,7 +282,7 @@ class a_bTestingFacebook extends Command
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep2->id)->get();
                 foreach ($adsDel as $adsDel)
                 {
-                    $delete = \Http::delete('https://graph.facebook.com/v13.0/'.$adsDel->addSet_id.'', [
+                    $delete = \Http::delete('https://graph.facebook.com/v14.0/'.$adsDel->addSet_id.'', [
                         'access_token' => $facebook['fb_token'],
                     ]);
                     $adsDel->delete();
@@ -299,7 +300,7 @@ class a_bTestingFacebook extends Command
 
 
 
-                    $addSet = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adsets', [
+                    $addSet = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adsets', [
                         'campaign_id' => $compain_id,
                         'name' => $heading->body,
                         'lifetime_budget' => ($advertisement->per_day * 3) * 100,
@@ -334,7 +335,7 @@ class a_bTestingFacebook extends Command
 
                         //creating addCreative
 
-                        $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adcreatives', [
+                        $adCreative = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adcreatives', [
                             'name' => $heading->data,
                             'body'=>$body->data,
                             'object_story_spec' => [
@@ -362,7 +363,7 @@ class a_bTestingFacebook extends Command
 
                             //creating add
 
-                            $add = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/ads', [
+                            $add = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/ads', [
                                 'name' => $heading->data,
                                 'adset_id' => $addSet_id,
                                 'creative' => [
@@ -441,9 +442,9 @@ class a_bTestingFacebook extends Command
 
             $user = User::find($adsStep3->user_id);
             $facebook = [
-                'fb_client' => $user->fb_client,
-                'fb_secret' => $user->fb_secret,
-                'fb_token' => $user->fb_token,
+                'fb_client' => $admin->facebook_app,
+                'fb_secret' => $admin->facebook_secret,
+                'fb_token' => $admin->facebook_token,
                 'page_id' => $user->fb_page,
                 'fb_account' => $user->fb_account,
 
@@ -471,7 +472,7 @@ class a_bTestingFacebook extends Command
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep3->id)->get();
                 foreach ($adsDel as $adsDel)
                 {
-                    $delete = \Http::delete('https://graph.facebook.com/v13.0/'.$adsDel->addSet_id.'', [
+                    $delete = \Http::delete('https://graph.facebook.com/v14.0/'.$adsDel->addSet_id.'', [
                         'access_token' => $facebook['fb_token'],
                     ]);
                     $adsDel->delete();
@@ -488,7 +489,7 @@ class a_bTestingFacebook extends Command
                 foreach ($button as $button) {
 
 
-                    $addSet = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adsets', [
+                    $addSet = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adsets', [
                         'campaign_id' => $compain_id,
                         'name' => $heading->data,
                         'lifetime_budget' => ($advertisement->per_day * 3) * 100,
@@ -523,7 +524,7 @@ class a_bTestingFacebook extends Command
 
                         //creating addCreative
 
-                        $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adcreatives', [
+                        $adCreative = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adcreatives', [
                             'name' => $heading->data,
                             'body'=>$body->data,
                             'object_story_spec' => [
@@ -551,7 +552,7 @@ class a_bTestingFacebook extends Command
 
                             //creating add
 
-                            $add = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/ads', [
+                            $add = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/ads', [
                                 'name' => $heading->data,
                                 'adset_id' => $addSet_id,
                                 'creative' => [
@@ -628,9 +629,9 @@ class a_bTestingFacebook extends Command
 
             $user = User::find($adsStep4->user_id);
             $facebook = [
-                'fb_client' => $user->fb_client,
-                'fb_secret' => $user->fb_secret,
-                'fb_token' => $user->fb_token,
+                'fb_client' => $admin->facebook_app,
+                'fb_secret' => $admin->facebook_secret,
+                'fb_token' => $admin->facebook_token,
                 'page_id' => $user->fb_page,
                 'fb_account' => $user->fb_account,
 
@@ -662,7 +663,7 @@ class a_bTestingFacebook extends Command
                 $adsDel = AdvertisementAds::where('advertisements_id', $adsStep4->id)->get();
                 foreach ($adsDel as $adsDel)
                 {
-                    $delete = \Http::delete('https://graph.facebook.com/v13.0/'.$adsDel->addSet_id.'', [
+                    $delete = \Http::delete('https://graph.facebook.com/v14.0/'.$adsDel->addSet_id.'', [
                         'access_token' => $facebook['fb_token'],
                     ]);
                     $adsDel->delete();
@@ -679,7 +680,7 @@ class a_bTestingFacebook extends Command
 
 
 
-                $addSet = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adsets', [
+                $addSet = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adsets', [
                     'campaign_id' => $compain_id,
                     'name' => $heading->data,
                     'lifetime_budget' => ($advertisement->per_day * $f) * 100,
@@ -714,7 +715,7 @@ class a_bTestingFacebook extends Command
 
                     //creating addCreative
 
-                    $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/adcreatives', [
+                    $adCreative = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/adcreatives', [
                         'name' => $heading->data,
                         'body'=>$body->data,
                         'object_story_spec' => [
@@ -742,7 +743,7 @@ class a_bTestingFacebook extends Command
 
                         //creating add
 
-                        $add = \Http::post('https://graph.facebook.com/v13.0/act_'.$facebook['fb_account'].'/ads', [
+                        $add = \Http::post('https://graph.facebook.com/v14.0/act_'.$facebook['fb_account'].'/ads', [
                             'name' => $heading->data,
                             'adset_id' => $addSet_id,
                             'creative' => [

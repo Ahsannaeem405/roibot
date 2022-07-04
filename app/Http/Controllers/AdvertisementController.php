@@ -131,7 +131,7 @@ class AdvertisementController extends Controller
         //saving compain facebook
 
         if ($request->advert_type == 1) {
-            $compain = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/campaigns', [
+            $compain = \Http::post('https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/campaigns', [
                 'name' => $request->title,
                 'objective' => $request->goal,
                 'status' => env('FB_STATUS'),
@@ -215,7 +215,7 @@ class AdvertisementController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adimages',
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/adimages',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -261,7 +261,7 @@ class AdvertisementController extends Controller
             //creating add facebook
             if ($request->advert_type == 1) {
 //creating addset
-                $addSet = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adsets', [
+                $addSet = \Http::post('https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/adsets', [
                     'campaign_id' => $compain_id,
                     'name' => $heading,
                     'lifetime_budget' => ($advertisement->per_day * 3) * 100,
@@ -297,7 +297,7 @@ class AdvertisementController extends Controller
 
                     //creating addCreative
 
-                    $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adcreatives', [
+                    $adCreative = \Http::post('https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/adcreatives', [
 
                         // 'body' => $request->body[0],
                         'object_story_spec' => [
@@ -321,7 +321,7 @@ class AdvertisementController extends Controller
 
                         //creating add
 
-                        $add = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/ads', [
+                        $add = \Http::post('https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/ads', [
                             'name' => $heading,
                             'adset_id' => $addSet_id,
                             'creative' => [
@@ -412,7 +412,7 @@ class AdvertisementController extends Controller
         $google = config()->get('services.google');
 
 
-        if (!$request->city) {
+        if (!$request->countries) {
             return back()->with('error', 'Please add a Country');
         }
 
@@ -514,6 +514,7 @@ class AdvertisementController extends Controller
                 )
             ]
         ]);
+
 
         if ($compain_budget->status() == 200) {
 
@@ -1106,7 +1107,7 @@ class AdvertisementController extends Controller
         $facebook = config()->get('services.facebook');
 
 
-        $delete = \Http::delete('https://graph.facebook.com/v13.0/' . $adv->compain_id . '', [
+        $delete = \Http::delete('https://graph.facebook.com/v14.0/' . $adv->compain_id . '', [
             'access_token' => $facebook['fb_token'],
         ]);
         $adv->delete();
@@ -1135,7 +1136,7 @@ class AdvertisementController extends Controller
 
             $adsDel = AdvertisementAds::where('advertisements_id', $com->id)->get();
             foreach ($adsDel as $adsDel) {
-                $delete = \Http::delete('https://graph.facebook.com/v13.0/' . $adsDel->addSet_id . '', [
+                $delete = \Http::delete('https://graph.facebook.com/v14.0/' . $adsDel->addSet_id . '', [
                     'access_token' => $facebook['fb_token'],
                 ]);
                 //  $adsDel->delete();
@@ -1148,7 +1149,7 @@ class AdvertisementController extends Controller
             $image = AdvertisementDetail::where('advertisements_id', $com->id)->where('type', 'image')->where('status', 'final')->first();
 //dd($button);
 
-            $addSet = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adsets', [
+            $addSet = \Http::post('https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/adsets', [
                 'campaign_id' => $com->compain_id,
                 'name' => $heading->data,
                 'lifetime_budget' => ($com->per_day * $f) * 100,
@@ -1182,7 +1183,7 @@ class AdvertisementController extends Controller
 
                 //creating addCreative
 
-                $adCreative = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/adcreatives', [
+                $adCreative = \Http::post('https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/adcreatives', [
                     'name' => $heading->data,
                     'body' => $body->data,
                     'object_story_spec' => [
@@ -1209,7 +1210,7 @@ class AdvertisementController extends Controller
 
                     //creating add
 
-                    $add = \Http::post('https://graph.facebook.com/v13.0/act_' . $facebook['fb_account'] . '/ads', [
+                    $add = \Http::post('https://graph.facebook.com/v14.0/act_' . $facebook['fb_account'] . '/ads', [
                         'name' => $heading->data,
                         'adset_id' => $addSet_id,
                         'creative' => [
@@ -1888,7 +1889,7 @@ class AdvertisementController extends Controller
         $compain = Advertisement::find($id);
         if ($compain->type == 1) {
             //facebooke delete
-            $delete = \Http::delete('https://graph.facebook.com/v13.0/' . $compain->compain_id . '', [
+            $delete = \Http::delete('https://graph.facebook.com/v14.0/' . $compain->compain_id . '', [
                 'access_token' => $facebook['fb_token'],
             ]);
             if ($delete->status() == 200) {
@@ -1942,7 +1943,7 @@ class AdvertisementController extends Controller
         if ($compain->type == 1) {
             //facebooke active
 
-            $active = \Http::post('https://graph.facebook.com/v13.0/' . $compain->compain_id . '', [
+            $active = \Http::post('https://graph.facebook.com/v14.0/' . $compain->compain_id . '', [
                 'status' => 'ACTIVE',
                 'access_token' => $facebook['fb_token'],
 
@@ -1991,16 +1992,17 @@ class AdvertisementController extends Controller
         if ($compain->type == 1) {
             //facebooke active
 
-            $pause = \Http::post('https://graph.facebook.com/v13.0/' . $compain->compain_id . '', [
+            $pause = \Http::post('https://graph.facebook.com/v14.0/' . $compain->compain_id . '', [
                 'status' => 'PAUSED',
                 'access_token' => $facebook['fb_token'],
 
             ]);
+
             if ($pause->status() == 200) {
 
                 return back()->with('success', 'campaign status updated successfully');
             } else {
-                $delete = json_decode($pause->body());
+                $pause = json_decode($pause->body());
                 return back()->with('error', isset($pause->error->error_user_msg) ? $pause->error->error_user_msg : $pause->error->message);
             }
         } else {
@@ -2026,8 +2028,8 @@ class AdvertisementController extends Controller
 
             } else {
 
-                $delete = json_decode($update->body());
-                return back()->with('error', isset($update->error->error_user_msg) ? $update->error->error_user_msg : $active->error->message);
+                $update = json_decode($update->body());
+                return back()->with('error', isset($update->error->error_user_msg) ? $update->error->error_user_msg : $update->error->message);
             }
 
 
@@ -2042,7 +2044,7 @@ class AdvertisementController extends Controller
         //    dd($request->city);
         foreach ($request->city as $citi) {
             $data = explode(',', $citi);
-            $city = \Http::get('https://graph.facebook.com/v13.0/search', [
+            $city = \Http::get('https://graph.facebook.com/v14.0/search', [
                 'location_types' => ["city"],
                 'type' => 'adgeolocation',
                 'limit' => 500,

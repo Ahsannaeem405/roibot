@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\creditials;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -38,28 +39,28 @@ class googleTokenUpdate extends Command
      */
     public function handle()
     {
-        $users=User::all();
+        $users=creditials::all();
         foreach ($users as $user)
         {
 
 
-        if ($user->gg_client != null && $user->gg_secret != null && $user->gg_refresh != null) {
+
 
             $api = \Http::post('https://www.googleapis.com/oauth2/v3/token', [
                 'grant_type' => 'refresh_token',
-                'client_id' => $user->gg_client,
-                'client_secret' => $user->gg_secret,
-                'refresh_token' => $user->gg_refresh,
+                'client_id' => $user->google_app,
+                'client_secret' => $user->google_secret,
+                'refresh_token' => $user->google_refresh,
             ]);
             if ($api->status() == 200) {
                 $api = json_decode($api->body());
 
-                $user->gg_access = $api->access_token;
+                $user->google_token = $api->access_token;
                 $user->update();
 
             }
 
-        }
+
         }
 
     }

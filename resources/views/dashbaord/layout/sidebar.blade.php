@@ -28,6 +28,18 @@
                 </a>
             </li>
 
+            <li class="sidebar-item ">
+                <a class="sidebar-link" href="{{url('admin/facebook')}}">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">FACEBOOK </span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{url('admin/google')}}">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">GOOGLE</span>
+                </a>
+            </li>
+
 
 
 
