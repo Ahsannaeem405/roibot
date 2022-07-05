@@ -108,3 +108,7 @@ Route::prefix('admin')->middleware('auth', 'admin')->group(function () {
 });
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('cronjob',function (){
+   \Illuminate\Support\Facades\Artisan::call('schedule:run');
+});
