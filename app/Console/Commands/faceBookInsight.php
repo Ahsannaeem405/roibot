@@ -48,7 +48,7 @@ class faceBookInsight extends Command
             $insight = \Http::get('https://graph.facebook.com/v14.0/'.$ad->add_id.'/insights', [
                 "date_preset"=>"maximum",
                 "fields"=>'impressions,clicks,cpc,reach',
-                'access_token' => $admin->facebook_token,
+                'access_token' => $ad->compain->user->fb_token,
 
             ]);
             if ($insight->status()==200)

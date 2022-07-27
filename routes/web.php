@@ -30,7 +30,7 @@ Route::prefix('')->middleware('auth')->group(function () {
     });
 
     Route::get('create_ad/1', [UserController::class, 'create_ad_fb'])->middleware('facebookToken');
-    Route::get('create_ad/2', [UserController::class, 'create_ad_gg']);
+    Route::get('create_ad/2', [UserController::class, 'create_ad_gg'])->middleware('googleToken');
     Route::post('post/add', [\App\Http\Controllers\AdvertisementController::class, 'PostAdd'])->middleware('facebookToken');
     Route::post('post/add/google', [\App\Http\Controllers\AdvertisementController::class, 'PostAddGoogle']);
     Route::post('publish/{id}', [\App\Http\Controllers\AdvertisementController::class, 'publish']);
@@ -83,7 +83,7 @@ Route::get('connect-with-google', [\App\Http\Controllers\AdvertisementController
 //Route::get('intrest', [\App\Http\Controllers\Controller::class, 'intrest']);
 //Route::get('behaviour', [\App\Http\Controllers\Controller::class, 'behaviour']);
 //Route::get('dempgraphics', [\App\Http\Controllers\Controller::class, 'dempgraphics']);
-//Route::get('data', [\App\Http\Controllers\Controller::class, 'data']);
+Route::get('data', [\App\Http\Controllers\Controller::class, 'data']);
 //Route::get('data2', [\App\Http\Controllers\Controller::class, 'data2']);
 
 Auth::routes(['register' => false]);

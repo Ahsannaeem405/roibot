@@ -17,6 +17,12 @@ class googleToken
      */
     public function handle(Request $request, Closure $next)
     {
+        if (\Auth::user()->gg_customer != null) {
+            return $next($request);
+        }
+        else{
+            return redirect('profile')->with('error', 'Please connect with google');
+        }
 
 //
 //        if (\Auth::user()->gg_client != null && \Auth::user()->gg_secret != null && \Auth::user()->gg_refresh != null) {
@@ -45,6 +51,7 @@ class googleToken
 //            return redirect('profile')->with('error', 'Please connect with google');
 //        }
 
-    }
+        }
+
 
 }

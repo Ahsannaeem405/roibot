@@ -54,23 +54,24 @@ class adminController extends Controller
             'refresh_token' => $admin->google_refresh,
 
         ];
-
-        $client = \Http::withHeaders([
-
-            'developer-token' => $google['dev_token'],
-            'login-customer-id' => $google['manager_id'],
-        ])->withToken($google['accsss_token'])->
-        post('https://googleads.googleapis.com/v10/customers/' . $google['manager_id'] . ':createCustomerClient', [
-
-                'customerClient' => array(
-                    'descriptiveName' => $request->name .' '. $rand,
-                    'currencyCode' =>'USD',
-                    'timeZone' =>'America/New_York'
-                )
-
-        ]);
-     $response=json_decode($client->body());
-     $response=explode('/',$response->resourceName);
+//
+//        $client = \Http::withHeaders([
+//
+//            'developer-token' => $google['dev_token'],
+//            'login-customer-id' => $google['manager_id'],
+//        ])->withToken($google['accsss_token'])->
+//        post('https://googleads.googleapis.com/v10/customers/' . $google['manager_id'] . ':createCustomerClient', [
+//
+//                'customerClient' => array(
+//                    'descriptiveName' => $request->name .' '. $rand,
+//                    'currencyCode' =>'USD',
+//                    'timeZone' =>'America/New_York'
+//                )
+//
+//        ]);
+//     $response=json_decode($client->body());
+//     //dd($response);
+//     $response=explode('/',$response->resourceName);
 
 
 
@@ -79,7 +80,7 @@ class adminController extends Controller
         $user->name = $request->name;
         $user->role = 'user';
         $user->email = $request->email;
-        $user->gg_customer =$response[1];
+       // $user->gg_customer =$response[1];
         $user->password = \Hash::make($request->password);
         $user->save();
 

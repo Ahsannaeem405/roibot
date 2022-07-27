@@ -371,11 +371,20 @@ class a_bTestingGoogleTextAdd extends Command
                                 'adGroup' => $adgroup,
                                 "ad" => array(
 
-                                    "expandedTextAd" => array(
-                                        'headlinePart1' => $headingExp[0],
-                                        'headlinePart2' => $headingExp[1],
-                                        'description' => $body->data
+
+                                    "responsiveSearchAd" => array(
+                                        "headlines" => [
+                                            array('text' => $headingExp[0]),
+                                            array('text' => $headingExp[1]),
+                                            array('text' => '.'),
+                                        ],
+                                        "descriptions" => [
+                                            array('text' => $body->data),
+                                            array('text' => '.'),
+                                        ],
+
                                     ),
+
                                     "finalUrls" => [$button->url]
                                 )
 
@@ -749,10 +758,17 @@ class a_bTestingGoogleTextAdd extends Command
                                 'adGroup' => $adgroup,
                                 "ad" => array(
 
-                                    "expandedTextAd" => array(
-                                        'headlinePart1' => $headingExp[0],
-                                        'headlinePart2' => $headingExp[1],
-                                        'description' => $body->data
+                                    "responsiveSearchAd" => array(
+                                        "headlines" => [
+                                            array('text' => $headingExp[0]),
+                                            array('text' => $headingExp[1]),
+                                            array('text' => '.'),
+                                        ],
+                                        "descriptions" => [
+                                            array('text' => $body->data),
+                                            array('text' => '.'),
+                                        ],
+
                                     ),
                                     "finalUrls" => [$button->url]
                                 )

@@ -16,7 +16,7 @@ class facebookToken
      */
     public function handle(Request $request, Closure $next)
     {
-        if (\Auth::user()->fb_page == null || \Auth::user()->fb_account== null) {
+        if (\Auth::user()->fb_page == null || \Auth::user()->fb_account== null || \Auth::user()->fb_token==null) {
             return redirect('profile')->with('error', 'Please connect with facebook');
         }
 

@@ -14,11 +14,12 @@ trait credientials {
         $facebook = [
             'fb_client' => $admin->facebook_app,
             'fb_secret' => $admin->facebook_secret,
-            'fb_token' => $admin->facebook_token,
+            'fb_token' => $user->fb_token,
             'page_id' => $user->fb_page,
             'fb_account' => $user->fb_account,
 
         ];
+
 
 
         $google = [

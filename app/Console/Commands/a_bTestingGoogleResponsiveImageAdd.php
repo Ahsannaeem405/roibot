@@ -370,7 +370,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
                     $imgp->resize(600, 314);
                     $imgp->save(public_path('images/gallary/resize/') . $images . '');
 
-                    $img = 'images/gallary/resize/' . $images . '';
+                    $img = public_path('images/gallary/resize/' . $images . '');
                     $imgContent = file_get_contents($img);
                     $imgType = pathinfo($img, PATHINFO_EXTENSION);
                     $imageData = base64_encode($imgContent);
@@ -855,7 +855,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
                     $imgp->resize(600, 314);
                     $imgp->save(public_path('images/gallary/resize/') . $images . '');
 
-                    $img = 'images/gallary/resize/' . $images . '';
+                    $img = public_path('images/gallary/resize/' . $images . '');
                     $imgContent = file_get_contents($img);
                     $imgType = pathinfo($img, PATHINFO_EXTENSION);
                     $imageData = base64_encode($imgContent);
@@ -1340,7 +1340,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
                     $imgp->resize(600, 314);
                     $imgp->save(public_path('images/gallary/resize/') . $images . '');
 
-                    $img = 'images/gallary/resize/' . $images . '';
+                    $img = public_path('images/gallary/resize/' . $images . '');
                     $imgContent = file_get_contents($img);
                     $imgType = pathinfo($img, PATHINFO_EXTENSION);
                     $imageData = base64_encode($imgContent);
@@ -1832,7 +1832,7 @@ class a_bTestingGoogleResponsiveImageAdd extends Command
                 $imgp->resize(600, 314);
                 $imgp->save(public_path('images/gallary/resize/') . $images . '');
 
-                $img = 'images/gallary/resize/' . $images . '';
+                $img = public_path('images/gallary/resize/' . $images . '');
                 $imgContent = file_get_contents($img);
                 $imgType = pathinfo($img, PATHINFO_EXTENSION);
                 $imageData = base64_encode($imgContent);

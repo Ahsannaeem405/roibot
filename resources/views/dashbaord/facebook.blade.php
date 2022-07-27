@@ -39,7 +39,7 @@
                         </div>
 
 
-                        <div class="form-group my-3">
+                        <div class="form-group my-3 d-none">
                             <label for="exampleInputEmail1">ACCESS TOKEN</label>
                             <input type="text" value="{{$rec->facebook_token}}" name="token" class="form-control" id="" aria-describedby="emailHelp" >
 
